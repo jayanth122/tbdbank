@@ -1,0 +1,47 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java-library'
+    id 'checkstyle'
+}
+
+group = 'org.ece'
+version = projectVersion
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+        vendor = JvmVendorSpec.AMAZON
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+bootJar {
+    mainClass = 'com.ece.Main'
+    archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
+}
+
+springBoot  {
+    buildInfo()
+}
+
+checkstyle {
+    configProperties.suppressionsFile = "$rootDir/config/checkstyle/suppressions.xml"
+    toolVersion = '8.41.1'
+}
