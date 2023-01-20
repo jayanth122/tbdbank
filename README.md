@@ -1,6 +1,12 @@
 # Description
 TBD bank software is an easy and convenient system which helps customers to navigate easily using user friendly interfaces.  It aims for continuously improving customer experience and satisfaction along with streamlining banking operations digitally and making banking operations simple for customers
 
+## Add your files
+cd existing_repo  
+git remote add origin https://git.uwaterloo.ca/smatla1/tbdbank.git   
+git branch -M main   
+git push -uf origin main
+
 ## How to Install and Run the project
 First the git repo should be cloned to the local system.
 We need to build the project with gradle clean build which will delete build directory, all your classes will be removed for a fresh compile.
