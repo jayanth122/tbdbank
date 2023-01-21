@@ -1,32 +1,21 @@
 # Description
-TBD bank software is an easy and convenient system which helps customers to navigate easily using user friendly interfaces.  It aims for continuously improving customer experience and satisfaction along with streamlining banking operations digitally and making banking operations simple for customers
+TBD bank is a digital banking software is an easy and convenient system which helps customers to navigate easily using user friendly interfaces.  It aims for continuously improving customer experience and satisfaction along with streamlining banking operations digitally and making banking operations simple for customers
 
-## Add your files
-cd existing_repo  
-git remote add origin https://gitlab.com/tbdbank/tbdbank.git   
-git branch -M main   
-git push -uf origin main
 
-## How to Install and Run the project
-First the git repo should be cloned to the local system.
-We need to build the project with gradle clean build which will delete build directory, all your classes will be removed for a fresh compile.
-Then we need to install npm  package and dependencies. Once the node server is running we can view the project in browser using the local host link.
+## Requirements
+- Amazon Jdk 11 11.0.17-amzn
+- Intellij Ultimate --> IDE
+- Docker
+  - Redis --> For data caching
+- RabbitMQ -->  Message Queue Broker
 
-Below are the commands which can be used to run the project on respective Operating systems:
-## Windows:
-gradle clean build   
-cd frontend  
-npm install  
-npm run serve
-Open the Local host Link on browser : http://localhost:8080/    
+## How to Build and Run the project
 
-Now you should be able to view the project on browser
+- In project root directory run ./gradlew clean build(linux) OR gradle clean build(windows) --> To Build the backend project
+- Switch to frontend directory 
+  - npm install --> Only run the first time after clone, this will install npm
+  - npm run serve --> To start the frontend server
+- Open the frontend page on browser : http://localhost:8080/ --> 8080 is the server port
 
-## MacOS:
-./gradle clean build   
-cd frontend   
-npm install   
-npm run serve   
-Open the Local host Link on browser : http://localhost:8080/
 
 Now you should be able to view the project on browser
