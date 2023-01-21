@@ -11,7 +11,7 @@ TBD bank is a digital banking software is an easy and convenient system which he
 
 ## How to Build and Run the project
 
-- In project root directory run ./gradlew clean build(linux) OR gradle clean build(windows) --> To Build the backend project
+- In project root directory run ./gradlew clean build(linux) OR gradlew clean build(windows) --> To Build the backend project
 - Switch to frontend directory 
   - npm install --> Only run the first time after clone, this will install npm
   - npm run serve --> To start the frontend server
