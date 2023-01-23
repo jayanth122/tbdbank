@@ -10,29 +10,12 @@ public class LoginResponse {
     private String firstName;
     private String lastName;
     private boolean isSuccess;
+    private String encodedAccess;
 
 
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
+    public LoginResponse(String firstName, String lastName, boolean isSuccess) {
+        this.isSuccess = isSuccess;
         this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public boolean isSuccess() {
-        return isSuccess;
-    }
-
-    public void setSuccess(boolean success) {
-        isSuccess = success;
     }
 }
