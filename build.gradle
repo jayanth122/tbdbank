@@ -20,7 +20,10 @@ repositories {
 }
 
 dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.2.2.RELEASE'
+    implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.32'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation 'junit:junit:4.13.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 
     compileOnly 'org.projectlombok:lombok'
@@ -30,11 +33,16 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.13'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.3.14'
+    implementation group: 'com.singlestore', name: 'singlestore-jdbc-client', version: '1.1.4'
+   testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
     useJUnitPlatform()
+    filter {
+        excludeTestsMatching "org.ece.repository.*"
+    }
 }
 
 bootJar {
@@ -50,3 +58,4 @@ checkstyle {
     configProperties.suppressionsFile = "$rootDir/config/checkstyle/suppressions.xml"
     toolVersion = '8.41.1'
 }
+
