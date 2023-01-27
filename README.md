@@ -10,12 +10,15 @@ TBD bank is a digital banking software is an easy and convenient system which he
 - RabbitMQ -->  Message Queue Broker
 
 ## How to Build and Run the project
-
-- In project root directory run ./gradlew clean build(linux) OR gradlew clean build(windows) --> To Build the backend project
-- Switch to frontend directory 
-  - npm install --> Only run the first time after clone, this will install npm
-  - npm run serve --> To start the frontend server
+- Update username and password for database in application.properties
+- In project root directory run --> ./gradlew clean build(linux) OR gradlew clean build(windows) --> To Build the backend project
+- Switch to tbdfrontend directory 
+  - npm install -g @angular/cli --> Only run the first time after clone, this will install npm
+  - ng serve --port 8080 --> To start the frontend server
 - Open the frontend page on browser : http://localhost:8080/ --> 8080 is the server port
 
+## How to run application using Automated Bash Script
+- Update username and password for database in application.properties
+- In project root directory run --> bash start.sh
 
 Now you should be able to view the project on browser
