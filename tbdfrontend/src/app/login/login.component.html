@@ -1,0 +1,41 @@
+<div class="container md-6">
+    <div class="row d-flex justify-content-center align-items-center">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+            <div class="card bg-dark text-white" style="border-radius: 1rem">
+                <div class="card-body p-5 text-center">
+                    <div class="mb-md-5 mt-md-4 pb-5">
+                        <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+                        <p class="text-white-50 mb-5">Please login to your account</p>
+                        <form #loginform="ngForm" (ngSubmit)="login()" >
+                            <div class="form-outline form-group form-white mb-4">
+                                <input type="text" [(ngModel)]="loginRequest.userName" name="userName" id="userName" class="form-control form-control-lg ng-untouched ng-pristine ng-valid"
+                                   placeholder="Username or CardNumber" />
+                            </div>
+
+                            <div class="form-outline form-group form-white mb-4">
+                                <!-- <label class="form-label" for="typePasswordX">Password</label> -->
+                                <input type="password" [(ngModel)]="loginRequest.password" name="password" id="password" class="form-control form-control-lg ng-untouched ng-pristine ng-valid"
+                                    placeholder="Password" />
+                            </div>
+                            <p class="small mb-5 pb-lg-2">
+                                <a class="text-light" href="#!">Forgot password?</a>
+                            </p>
+
+                            <button class="btn btn-outline-light btn-lg px-5" type="submit">
+                                Login
+                            </button>
+                        </form>
+                        <div>
+                            <p class="mt-5">
+                                Don't have an account?
+                                <a (click)="goToReg()" class="text-white-50 fw-bold" >Sign Up</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<router-outlet></router-outlet>
