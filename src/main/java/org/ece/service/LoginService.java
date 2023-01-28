@@ -21,19 +21,19 @@ public class LoginService {
     private SecurityUtils securityUtils;
     private DataSouceConfig dataSouceConfig;
     private UserOperations userOperations;
-    private SessionService sessionService;
+    private CacheService cacheService;
 
     private DBOperations dbOperations;
 
     public LoginService(final SecurityUtils securityUtils, final DataSouceConfig dataSouceConfig,
                         final UserOperations userOperations,
-                        final SessionService sessionService,
+                        final CacheService cacheService,
                         final DBOperations dbOperations) {
         this.securityUtils = securityUtils;
         this.dataSouceConfig = dataSouceConfig;
         this.userOperations = userOperations;
-        this.sessionService = sessionService;
         this.dbOperations = dbOperations;
+        this.cacheService = cacheService;
     }
 
     /**
@@ -49,21 +49,22 @@ public class LoginService {
 
     private LoginResponse validateLoginWithCardNumber(final LoginRequest loginRequest) {
         boolean isSuccess =  StringUtils.equals(SAMPLE_CARD_NUMBER, loginRequest.getCardNumber())
-                && validatePassword(loginRequest.getPassword());
+                && validateCardNumberPassword(loginRequest.getPassword());
         return buildLoginResponse(isSuccess, loginRequest);
     }
 
 
     private LoginResponse validateLoginWithUserName(final LoginRequest loginRequest) {
         Optional<User> user = userOperations.findById(loginRequest.getUserName());
-        boolean isSuccess =  user.isPresent() && validatePassword(user.get(), loginRequest.getPassword());
+        boolean isSuccess =  user.isPresent() && validateUserNamePassword(user.get(), loginRequest.getPassword());
         return buildLoginResponse(isSuccess, user);
     }
 
     private LoginResponse buildLoginResponse(boolean isSuccess, Optional<User> user) {
         if (isSuccess) {
             User loggedInuser = dbOperations.getUserDetails(user.get());
-            final String sessionId = sessionService.createSession(buildSessionData(loggedInuser));
+            final String sessionId = SecurityUtils.generateSessionUUID();
+            cacheService.createSession(sessionId, buildSessionData(loggedInuser));
             return new LoginResponse(loggedInuser.getFirstName(), loggedInuser.getLastName(), isSuccess,
                     getEncodedAccessLevel(loggedInuser.getAccountType()), sessionId);
         }
@@ -75,11 +76,11 @@ public class LoginService {
     }
 
 
-    private boolean validatePassword(User user, String password) {
+    private boolean validateUserNamePassword(User user, String password) {
         return StringUtils.equals(user.getPassword(), password);
     }
 
-    private boolean validatePassword(final String password) {
+    private boolean validateCardNumberPassword(final String password) {
         return StringUtils.equals(SAMPLE_PASSWORD, password);
     }
 
