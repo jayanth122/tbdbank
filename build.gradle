@@ -35,7 +35,8 @@ dependencies {
     implementation group: 'commons-codec', name: 'commons-codec', version: '1.13'
     implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.3.14'
     implementation group: 'com.singlestore', name: 'singlestore-jdbc-client', version: '1.1.4'
-   testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 test {
@@ -50,7 +51,7 @@ bootJar {
     archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
 }
 
-springBoot  {
+springBoot {
     buildInfo()
 }
 

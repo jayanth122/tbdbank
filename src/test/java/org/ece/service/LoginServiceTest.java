@@ -30,7 +30,6 @@ public class LoginServiceTest {
     private static final String SAMPLE_PASSWORD = "SAMPLE_PASSWORD";
     private static final String SAMPLE_CARD_NUMBER = "SAMPLE_CARD_NUMBER";
     private static final String SAMPLE_INVALID_PASSWORD = "SAMPLE_PASSWORD_2";
-    private static final String SAMPLE_SESSION_ID = "SAMPLE_SESSION_ID";
     private static final String SAMPLE_FIRST_NAME = "SAMPLE_FIRST_NAME";
     private static final String SAMPLE_LAST_NAME = "SAMPLE_LAST_NAME";
     private final Map<AccessType, String> testMap = generateSampleTestMap();
@@ -45,14 +44,14 @@ public class LoginServiceTest {
     UserOperations userOperations;
 
     @Mock
-    SessionService sessionService;
+    CacheService cacheService;
 
     @Mock
     DBOperations dbOperations;
     @BeforeEach
     void init() {
         this.securityUtils = new SecurityUtils();
-        loginService = new LoginService(securityUtils, dataSouceConfig, userOperations, sessionService, dbOperations);
+        loginService = new LoginService(securityUtils, dataSouceConfig, userOperations, cacheService, dbOperations);
         doReturn(testMap).when(dataSouceConfig).getValidUserNames();
     }
 
@@ -61,13 +60,13 @@ public class LoginServiceTest {
     public void validateLoginRequestWithUserNameTest() {
         Optional<User> testUser = generateTestUser();
         doReturn(testUser).when(userOperations).findById(anyString());
-        doReturn(SAMPLE_SESSION_ID).when(sessionService).createSession(any());
         doReturn(testUser.get()).when(dbOperations).getUserDetails(any());
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUserName(SAMPLE_VALID_USER_NAME);
         loginRequest.setPassword(SAMPLE_PASSWORD);
         LoginResponse loginResponse = loginService.validateLoginRequest(loginRequest);
         Assertions.assertTrue(loginResponse.isSuccess());
+
     }
 
     @Test
