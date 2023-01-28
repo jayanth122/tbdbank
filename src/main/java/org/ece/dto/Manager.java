@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Manager {
 
     @Id
-    private String userId = UUID.randomUUID().toString();
+    private String managerId = UUID.randomUUID().toString();
     private String userName;
     private String firstName;
     private String lastName;
