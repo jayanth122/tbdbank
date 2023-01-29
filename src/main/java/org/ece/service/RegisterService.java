@@ -40,3 +40,4 @@ public class RegisterService {
         return ResponseEntity.ok(new RegisterResponse("Registration successful"));
     }
 }
+
