@@ -14,14 +14,11 @@ public class RegistrationController {
     }
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
-        if (!registerRequest.isValid()) {
-            return new ResponseEntity<>("Invalid request", HttpStatus.BAD_REQUEST);
-        }
         boolean result = registerService.isValid(registerRequest);
-        if (result) {
+        if (!result) {
             return new ResponseEntity<>("Thank you for Registering with TBD bank", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Registration failed", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Username/SinNumber already exists, Please try again", HttpStatus.BAD_REQUEST);
         }
     }
 }

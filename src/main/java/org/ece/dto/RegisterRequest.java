@@ -20,9 +20,6 @@ public class RegisterRequest {
     private String city;
     private String province;
     private String postalCode;
-    private long sinNumber;
-    public boolean isValid() {
-        return userName != null && password != null;
-    }
+    private Long sinNumber;
 
 }
