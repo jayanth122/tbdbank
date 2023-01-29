@@ -1,3 +1,3 @@
 #! /bin/bash
 ./gradlew -stop ; ./gradlew bootrun &
-cd frontend || exit ; npm run serve
+cd tbdfrontend || exit ; ng serve --port 8080

@@ -11,11 +11,9 @@ public class LoginResponse {
     private String lastName;
     private boolean isSuccess;
     private String encodedAccess;
+    private String uniqueSessionId;
 
-
-    public LoginResponse(String firstName, String lastName, boolean isSuccess) {
+    public LoginResponse(boolean isSuccess) {
         this.isSuccess = isSuccess;
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
 }
