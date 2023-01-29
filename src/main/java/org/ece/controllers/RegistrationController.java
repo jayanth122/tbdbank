@@ -1,9 +1,7 @@
 package org.ece.controllers;
 
 import org.ece.dto.RegisterRequest;
-import org.ece.service.LoginService;
 import org.ece.service.RegisterService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
