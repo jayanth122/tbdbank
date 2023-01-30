@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class RegistrationController {
     private RegisterService registerService;
+
     public RegistrationController(final RegisterService registerService) {
         this.registerService = registerService;
     }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
-        boolean result = registerService.isValid(registerRequest);
+        boolean result = registerService.validateRegisterRequest(registerRequest);
         if (!result) {
             return new ResponseEntity<>("Thank you for Registering with TBD bank", HttpStatus.OK);
         } else {
