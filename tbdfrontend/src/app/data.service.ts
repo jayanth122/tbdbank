@@ -14,7 +14,6 @@ export class DataService {
   sendLoginDetails(loginRequest: LoginRequest): Observable<any> {
     console.log(loginRequest)
     return this.httpClient.post(`${this.url}/login`, loginRequest)
-    //return this.httpClient.post('http://localhost:8081/tbd651/login', loginRequest)
   }
   sendRegistrationDetails(regRequest: RegRequest): Observable<any> {
     console.log(regRequest)
