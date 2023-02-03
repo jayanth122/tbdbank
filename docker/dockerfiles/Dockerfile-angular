@@ -1,0 +1,22 @@
+
+
+FROM node:16.13.0-alpine AS angular
+
+
+WORKDIR /tmp
+RUN ls
+COPY ./ /tmp/
+RUN ls
+WORKDIR "/tmp/tbdfrontend/"
+
+RUN ls
+RUN npm cache clean --force
+RUN npm install
+RUN npm run build   --dev
+#COPY dist /tmp
+EXPOSE 4201
+
+CMD ["npm", "start" ]
+
+
+

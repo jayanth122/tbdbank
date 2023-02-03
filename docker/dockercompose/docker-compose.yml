@@ -1,0 +1,25 @@
+version: '3'
+services:
+  angular-ui:
+    build:
+      context: ../../
+      dockerfile: docker/dockerfiles/Dockerfile-angular
+      target: angular
+    ports:
+      - "4201:4201"
+    container_name: angular-ui
+    volumes:
+       - ./tbdfrontend:/tmp/tbdfrontend
+
+  nginx:
+     build:
+         context: ../../
+         dockerfile: docker/dockerfiles/Dockerfile_nginx
+     container_name: webserver
+     restart: unless-stopped
+     ports:
+       - "80:80"
+       - "443:443"
+     volumes:
+       - ../docker/nginx:/tmp
+       - ../../tbdfrontend:/tmp/tbdfrontend 
