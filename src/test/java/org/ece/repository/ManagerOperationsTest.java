@@ -27,6 +27,6 @@ public class ManagerOperationsTest {
         manager.setUserName(EXISTING_USER_NAME);
         manager.setFirstName("san");
         manager.setLastName("test");
-        Assertions.assertTrue(!managerOperations.getManagerByUserName(EXISTING_USER_NAME).isEmpty());
+        Assertions.assertTrue(managerOperations.findManagerByUserName(EXISTING_USER_NAME).isPresent());
     }
 }

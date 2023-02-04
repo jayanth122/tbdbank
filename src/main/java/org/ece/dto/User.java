@@ -16,5 +16,9 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AccessType accountType;
     private String password;
+    @Transient
+    private String firstName;
+    @Transient
+    private String lastName;
 
 }

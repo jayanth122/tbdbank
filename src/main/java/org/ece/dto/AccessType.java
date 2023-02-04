@@ -1,6 +1,8 @@
 package org.ece.dto;
 
-public enum AccessType {
+import java.io.Serializable;
+
+public enum AccessType implements Serializable {
 
     MANAGER(1), CUSTOMER(2), EMPLOYEE(3), ADMINISTRATOR(4);
     private final int accessCode;
