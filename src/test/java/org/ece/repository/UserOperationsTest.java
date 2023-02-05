@@ -15,6 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class UserOperationsTest {
 
     private static final String EXISTING_USER_NAME = "manager_san";
+    private static final String TEST_SAVE_USER_NAME = "test_user_name";
+
     @Autowired
     UserOperations userOperations;
 
@@ -27,5 +29,14 @@ public class UserOperationsTest {
         user.setPassword("encrypted_password");
         Assertions.assertTrue(userOperations.findById(user.getUserName()).isPresent());
     }
-
+    @Test
+    public void testSaveUser() {
+        System.out.println("Executing ignored test");
+        User user = new User();
+        user.setUserName(TEST_SAVE_USER_NAME);
+        user.setAccountType(AccessType.CUSTOMER);
+        user.setPassword("encrypted_password");
+        userOperations.save(user);
+        Assertions.assertTrue(userOperations.findById(user.getUserName()).isPresent());
+    }
 }
