@@ -3,7 +3,7 @@ TBD bank is a digital banking software is an easy and convenient system which he
 
 
 ## Requirements
-- Amazon Jdk 11 11.0.17-amzn
+- Amazon JDK 11 11.0.17-amzn
 - Angular CLI: 15.1.3  
 - Node: 16.13.0
 - Intellij Ultimate --> IDE
@@ -19,6 +19,12 @@ TBD bank is a digital banking software is an easy and convenient system which he
   - npm install (This will install required node modules)
   - ng serve --port 8080 --> To start the frontend server
 - Open the frontend page on browser : http://localhost:8080/ --> 8080 is the server port
+
+## How to start Redis
+- Download Docker desktop Application and start it.
+- Run --> docker pull redis/redis-stack-server:latest --> Run only while initializing to get the docker image.
+- Run --> docker run -d --name redis-stack -p 6379:6379 redis/redis-stack-server:latest --> Run only once to configure and run redis on PORT 6379.
+- To check all the running containers --> docker ps -a
 
 ## How to run application using Automated Bash Script
 - Update username and password for database in application.properties
