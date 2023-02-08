@@ -23,10 +23,10 @@ public class RegisterService {
         this.customerOperations = customerOperations;
     }
     public void saveCustomerData(RegisterRequest registerRequest) {
-//        User user = new User();
-//        user.setUserName(registerRequest.getUserName());
-//        user.setPassword(registerRequest.getPassword());
-//        user.setAccountType(AccessType.CUSTOMER);
+        User user = new User();
+        user.setUserName(registerRequest.getUserName());
+        user.setPassword(registerRequest.getPassword());
+        user.setAccountType(AccessType.CUSTOMER);
 
 
         Customer customer = new Customer();
@@ -46,7 +46,7 @@ public class RegisterService {
         customer.setPostalCode(registerRequest.getPostalCode());
         customer.setSinNumber(registerRequest.getSinNumber());
         customerOperations.save(customer);
-      //  userOperations.save(user);
+        userOperations.save(user);
     }
 
 
