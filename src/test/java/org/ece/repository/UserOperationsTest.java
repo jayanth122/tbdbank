@@ -16,12 +16,9 @@ public class UserOperationsTest {
 
     private static final String EXISTING_USER_NAME = "manager_san";
     private static final String TEST_SAVE_USER_NAME = "test_user_name";
-    private static final String TEST_SAVE_CUSTOMER_NAME = "test_customer";
-    private static final AccessType ACCOUNT_TYPE = AccessType.CUSTOMER;
 
     @Autowired
     UserOperations userOperations;
-    CustomerOperations customerOperations;
 
     @Test
     public void testFindUserByUserName() {
@@ -42,12 +39,4 @@ public class UserOperationsTest {
         userOperations.save(user);
         Assertions.assertTrue(userOperations.findById(user.getUserName()).isPresent());
     }
-//    @Test
-//    public void testInsertDataFromCustomer(){
-//        System.out.println("Executing ignored test");
-//        User user = new User();
-//        List<Customer> customers = customerOperations.findAll();
-//
-//
-//    }
 }

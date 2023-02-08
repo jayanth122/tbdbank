@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import java.time.LocalDate;
-import java.util.Date;
-import java.time.ZoneId;
+
 /**
- * Tests for user CRUD operations.
+ * Tests for customer CRUD operations.
  * Tests are excluded in gradle file, uncomment the exlcude line to run test on local
  */
 @SpringBootTest
@@ -19,23 +19,23 @@ public class CustomerOperationsTest {
 
     private static final String EXISTING_USER_NAME = "manager_san";
     private static final String TEST_SAVE_USER_NAME = "test_user_name2";
-    private static final String TEST_SAVE_CUSTOMER_NAME = "test_customer_test16";
+    private static final String TEST_SAVE_CUSTOMER_NAME = "test_customer_test09";
     private static final AccessType ACCOUNT_TYPE = AccessType.CUSTOMER;
 
     @Autowired
     UserOperations userOperations;
     @Autowired
     CustomerOperations customerOperations;
-@Test
+
+    @Test
     public void testFindCustomerByUserName() {
         System.out.println("Executing test for retrieving customer data");
         Customer customer = new Customer();
         customer.setUserName(TEST_SAVE_CUSTOMER_NAME);
         customer.setFirstName("Test");
         customer.setLastName("Customer");
-        LocalDate dateOfBirth = LocalDate.of(2000, 01, 01);
-        Date date = Date.from(dateOfBirth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        customer.setDateOfBirth(date);
+        LocalDate dateOfBirth = LocalDate.of(2000, 05, 01);
+        customer.setDateOfBirth(dateOfBirth);
         customer.setEmail("test_customer@example.com");
         customer.setCountryCode("1");
         customer.setMobileNumber("1234567890");
@@ -46,10 +46,10 @@ public class CustomerOperationsTest {
         customer.setProvince("Test Province");
         customer.setPostalCode("123456");
         customer.setSinNumber(23446709L);
-       // customerOperations.save(customer);
         Assertions.assertTrue(customerOperations.findByUserName(TEST_SAVE_CUSTOMER_NAME).isPresent());
 
     }
+
     @Test
     public void testInsertIntoCustomerAndUser() {
         System.out.println("Executing test for Inserting customer data and user data");
@@ -61,9 +61,8 @@ public class CustomerOperationsTest {
         customer.setUserName(TEST_SAVE_CUSTOMER_NAME);
         customer.setFirstName("Test");
         customer.setLastName("Customer");
-        LocalDate dateOfBirth = LocalDate.of(2000, 01, 01);
-        Date date = Date.from(dateOfBirth.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        customer.setDateOfBirth(date);
+        LocalDate dateOfBirth = LocalDate.of(2000, 05, 01);
+        customer.setDateOfBirth(dateOfBirth);
         customer.setEmail("test_customer@example.com");
         customer.setCountryCode("1");
         customer.setMobileNumber("1234567890");

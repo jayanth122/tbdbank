@@ -13,17 +13,16 @@ public class RegistrationController {
     public RegistrationController(final RegisterService registerService) {
         this.registerService = registerService;
     }
+
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
         boolean result = registerService.validateRegisterRequest(registerRequest);
         if (result) {
-            registerService.saveCustomerData(registerRequest);
             return new ResponseEntity<>("Thank you for Registering with TBD bank", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Username/SinNumber already exists, Please try again", HttpStatus.BAD_REQUEST);
         }
     }
 }
-
 
 

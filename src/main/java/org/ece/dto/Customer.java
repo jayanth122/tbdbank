@@ -2,7 +2,8 @@ package org.ece.dto;
 
 import lombok.Data;
 
-import java.util.Date;
+import java.time.LocalDate;
+//import java.util.Date;
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public class Customer {
     private String userName;
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private String email;
     private String countryCode;
     private String mobileNumber;

@@ -1,7 +1,9 @@
 package org.ece.dto;
 
 import lombok.Data;
-import java.util.Date;
+
+import java.time.LocalDate;
+///import java.util.Date;
 
 @Data
 public class RegisterRequest {
@@ -9,7 +11,7 @@ public class RegisterRequest {
     private String password;
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
+    private LocalDate dateOfBirth;
     private String email;
     private String countryCode;
     private String mobileNumber;
