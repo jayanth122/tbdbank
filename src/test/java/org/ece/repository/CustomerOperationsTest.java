@@ -18,7 +18,7 @@ import java.time.ZoneId;
 public class CustomerOperationsTest {
 
     private static final String EXISTING_USER_NAME = "manager_san";
-    private static final String TEST_SAVE_USER_NAME = "test_user_name1";
+    private static final String TEST_SAVE_USER_NAME = "test_user_name2";
     private static final String TEST_SAVE_CUSTOMER_NAME = "test_customer_test16";
     private static final AccessType ACCOUNT_TYPE = AccessType.CUSTOMER;
 
