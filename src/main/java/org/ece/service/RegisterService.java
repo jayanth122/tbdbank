@@ -15,4 +15,3 @@ public class RegisterService {
                 && EXISTING_SIN_NUMBER.equals(registerRequest.getSinNumber()));
     }
 }
-

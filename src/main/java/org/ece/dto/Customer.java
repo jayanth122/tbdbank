@@ -1,9 +1,6 @@
 package org.ece.dto;
-
 import lombok.Data;
-
 import java.time.LocalDate;
-//import java.util.Date;
 import javax.persistence.*;
 import java.util.UUID;
 
@@ -29,5 +26,4 @@ public class Customer {
     private String province;
     private String postalCode;
     private Long sinNumber;
-
 }
