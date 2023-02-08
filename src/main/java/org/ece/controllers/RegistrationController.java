@@ -17,7 +17,6 @@ public class RegistrationController {
     public ResponseEntity<String> register(@RequestBody RegisterRequest registerRequest) {
         boolean result = registerService.validateRegisterRequest(registerRequest);
         if (result) {
-            //registerService.saveCustomerData(registerRequest);
             registerService.saveCustomerData(registerRequest);
             return new ResponseEntity<>("Thank you for Registering with TBD bank", HttpStatus.OK);
         } else {

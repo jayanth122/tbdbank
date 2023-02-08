@@ -2,9 +2,10 @@ package org.ece.dto;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.util.Date;
 import javax.persistence.*;
 import java.util.UUID;
+
 @Data
 @Entity
 @Table(name = "Customer")
@@ -14,10 +15,9 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String customerId = UUID.randomUUID().toString();
     private String userName;
-    private String password;
     private String firstName;
     private String lastName;
-    private LocalDate dateOfBirth;
+    private Date dateOfBirth;
     private String email;
     private String countryCode;
     private String mobileNumber;
