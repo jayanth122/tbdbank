@@ -1,5 +1,7 @@
 package org.ece.dto;
+
 import lombok.Data;
+
 import java.time.LocalDate;
 import javax.persistence.*;
 import java.util.UUID;
@@ -8,7 +10,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "Customer")
 public class Customer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String customerId = UUID.randomUUID().toString();
