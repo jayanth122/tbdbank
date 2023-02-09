@@ -8,5 +8,7 @@ public class TransactionRequest {
      private String encodedCustomerId;
      private TransactionType transactionType;
 
+     private String sessionId;
+
 
 }
