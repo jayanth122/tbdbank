@@ -5,16 +5,15 @@ import lombok.Data;
 import java.time.LocalDate;
 import javax.persistence.*;
 import java.util.UUID;
+
 @Data
 @Entity
 @Table(name = "Customer")
 public class Customer {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String customerId = UUID.randomUUID().toString();
     private String userName;
-    private String password;
     private String firstName;
     private String lastName;
     private LocalDate dateOfBirth;
@@ -28,5 +27,4 @@ public class Customer {
     private String province;
     private String postalCode;
     private Long sinNumber;
-
 }

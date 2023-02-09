@@ -1,11 +1,11 @@
 package org.ece.service;
+
 import org.ece.dto.RegisterRequest;
 import org.ece.dto.*;
 import org.ece.repository.UserOperations;
 import org.springframework.stereotype.Service;
 import org.ece.repository.CustomerOperations;
 import org.ece.dto.Customer;
-//import org.ece.dto.User;
 import java.util.Optional;
 
 @Service
@@ -13,7 +13,6 @@ public class RegisterService {
 
     private static final String EXISTING_USER_NAME = "Test";
     private static final Long EXISTING_SIN_NUMBER = 123456789987L;
-
 
     CustomerOperations customerOperations;
     UserOperations userOperations;
@@ -23,15 +22,12 @@ public class RegisterService {
         this.customerOperations = customerOperations;
     }
     public void saveCustomerData(RegisterRequest registerRequest) {
-//        User user = new User();
-//        user.setUserName(registerRequest.getUserName());
-//        user.setPassword(registerRequest.getPassword());
-//        user.setAccountType(AccessType.CUSTOMER);
-
-
+        User user = new User();
+        user.setUserName(registerRequest.getUserName());
+        user.setPassword(registerRequest.getPassword());
+        user.setAccountType(AccessType.CUSTOMER);
         Customer customer = new Customer();
         customer.setUserName(registerRequest.getUserName());
-        customer.setPassword(registerRequest.getPassword());
         customer.setFirstName(registerRequest.getFirstName());
         customer.setLastName(registerRequest.getLastName());
         customer.setDateOfBirth(registerRequest.getDateOfBirth());
@@ -46,9 +42,8 @@ public class RegisterService {
         customer.setPostalCode(registerRequest.getPostalCode());
         customer.setSinNumber(registerRequest.getSinNumber());
         customerOperations.save(customer);
-        //  userOperations.save(user);
+        userOperations.save(user);
     }
-
 
     public Optional<Customer> findByUsername(String username) {
         return customerOperations.findByUserName(username);
@@ -65,7 +60,6 @@ public class RegisterService {
         if (customerByUsername.isPresent() || customerBySinNumber.isPresent()) {
             return false;
         }
-        // saveCustomerData(registerRequest);
         return true;
     }
 

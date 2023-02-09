@@ -2,7 +2,6 @@ CREATE TABLE customer
 (
     customer_id SERIAL PRIMARY KEY,
     user_name     VARCHAR(25) NOT NULL,
-    password      VARCHAR(25) NOT NULL,
     first_name    VARCHAR(25) NOT NULL,
     last_name     VARCHAR(25) NOT NULL,
     date_of_birth DATE        NOT NULL,
@@ -10,7 +9,7 @@ CREATE TABLE customer
     country_code  VARCHAR(5)  NOT NULL,
     mobile_number VARCHAR(12) NOT NULL,
     street_number VARCHAR(10) NOT NULL,
-    unit_number   INT         NOT NULL,
+    unit_number   INT         NULL,
     street_name   VARCHAR(25) NOT NULL,
     city          VARCHAR(25) NOT NULL,
     province      VARCHAR(25) NOT NULL,
