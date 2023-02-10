@@ -8,7 +8,6 @@ import org.ece.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 @Service
 public class TransactionService {
@@ -16,12 +15,11 @@ public class TransactionService {
     private static final String VALIDATION_FAILED_ERROR = "Invalid Customer Id";
     private static final String INVALID_SESSION_ERROR = "Invalid Session";
     private CacheService cacheService;
-
+    @Value("${test.accountBalance}")
+    private double accountBalance;
     public TransactionService(final CacheService cacheService){
         this.cacheService=cacheService;
     }
-    @Value("${test.accountBalance}")
-    private double accountBalance;
 
     public TransactionResponse validateTransactionRequest(final TransactionRequest transactionRequest) {
         double transactionAmount = Double.parseDouble(transactionRequest.getAmount());
@@ -34,10 +32,6 @@ public class TransactionService {
             return transactionRequest.getTransactionType().equals(TransactionType.CREDIT)
                     ? handleCreditTransactionRequest(transactionAmount,newSessionId)
                     : handleDebitTransactionRequest(transactionAmount,newSessionId);
-        }
-        // In case of invalid sessions or dummy sessions
-        if(!StringUtils.isEmpty(oldSessionId)){
-            cacheService.killSession(oldSessionId);
         }
         return new TransactionResponse(false,INVALID_SESSION_ERROR);
     }

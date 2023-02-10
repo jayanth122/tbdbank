@@ -8,8 +8,5 @@ import lombok.Data;
 public class RegisterResponse {
     private boolean isSuccess;
     private String message;
-
-
-
 }
 
