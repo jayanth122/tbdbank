@@ -3,6 +3,7 @@ package org.ece.service;
 import org.apache.commons.lang3.StringUtils;
 import org.ece.configuration.DataSouceConfig;
 import org.ece.dto.*;
+import org.ece.repository.CustomerOperations;
 import org.ece.repository.UserOperations;
 import org.ece.util.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -18,22 +19,27 @@ public class LoginService {
     private static final String SAMPLE_CARD_NUMBER = "SAMPLE_CARD_NUMBER";
     private static final String SAMPLE_FIRST_NAME = "SAMPLE_FIRST_NAME";
     private static final String SAMPLE_LAST_NAME = "SAMPLE_LAST_NAME";
+    private static final String CUSTOMER_INACTIVE_RESPONSE = "Third Party Verification Pending";
+    private static final String LOGIN_SUCCESS_RESPONSE = "Login Successful";
     private SecurityUtils securityUtils;
     private DataSouceConfig dataSouceConfig;
     private UserOperations userOperations;
     private CacheService cacheService;
 
     private DBOperations dbOperations;
+    private CustomerOperations customerOperations;
 
     public LoginService(final SecurityUtils securityUtils, final DataSouceConfig dataSouceConfig,
                         final UserOperations userOperations,
                         final CacheService cacheService,
-                        final DBOperations dbOperations) {
+                        final DBOperations dbOperations,
+                        final CustomerOperations customerOperations) {
         this.securityUtils = securityUtils;
         this.dataSouceConfig = dataSouceConfig;
         this.userOperations = userOperations;
         this.dbOperations = dbOperations;
         this.cacheService = cacheService;
+        this.customerOperations = customerOperations;
     }
 
     /**
@@ -43,12 +49,12 @@ public class LoginService {
      * @return {@link LoginResponse} the loginResponse
      */
     public LoginResponse validateLoginRequest(final LoginRequest loginRequest) {
-       return StringUtils.isBlank(loginRequest.getCardNumber()) ? validateLoginWithUserName(loginRequest)
+        return StringUtils.isBlank(loginRequest.getCardNumber()) ? validateLoginWithUserName(loginRequest)
                 : validateLoginWithCardNumber(loginRequest);
     }
 
     private LoginResponse validateLoginWithCardNumber(final LoginRequest loginRequest) {
-        boolean isSuccess =  StringUtils.equals(SAMPLE_CARD_NUMBER, loginRequest.getCardNumber())
+        boolean isSuccess = StringUtils.equals(SAMPLE_CARD_NUMBER, loginRequest.getCardNumber())
                 && validateCardNumberPassword(loginRequest.getPassword());
         return buildLoginResponse(isSuccess, loginRequest);
     }
@@ -56,17 +62,33 @@ public class LoginService {
 
     private LoginResponse validateLoginWithUserName(final LoginRequest loginRequest) {
         Optional<User> user = userOperations.findById(loginRequest.getUserName());
-        boolean isSuccess =  user.isPresent() && validateUserNamePassword(user.get(), loginRequest.getPassword());
-        return buildLoginResponse(isSuccess, user);
+        boolean isLoginValid = user.isPresent() && validateUserNamePassword(user.get(), loginRequest.getPassword());
+        if (user.isPresent() && user.get().getAccountType().equals(AccessType.CUSTOMER)) {
+            boolean isCustomerStatusActive = validateCustomerStatus(user);
+            return buildLoginResponse(isLoginValid && isCustomerStatusActive, user, CUSTOMER_INACTIVE_RESPONSE);
+        }
+
+        return buildLoginResponse(isLoginValid, user);
+    }
+
+    private LoginResponse buildLoginResponse(final boolean isSuccess, final Optional<User> user,
+                                             final String customerInactiveResponse) {
+        return isSuccess ? buildLoginResponse(true, user)
+                : new LoginResponse(false, customerInactiveResponse);
+    }
+
+    private boolean validateCustomerStatus(final Optional<User> user) {
+        Customer customer = customerOperations.findByUserName(user.get().getUserName()).get();
+        return customer.isActive();
     }
 
     private LoginResponse buildLoginResponse(boolean isSuccess, Optional<User> user) {
         if (isSuccess) {
-            User loggedInuser = dbOperations.getUserDetails(user.get());
+            User loggedInUser = dbOperations.getUserDetails(user.get());
             final String sessionId = SecurityUtils.generateSessionUUID();
-            cacheService.createSession(sessionId, buildSessionData(loggedInuser));
-            return new LoginResponse(loggedInuser.getFirstName(), loggedInuser.getLastName(), isSuccess,
-                    getEncodedAccessLevel(loggedInuser.getAccountType()), sessionId);
+            cacheService.createSession(sessionId, buildSessionData(loggedInUser));
+            return new LoginResponse(loggedInUser.getFirstName(), loggedInUser.getLastName(), isSuccess,
+                    getEncodedAccessLevel(loggedInUser.getAccountType()), sessionId, LOGIN_SUCCESS_RESPONSE);
         }
         return new LoginResponse(isSuccess);
     }
@@ -86,10 +108,10 @@ public class LoginService {
 
     private LoginResponse buildLoginResponse(final boolean isSuccess, final LoginRequest loginRequest) {
         if (isSuccess) {
-            return new LoginResponse(SAMPLE_FIRST_NAME, SAMPLE_LAST_NAME, isSuccess,
-                    getEncodedAccessLevel(AccessType.MANAGER), "");
+            return new LoginResponse(SAMPLE_FIRST_NAME, SAMPLE_LAST_NAME, true,
+                    getEncodedAccessLevel(AccessType.MANAGER), "", LOGIN_SUCCESS_RESPONSE);
         }
-        return new LoginResponse(isSuccess);
+        return new LoginResponse(false);
     }
 
     private String getEncodedAccessLevel(final AccessType accessType) {
