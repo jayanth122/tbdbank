@@ -5,6 +5,8 @@ import org.ece.repository.CustomerOperations;
 import org.ece.dto.Customer;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class ThirdPartyVerificationService {
     private CustomerOperations customerOperations;
@@ -13,12 +15,13 @@ public class ThirdPartyVerificationService {
         this.customerOperations = customerOperations;
     }
 
-    public boolean verifyCustomer(ThirdPartyVerificationRequest verificationRequest) {
+    public boolean updateCustomerVerification(ThirdPartyVerificationRequest verificationRequest) {
         String customerId = verificationRequest.getCustomerId();
         boolean verificationStatus = verificationRequest.isVerificationStatus();
 
-        Customer customer = customerOperations.findById(customerId).orElse(null);
-        if (customer != null) {
+        Optional<Customer> optionalCustomer = customerOperations.findById(customerId);
+        if (optionalCustomer.isPresent() && optionalCustomer.get().isActive() != verificationStatus) {
+            Customer customer = optionalCustomer.get();
             customer.setActive(verificationStatus);
             customerOperations.save(customer);
             return true;
@@ -27,3 +30,4 @@ public class ThirdPartyVerificationService {
         }
     }
 }
+
