@@ -26,7 +26,6 @@ public class Customer {
     private String province;
     private String postalCode;
     private Long sinNumber;
-    @Column(name = "is_Active", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private boolean isActive;
     private Long debitCardNumber;
 }
