@@ -11,7 +11,6 @@ import java.util.UUID;
 @Table(name = "Customer")
 public class Customer {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String customerId = UUID.randomUUID().toString();
     private String userName;
     private String firstName;
@@ -27,4 +26,7 @@ public class Customer {
     private String province;
     private String postalCode;
     private Long sinNumber;
+    @Column(name = "is_Active", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private boolean isActive;
+    private Long debitCardNumber;
 }
