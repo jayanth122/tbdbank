@@ -15,18 +15,15 @@ public class ThirdPartyVerificationService {
         this.customerOperations = customerOperations;
     }
 
-    public boolean updateCustomerVerification(ThirdPartyVerificationRequest verificationRequest) {
+    public void updateCustomerVerification(ThirdPartyVerificationRequest verificationRequest) {
         String customerId = verificationRequest.getCustomerId();
         boolean verificationStatus = verificationRequest.isVerificationStatus();
 
         Optional<Customer> optionalCustomer = customerOperations.findById(customerId);
-        if (optionalCustomer.isPresent() && optionalCustomer.get().isActive() != verificationStatus) {
+        if (optionalCustomer.isPresent() && verificationStatus) {
             Customer customer = optionalCustomer.get();
             customer.setActive(verificationStatus);
             customerOperations.save(customer);
-            return true;
-        } else {
-            return false;
         }
     }
 }
