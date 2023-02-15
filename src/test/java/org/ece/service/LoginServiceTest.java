@@ -5,6 +5,7 @@ import org.ece.dto.AccessType;
 import org.ece.dto.LoginRequest;
 import org.ece.dto.LoginResponse;
 import org.ece.dto.User;
+import org.ece.repository.CustomerOperations;
 import org.ece.repository.UserOperations;
 import org.ece.util.SecurityUtils;
 import org.junit.jupiter.api.Assertions;
@@ -48,10 +49,15 @@ public class LoginServiceTest {
 
     @Mock
     DBOperations dbOperations;
+
+    @Mock
+    CustomerOperations customerOperations;
+
     @BeforeEach
     void init() {
         this.securityUtils = new SecurityUtils();
-        loginService = new LoginService(securityUtils, dataSouceConfig, userOperations, cacheService, dbOperations);
+        loginService = new LoginService(securityUtils, dataSouceConfig, userOperations, cacheService, dbOperations,
+                customerOperations);
         doReturn(testMap).when(dataSouceConfig).getValidUserNames();
     }
 
@@ -66,7 +72,6 @@ public class LoginServiceTest {
         loginRequest.setPassword(SAMPLE_PASSWORD);
         LoginResponse loginResponse = loginService.validateLoginRequest(loginRequest);
         Assertions.assertTrue(loginResponse.isSuccess());
-
     }
 
     @Test

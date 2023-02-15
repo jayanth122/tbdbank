@@ -54,6 +54,8 @@ public class CustomerOperationsTest {
         customer.setProvince("Test Province");
         customer.setPostalCode("123456");
         customer.setSinNumber(234411707L);
+        customer.setActive(false);
+        customer.setDebitCardNumber(1234560L);
         userOperations.save(user);
         customerOperations.save(customer);
         Assertions.assertTrue(customerOperations.findByUserName(TEST_SAVE_CUSTOMER_NAME).isPresent());
