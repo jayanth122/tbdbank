@@ -1,13 +1,14 @@
 package org.ece.service;
 
-import org.ece.dto.SessionData;
-import org.ece.dto.TransactionRequest;
-import org.ece.dto.TransactionResponse;
-import org.ece.dto.TransactionType;
+import org.ece.dto.*;
+import org.ece.repository.TransactionOperations;
 import org.ece.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Service
 public class TransactionService {
@@ -16,6 +17,7 @@ public class TransactionService {
     private CacheService cacheService;
     @Value("${test.accountBalance}")
     private double accountBalance;
+    TransactionOperations transactionOperations;
 
     public TransactionService(final CacheService cacheService) {
         this.cacheService = cacheService;
@@ -40,6 +42,7 @@ public class TransactionService {
                                                               final String newSessionId) {
         if (accountBalance > transactionAmount) {
             accountBalance = accountBalance - transactionAmount;
+            SaveTransaction(accountBalance);
             return new TransactionResponse(true, String.valueOf(accountBalance), newSessionId);
         }
         return new TransactionResponse(false, String.valueOf(accountBalance),
@@ -49,6 +52,20 @@ public class TransactionService {
     private TransactionResponse handleCreditTransactionRequest(final double transactionAmount,
                                                                final String newSessionId) {
         accountBalance = accountBalance + transactionAmount;
+        SaveTransaction(accountBalance);
         return new TransactionResponse(true, String.valueOf(accountBalance), newSessionId);
+    }
+    private void SaveTransaction(double accountBalance){
+        this.accountBalance=accountBalance;
+        Transaction transaction = new Transaction();
+        transaction.setTransactionId(transaction.getTransactionId());
+        transaction.setTransactionType(transaction.getTransactionType());
+        transaction.setCustomerId(transaction.getCustomerId());
+        transaction.setTransactionDate(LocalDate.now());
+        transaction.setTransactionTime(LocalTime.now());
+        transaction.setBalance(String.valueOf(accountBalance));
+        transaction.setAmount(transaction.getAmount());
+        transaction.setDetails(transaction.getDetails());
+        transactionOperations.save(transaction);
     }
 }
