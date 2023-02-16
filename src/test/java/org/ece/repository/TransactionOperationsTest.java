@@ -28,17 +28,13 @@ public class TransactionOperationsTest {
     @Test
     public void testFindTransactionByTransactionId() {
         System.out.println("Executing ignored test");
-        Transaction transaction = new Transaction();
-        transaction.setTransactionId(EXISTING_TRANSACTION_ID);
-        transaction.setCustomerId("test_customer_id");
-        Assertions.assertTrue(transactionOperations.findById(transaction.getTransactionId()).isPresent());
+        Assertions.assertTrue(transactionOperations.findById(EXISTING_TRANSACTION_ID).isPresent());
     }
 
     @Test
     public void testSaveTransaction() {
         System.out.println("Executing ignored test");
         Transaction transaction = new Transaction();
-        transaction.setTransactionId(transaction.getTransactionId());
         transaction.setTransactionType(TransactionType.CREDIT);
         transaction.setCustomerId(TEST_SAVE_CUSTOMER_ID);
         transaction.setTransactionDate(LocalDate.now());
