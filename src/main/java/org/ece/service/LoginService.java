@@ -6,6 +6,8 @@ import org.ece.dto.*;
 import org.ece.repository.CustomerOperations;
 import org.ece.repository.UserOperations;
 import org.ece.util.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -15,11 +17,14 @@ import java.util.Optional;
  */
 @Service
 public class LoginService {
+    private static final Logger logger = LoggerFactory.getLogger(LoginService.class);
     private static final String SAMPLE_PASSWORD = "SAMPLE_PASSWORD";
     private static final String SAMPLE_CARD_NUMBER = "SAMPLE_CARD_NUMBER";
     private static final String SAMPLE_FIRST_NAME = "SAMPLE_FIRST_NAME";
     private static final String SAMPLE_LAST_NAME = "SAMPLE_LAST_NAME";
     private static final String CUSTOMER_INACTIVE_RESPONSE = "Third Party Verification Pending";
+    private static final String INVALID_CREDENTIALS_RESPONSE = "Invalid Credentials";
+    private static final String DUPLICATE_LOGIN_RESPONSE = "Duplicate Login Request";
     private static final String LOGIN_SUCCESS_RESPONSE = "Login Successful";
     private SecurityUtils securityUtils;
     private DataSouceConfig dataSouceConfig;
@@ -63,12 +68,23 @@ public class LoginService {
     private LoginResponse validateLoginWithUserName(final LoginRequest loginRequest) {
         Optional<User> user = userOperations.findById(loginRequest.getUserName());
         boolean isLoginValid = user.isPresent() && validateUserNamePassword(user.get(), loginRequest.getPassword());
-        if (user.isPresent() && user.get().getAccountType().equals(AccessType.CUSTOMER)) {
+        boolean isDuplicateLogin = validateDuplicateLogin(user.get());
+        if (isLoginValid && !isDuplicateLogin && user.get().getAccountType().equals(AccessType.CUSTOMER)) {
             boolean isCustomerStatusActive = validateCustomerStatus(user);
-            return buildLoginResponse(isLoginValid && isCustomerStatusActive, user, CUSTOMER_INACTIVE_RESPONSE);
+            return buildLoginResponse(isCustomerStatusActive, user, CUSTOMER_INACTIVE_RESPONSE);
         }
+        return !isLoginValid ? buildLoginResponse(false, user, INVALID_CREDENTIALS_RESPONSE)
+                : isDuplicateLogin ? buildLoginResponse(false, user, DUPLICATE_LOGIN_RESPONSE)
+                : buildLoginResponse(true, user);
+    }
 
-        return buildLoginResponse(isLoginValid, user);
+    private boolean validateDuplicateLogin(final User user) {
+        String userId = dbOperations.getUserDetails(user).getUserId();
+        boolean isDuplicate = cacheService.doesUserSessionExist(user.getAccountType(), userId);
+        if (isDuplicate) {
+            logger.info("Duplicate Login Request");
+        }
+        return isDuplicate;
     }
 
     private LoginResponse buildLoginResponse(final boolean isSuccess, final Optional<User> user,
