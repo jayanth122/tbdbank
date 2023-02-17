@@ -13,14 +13,16 @@ import java.time.LocalTime;
 @Service
 public class TransactionService {
     private static final String INSUFFICIENT_BALANCE_ERROR = "Insufficient Balance";
+    private static final String SUCCESS_MESSAGE = "Transaction Successful";
     private static final String INVALID_SESSION_ERROR = "Invalid Session";
     private CacheService cacheService;
     @Value("${test.accountBalance}")
     private double accountBalance;
-    TransactionOperations transactionOperations;
+    private TransactionOperations transactionOperations;
 
-    public TransactionService(final CacheService cacheService) {
+    public TransactionService(final CacheService cacheService, final TransactionOperations transactionOperations) {
         this.cacheService = cacheService;
+        this.transactionOperations = transactionOperations;
     }
 
     public TransactionResponse validateTransactionRequest(final TransactionRequest transactionRequest) {
@@ -32,40 +34,43 @@ public class TransactionService {
             cacheService.createSession(newSessionId, sessionData);
             cacheService.killSession(oldSessionId);
             return transactionRequest.getTransactionType().equals(TransactionType.CREDIT)
-                    ? handleCreditTransactionRequest(transactionAmount, newSessionId)
-                    : handleDebitTransactionRequest(transactionAmount, newSessionId);
+                    ? handleCreditTransactionRequest(newSessionId, sessionData.getUserId(), transactionRequest)
+                    : handleDebitTransactionRequest(newSessionId, sessionData.getUserId(), transactionRequest);
         }
         return new TransactionResponse(false, INVALID_SESSION_ERROR);
     }
 
-    private TransactionResponse handleDebitTransactionRequest(final double transactionAmount,
-                                                              final String newSessionId) {
-        if (accountBalance > transactionAmount) {
-            accountBalance = accountBalance - transactionAmount;
-            SaveTransaction(accountBalance);
-            return new TransactionResponse(true, String.valueOf(accountBalance), newSessionId);
+    private TransactionResponse handleDebitTransactionRequest(final String newSessionId,
+                                                              final String customerId,
+                                                              final TransactionRequest transactionRequest) {
+        if (accountBalance > Double.parseDouble(transactionRequest.getAmount())) {
+            accountBalance = accountBalance - Double.parseDouble(transactionRequest.getAmount());
+            saveTransaction(accountBalance, customerId, transactionRequest);
+            return new TransactionResponse(true, String.valueOf(accountBalance), newSessionId, SUCCESS_MESSAGE);
         }
         return new TransactionResponse(false, String.valueOf(accountBalance),
                 INSUFFICIENT_BALANCE_ERROR, newSessionId);
     }
 
-    private TransactionResponse handleCreditTransactionRequest(final double transactionAmount,
-                                                               final String newSessionId) {
-        accountBalance = accountBalance + transactionAmount;
-        SaveTransaction(accountBalance);
-        return new TransactionResponse(true, String.valueOf(accountBalance), newSessionId);
+    private TransactionResponse handleCreditTransactionRequest(final String newSessionId,
+                                                               final String customerId,
+                                                               final TransactionRequest transactionRequest) {
+        accountBalance = accountBalance + Double.parseDouble(transactionRequest.getAmount());
+        saveTransaction(accountBalance, customerId, transactionRequest);
+        return new TransactionResponse(true, String.valueOf(accountBalance), newSessionId, SUCCESS_MESSAGE);
+
     }
-    private void SaveTransaction(double accountBalance){
-        this.accountBalance=accountBalance;
+    private void saveTransaction(final double aB,
+                                 final String customerId, final TransactionRequest transactionRequest) {
+        this.accountBalance = aB;
         Transaction transaction = new Transaction();
-        transaction.setTransactionId(transaction.getTransactionId());
-        transaction.setTransactionType(transaction.getTransactionType());
-        transaction.setCustomerId(transaction.getCustomerId());
+        transaction.setTransactionType(transactionRequest.getTransactionType());
+        transaction.setCustomerId(customerId);
         transaction.setTransactionDate(LocalDate.now());
         transaction.setTransactionTime(LocalTime.now());
         transaction.setBalance(String.valueOf(accountBalance));
-        transaction.setAmount(transaction.getAmount());
-        transaction.setDetails(transaction.getDetails());
+        transaction.setAmount(transactionRequest.getAmount());
+        transaction.setDetails(transactionRequest.getDetails());
         transactionOperations.save(transaction);
     }
 }
