@@ -60,9 +60,8 @@ public class TransactionService {
         return new TransactionResponse(true, String.valueOf(accountBalance), newSessionId, SUCCESS_MESSAGE);
 
     }
-    private void saveTransaction(final double aB,
+    private void saveTransaction(final double accountBalance,
                                  final String customerId, final TransactionRequest transactionRequest) {
-        this.accountBalance = aB;
         Transaction transaction = new Transaction();
         transaction.setTransactionType(transactionRequest.getTransactionType());
         transaction.setCustomerId(customerId);
