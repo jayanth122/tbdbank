@@ -45,7 +45,7 @@ public class TransactionService {
                                                               final TransactionRequest transactionRequest) {
         if (accountBalance > Double.parseDouble(transactionRequest.getAmount())) {
             accountBalance = accountBalance - Double.parseDouble(transactionRequest.getAmount());
-            SaveTransaction(accountBalance, customerId, transactionRequest);
+            saveTransaction(accountBalance, customerId, transactionRequest);
             return new TransactionResponse(true, String.valueOf(accountBalance), newSessionId, SUCCESS_MESSAGE);
         }
         return new TransactionResponse(false, String.valueOf(accountBalance),
@@ -56,11 +56,11 @@ public class TransactionService {
                                                                final String customerId,
                                                                final TransactionRequest transactionRequest) {
         accountBalance = accountBalance + Double.parseDouble(transactionRequest.getAmount());
-        SaveTransaction(accountBalance, customerId, transactionRequest);
+        saveTransaction(accountBalance, customerId, transactionRequest);
         return new TransactionResponse(true, String.valueOf(accountBalance), newSessionId, SUCCESS_MESSAGE);
 
     }
-    private void SaveTransaction(final double accountBalance,
+    private void saveTransaction(final double accountBalance,
                                  final String customerId, final TransactionRequest transactionRequest) {
         Transaction transaction = new Transaction();
         transaction.setTransactionType(transactionRequest.getTransactionType());
