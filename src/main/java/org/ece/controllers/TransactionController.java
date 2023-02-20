@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-
 /**
  * Rest Controller for Transaction.
  */
@@ -27,7 +25,7 @@ public class TransactionController {
         return ResponseEntity.ok(transactionResponse);
     }
 
-    @RequestMapping(value = "/statement", method = RequestMethod.POST)
+    @RequestMapping(value = "/statement", method = RequestMethod.GET)
     public ResponseEntity statementRequest(@RequestBody StatementRequest statementRequest) {
         StatementResponse statementResponse = transactionService.validateStatementRequest(statementRequest);
         return ResponseEntity.ok(statementResponse);

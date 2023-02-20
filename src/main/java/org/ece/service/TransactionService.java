@@ -74,7 +74,7 @@ public class TransactionService {
         transactionOperations.save(transaction);
     }
 
-    public StatementResponse validateStatementRequest(final StatementRequest statementRequest){
+    public StatementResponse validateStatementRequest(final StatementRequest statementRequest) {
         String oldSessionId = statementRequest.getSessioinId();
         SessionData sessionData = cacheService.validateSession(oldSessionId);
         final String newSessionId = SecurityUtils.generateSessionUUID();
@@ -83,7 +83,8 @@ public class TransactionService {
             cacheService.killSession(oldSessionId);
 
         }
-        List<Transaction> transactionList = transactionOperations.findByLevelBetween(statementRequest.getFromDate(),statementRequest.getToDate());
+        List<Transaction> transactionList = transactionOperations.findByLevelBetween(sessionData.getUserId(),
+                statementRequest.getFromDate(), statementRequest.getToDate());
         return new StatementResponse(true, "", newSessionId, transactionList);
     }
 }

@@ -2,7 +2,6 @@ package org.ece.dto;
 
 import lombok.Data;
 
-import java.sql.Date;
 import java.time.LocalDate;
 @Data
 public class StatementRequest {
