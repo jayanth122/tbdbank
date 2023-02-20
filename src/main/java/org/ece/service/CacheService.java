@@ -28,7 +28,7 @@ public class CacheService {
 
     public SessionData validateSession(final String uniqueSessionId) {
         return redisTemplate.hasKey(SESSION_DATA_PREFIX + uniqueSessionId)
-                ? redisTemplate.opsForValue().get(uniqueSessionId) : null;
+                ? redisTemplate.opsForValue().get(SESSION_DATA_PREFIX + uniqueSessionId) : null;
     }
 
     public void killSession(final String uniqueSessionId) {
