@@ -9,6 +9,7 @@ import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 @Service
 public class TransactionService {
@@ -71,5 +72,18 @@ public class TransactionService {
         transaction.setAmount(transactionRequest.getAmount());
         transaction.setDetails(transactionRequest.getDetails());
         transactionOperations.save(transaction);
+    }
+
+    public StatementResponse validateStatementRequest(final StatementRequest statementRequest){
+        String oldSessionId = statementRequest.getSessioinId();
+        SessionData sessionData = cacheService.validateSession(oldSessionId);
+        final String newSessionId = SecurityUtils.generateSessionUUID();
+        if (!ObjectUtils.isEmpty(sessionData)) {
+            cacheService.createSession(newSessionId, sessionData);
+            cacheService.killSession(oldSessionId);
+
+        }
+        List<Transaction> transactionList = transactionOperations.findByLevelBetween(statementRequest.getFromDate(),statementRequest.getToDate());
+        return new StatementResponse(true, "", newSessionId, transactionList);
     }
 }
