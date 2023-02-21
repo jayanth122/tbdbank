@@ -16,6 +16,6 @@ CREATE TABLE customer
     postal_code   VARCHAR(10) NOT NULL,
     sin_number    BIGINT      NOT NULL,
     is_Active      BOOLEAN     DEFAULT FALSE,
-    debit_card_number BIGINT  NULL
-    account_balance VARCHAR(15) NOT NULL DEFAULT '0'
+    debit_card_number BIGINT  NULL,
+    account_balance BIGINT NOT NULL DEFAULT 0
 );

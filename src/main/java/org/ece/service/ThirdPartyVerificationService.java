@@ -11,7 +11,7 @@ import java.util.Optional;
 public class ThirdPartyVerificationService {
     private CustomerOperations customerOperations;
     private static final long MAX_CARD_NUMBER = 1000000000000L;
-    private static final String PREFIX = "9456";
+    private static final String DEBIT_CARD_NUMBER_PREFIX = "9456";
 
     public ThirdPartyVerificationService(final CustomerOperations customerOperations) {
         this.customerOperations = customerOperations;
@@ -20,10 +20,9 @@ public class ThirdPartyVerificationService {
         return customerOperations.findByDebitCardNumber(cardNumber);
     }
     private Long generateUniqueCardNumber() {
-        Long cardNumber = Long.parseLong(PREFIX + String.format("%012d", (long) (Math.random() * MAX_CARD_NUMBER)));
-        return cardNumber;
+        return Long.parseLong(DEBIT_CARD_NUMBER_PREFIX
+                + String.format("%012d", (long) (Math.random() * MAX_CARD_NUMBER)));
     }
-
     public void updateCustomerVerification(ThirdPartyVerificationRequest verificationRequest) {
         String customerId = verificationRequest.getCustomerId();
         boolean verificationStatus = verificationRequest.isVerificationStatus();
@@ -32,10 +31,8 @@ public class ThirdPartyVerificationService {
         if (optionalCustomer.isPresent() && verificationStatus) {
             Customer customer = optionalCustomer.get();
             customer.setActive(verificationStatus);
-            Long cardNumber = generateUniqueCardNumber();
-            customer.setDebitCardNumber(cardNumber);
+            customer.setDebitCardNumber(generateUniqueCardNumber());
             customerOperations.save(customer);
         }
     }
 }
-
