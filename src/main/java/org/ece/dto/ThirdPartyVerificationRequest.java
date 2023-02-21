@@ -6,5 +6,5 @@ import lombok.Data;
 public class ThirdPartyVerificationRequest {
     private String customerId;
     private boolean verificationStatus;
-    private Long cardNumber;
+
 }
