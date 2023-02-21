@@ -17,4 +17,5 @@ CREATE TABLE customer
     sin_number    BIGINT      NOT NULL,
     is_Active      BOOLEAN     DEFAULT FALSE,
     debit_card_number BIGINT  NULL
+    account_balance VARCHAR(15) NOT NULL DEFAULT '0'
 );
