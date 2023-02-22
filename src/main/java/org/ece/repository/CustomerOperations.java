@@ -10,5 +10,4 @@ import java.util.Optional;
 public interface CustomerOperations extends CrudRepository<Customer, String> {
     Optional<Customer> findByUserName(String username);
     Optional<Customer> findBySinNumber(Long sinNumber);
-    Optional<Customer> findByDebitCardNumber(Long debitCardNumber);
 }

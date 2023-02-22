@@ -16,9 +16,6 @@ public class ThirdPartyVerificationService {
     public ThirdPartyVerificationService(final CustomerOperations customerOperations) {
         this.customerOperations = customerOperations;
     }
-    public Optional<Customer> findByCardNumber(Long cardNumber) {
-        return customerOperations.findByDebitCardNumber(cardNumber);
-    }
     private Long generateUniqueCardNumber() {
         return Long.parseLong(DEBIT_CARD_NUMBER_PREFIX
                 + String.format("%012d", (long) (Math.random() * MAX_CARD_NUMBER)));
