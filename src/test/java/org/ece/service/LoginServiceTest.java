@@ -55,7 +55,6 @@ public class LoginServiceTest {
 
     @BeforeEach
     void init() {
-        this.securityUtils = new SecurityUtils();
         loginService = new LoginService(securityUtils, dataSouceConfig, userOperations, cacheService, dbOperations,
                 customerOperations);
         doReturn(testMap).when(dataSouceConfig).getValidUserNames();
