@@ -17,7 +17,6 @@ public class SecurityUtilsTest {
 
     @BeforeEach
     void init() {
-        this.securityUtils = new SecurityUtils();
     }
 
     @Test
