@@ -6,8 +6,10 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import org.apache.commons.lang3.ObjectUtils;
+import org.ece.dto.Interac;
 import org.ece.dto.SessionData;
 import org.ece.dto.qr.QRGenerateRequest;
+import org.ece.repository.InteracOperations;
 import org.ece.util.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 public class QRService {
@@ -27,6 +30,7 @@ public class QRService {
     private static final String QR_IMAGES_EXTENSION = ".jpg";
     private static final String QR_SUCCESS = "QR Generated successfully";
     private static final String INVALID_SESSION = "Invalid Session";
+    private static final String INTERAC_NOT_REGISTERED = "Interac not registered";
     private static final int QR_CODE_WIDTH = 200;
     private static final int QR_CODE_HEIGHT = 200;
 
@@ -34,14 +38,23 @@ public class QRService {
     private String hmacKey;
 
     private CacheService cacheService;
+    private InteracOperations interacOperations;
 
-    public QRService(final CacheService cacheService) {
+    public QRService(final CacheService cacheService,
+                     final InteracOperations interacOperations) {
         this.cacheService = cacheService;
+        this.interacOperations = interacOperations;
     }
     public String generateQRCode(QRGenerateRequest qrGenerateRequest) {
         SessionData sessionData = cacheService.validateSession(qrGenerateRequest.getSessionId());
         if (ObjectUtils.isEmpty(sessionData)) {
             return INVALID_SESSION;
+        }
+        Optional<Interac> interac = interacOperations.findInteracByCustomerId(sessionData.getUserId());
+
+        if (!interac.isPresent()) {
+            logger.info(INTERAC_NOT_REGISTERED);
+            return INTERAC_NOT_REGISTERED;
         }
         final String hmac = SecurityUtils.calculateSecurityHmac(sessionData.getUserId().getBytes(), hmacKey);
         generateQRImage(generateQRString(hmac, sessionData.getUserId()), qrGenerateRequest.getSessionId());
