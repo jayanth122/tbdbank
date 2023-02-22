@@ -28,4 +28,5 @@ public class Customer {
     private Long sinNumber;
     private boolean isActive;
     private Long debitCardNumber;
+    private Long accountBalance = 0L;
 }
