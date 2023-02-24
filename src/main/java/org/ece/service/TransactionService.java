@@ -10,7 +10,6 @@ import org.ece.repository.CustomerOperations;
 import org.ece.repository.TransactionOperations;
 import org.ece.util.ConversionUtils;
 import org.ece.util.SecurityUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -129,26 +128,30 @@ public class TransactionService {
                                    final List<Customer> customerList) {
         Document document = new Document(PageSize.A4);
         PdfWriter.getInstance(document, new FileOutputStream(
-                "/Users/wreck/Desktop/tbdbank/generatedStatements/statement" + ".pdf"));
+                "/Users/wreck/Desktop/tbdbank/generatedStatements/statement_from_" + statementRequest.getFromDate()
+                        + "_to_" + statementRequest.getToDate() + ".pdf"));
         document.open();
-        Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, titleFontSize);
-        Font font = new Font(Font.FontFamily.TIMES_ROMAN, fontLSize);
-        Font fontL = new Font(Font.FontFamily.TIMES_ROMAN, fontSize);
-        Paragraph paragraph2 = new Paragraph("TBD BANK", titleFont);
+        Font titleFont = new Font(Font.FontFamily.HELVETICA, titleFontSize);
+        Font font = new Font(Font.FontFamily.HELVETICA, fontLSize);
+        Font fontL = new Font(Font.FontFamily.HELVETICA, fontSize);
+        Paragraph paragraph2 = new Paragraph("TBD BANK STATEMENT ", titleFont);
+        Paragraph fromDateToDate = new Paragraph(statementRequest.getFromDate()
+                + " TO " + statementRequest.getToDate(), titleFont);
         paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
+        fromDateToDate.setAlignment(Paragraph.ALIGN_CENTER);
         document.add(paragraph2);
         document.add(Chunk.NEWLINE);
+        document.add(fromDateToDate);
+        document.add(Chunk.NEWLINE);
+
         for (Customer obj : customerList) {
             Chunk nameCell = new Chunk("Name : " + obj.getLastName() + ADDRESS_SEPARATOR + obj.getFirstName(), font);
-            Chunk customerIdCell = new Chunk("Customer ID : " + obj.getCustomerId(), font);
             Chunk streetNameCell = new Chunk("Address : " + obj.getStreetNumber()
                     + ADDRESS_SEPARATOR + obj.getStreetName() + ADDRESS_SEPARATOR + obj.getCity()
                     + ADDRESS_SEPARATOR + obj.getProvince() + ADDRESS_SEPARATOR + obj.getCountryCode(), font);
             Chunk mobileCell = new Chunk("Mobile : " + obj.getMobileNumber(), font);
             Chunk emailCell = new Chunk("Email :" + obj.getEmail(), font);
             document.add(nameCell);
-            document.add(Chunk.NEWLINE);
-            document.add(customerIdCell);
             document.add(Chunk.NEWLINE);
             document.add(mobileCell);
             document.add(Chunk.NEWLINE);
@@ -157,7 +160,8 @@ public class TransactionService {
             document.add(streetNameCell);
             document.add(Chunk.NEWLINE);
         }
-        PdfPTable table = new PdfPTable(fontSize - 1);
+        PdfPTable table = new PdfPTable(TABLE_COLUMNS);
+        table.setWidthPercentage(MAX_WIDTH);
         PdfPCell cell1 = new PdfPCell(new Paragraph("SERIAL NO.", fontL));
         PdfPCell cell3 = new PdfPCell(new Paragraph("CREDIT", fontL));
         PdfPCell cell4 = new PdfPCell(new Paragraph("DEBIT", fontL));
