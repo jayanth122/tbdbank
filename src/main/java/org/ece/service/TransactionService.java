@@ -8,6 +8,7 @@ import lombok.SneakyThrows;
 import org.ece.dto.*;
 import org.ece.repository.CustomerOperations;
 import org.ece.repository.TransactionOperations;
+import org.ece.util.ConversionUtils;
 import org.ece.util.SecurityUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -28,22 +29,16 @@ public class TransactionService {
     private static final String INSUFFICIENT_BALANCE_ERROR = "Insufficient Balance";
     private static final String SUCCESS_MESSAGE = "Transaction Successful";
     private static final String INVALID_SESSION_ERROR = "Invalid Session";
+    public static final int MAX_WIDTH = 100;
     private static final String ADDRESS_SEPARATOR = ", ";
     private CacheService cacheService;
+    private static final int TABLE_COLUMNS = 7;
+    private static final int titleFontSize = 12;
+    private static final int fontLSize = 10;
+    private static final int fontSize = 8;
+    private static int serial = 1;
     @Value("${test.accountBalance}")
     private double accountBalance;
-
-    @Value("${test.titleFontSize}")
-    private int titleFontSize;
-
-    @Value("${test.fontLSize}")
-    private int fontLSize;
-
-    @Value("${test.fontSize}")
-    private int fontSize;
-
-    @Value("${test.serial}")
-    private int serial;
 
     private CustomerOperations customerOperations;
 
@@ -99,8 +94,8 @@ public class TransactionService {
         transaction.setCustomerId(customerId);
         transaction.setTransactionDate(LocalDate.now());
         transaction.setTransactionTime(LocalTime.now());
-        transaction.setBalance(String.valueOf(accountBalance));
-        transaction.setAmount(transactionRequest.getAmount());
+        transaction.setBalance((long) accountBalance);
+        transaction.setAmount(ConversionUtils.convertToLong(transactionRequest.getAmount()));
         transaction.setDetails(transactionRequest.getDetails());
         transactionOperations.save(transaction);
     }
@@ -128,26 +123,30 @@ public class TransactionService {
                                    final List<Customer> customerList) {
         Document document = new Document(PageSize.A4);
         PdfWriter.getInstance(document, new FileOutputStream(
-                "/Users/wreck/Desktop/tbdbank/generatedStatements/statement" + ".pdf"));
+                "/Users/wreck/Desktop/tbdbank/generatedStatements/statement_from_" + statementRequest.getFromDate()
+                        + "_to_" + statementRequest.getToDate() + ".pdf"));
         document.open();
-        Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, titleFontSize);
-        Font font = new Font(Font.FontFamily.TIMES_ROMAN, fontLSize);
-        Font fontL = new Font(Font.FontFamily.TIMES_ROMAN, fontSize);
-        Paragraph paragraph2 = new Paragraph("TBD BANK", titleFont);
+        Font titleFont = new Font(Font.FontFamily.HELVETICA, titleFontSize);
+        Font font = new Font(Font.FontFamily.HELVETICA, fontLSize);
+        Font fontL = new Font(Font.FontFamily.HELVETICA, fontSize);
+        Paragraph paragraph2 = new Paragraph("TBD BANK STATEMENT ", titleFont);
+        Paragraph fromDateToDate = new Paragraph(statementRequest.getFromDate()
+                + " TO " + statementRequest.getToDate(), titleFont);
         paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
+        fromDateToDate.setAlignment(Paragraph.ALIGN_CENTER);
         document.add(paragraph2);
         document.add(Chunk.NEWLINE);
+        document.add(fromDateToDate);
+        document.add(Chunk.NEWLINE);
+
         for (Customer obj : customerList) {
             Chunk nameCell = new Chunk("Name : " + obj.getLastName() + ADDRESS_SEPARATOR + obj.getFirstName(), font);
-            Chunk customerIdCell = new Chunk("Customer ID : " + obj.getCustomerId(), font);
             Chunk streetNameCell = new Chunk("Address : " + obj.getStreetNumber()
                     + ADDRESS_SEPARATOR + obj.getStreetName() + ADDRESS_SEPARATOR + obj.getCity()
                     + ADDRESS_SEPARATOR + obj.getProvince() + ADDRESS_SEPARATOR + obj.getCountryCode(), font);
             Chunk mobileCell = new Chunk("Mobile : " + obj.getMobileNumber(), font);
             Chunk emailCell = new Chunk("Email :" + obj.getEmail(), font);
             document.add(nameCell);
-            document.add(Chunk.NEWLINE);
-            document.add(customerIdCell);
             document.add(Chunk.NEWLINE);
             document.add(mobileCell);
             document.add(Chunk.NEWLINE);
@@ -156,7 +155,8 @@ public class TransactionService {
             document.add(streetNameCell);
             document.add(Chunk.NEWLINE);
         }
-        PdfPTable table = new PdfPTable(fontSize - 1);
+        PdfPTable table = new PdfPTable(TABLE_COLUMNS);
+        table.setWidthPercentage(MAX_WIDTH);
         PdfPCell cell1 = new PdfPCell(new Paragraph("SERIAL NO.", fontL));
         PdfPCell cell3 = new PdfPCell(new Paragraph("CREDIT", fontL));
         PdfPCell cell4 = new PdfPCell(new Paragraph("DEBIT", fontL));
@@ -176,11 +176,11 @@ public class TransactionService {
             PdfPCell creditCell;
             PdfPCell debitCell;
             if (obj.getTransactionType().equals(TransactionType.CREDIT)) {
-                creditCell = new PdfPCell(new Paragraph(obj.getAmount(), fontL));
+                creditCell = new PdfPCell(new Paragraph(ConversionUtils.convertToString(obj.getAmount()), fontL));
                 debitCell = new PdfPCell(new Paragraph("", fontL));
             } else {
                 creditCell = new PdfPCell(new Paragraph("", fontL));
-                debitCell = new PdfPCell(new Paragraph(obj.getAmount(), fontL));
+                debitCell = new PdfPCell(new Paragraph(ConversionUtils.convertToString(obj.getAmount()), fontL));
             }
             PdfPCell balanceCell = new PdfPCell(new Paragraph(String.valueOf(obj.getBalance()), fontL));
             PdfPCell detailCell = new PdfPCell(new Paragraph(String.valueOf(obj.getDetails()), fontL));
