@@ -24,6 +24,7 @@ public class LoginService {
     private static final String SAMPLE_LAST_NAME = "SAMPLE_LAST_NAME";
     private static final String CUSTOMER_INACTIVE_RESPONSE = "Third Party Verification Pending";
     private static final String INVALID_CREDENTIALS_RESPONSE = "Invalid Credentials";
+    private static final String INVALID_CARD_NUMBER_RESPONSE = "Invalid Card Number";
     private static final String DUPLICATE_LOGIN_RESPONSE = "Duplicate Login Request";
     private static final String LOGIN_SUCCESS_RESPONSE = "Login Successful";
     private SecurityUtils securityUtils;
@@ -59,13 +60,20 @@ public class LoginService {
     }
 
     private LoginResponse validateLoginWithCardNumber(final LoginRequest loginRequest) {
-        boolean isSuccess = StringUtils.equals(SAMPLE_CARD_NUMBER, loginRequest.getCardNumber())
-                && validateCardNumberPassword(loginRequest.getPassword());
-        return buildLoginResponse(isSuccess, loginRequest);
+        Optional<Customer> customer  = customerOperations
+                .findCustomerByDebitCardNumber(Long.parseLong(loginRequest.getCardNumber()));
+        if (customer.isPresent()) {
+            loginRequest.setUserName(customer.get().getUserName());
+            logger.info("Logged in using card Number");
+            return validateLoginWithUserName(loginRequest);
+        }
+        logger.info(INVALID_CARD_NUMBER_RESPONSE);
+
+        return new LoginResponse(false, INVALID_CARD_NUMBER_RESPONSE);
     }
 
 
-    private LoginResponse validateLoginWithUserName(final LoginRequest loginRequest) {
+    protected LoginResponse validateLoginWithUserName(final LoginRequest loginRequest) {
         Optional<User> user = userOperations.findById(loginRequest.getUserName());
         boolean isLoginValid = user.isPresent() && validateUserNamePassword(user.get(), loginRequest.getPassword());
         boolean isDuplicateLogin = validateDuplicateLogin(user.get());
