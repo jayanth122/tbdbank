@@ -1,10 +1,7 @@
 package org.ece.service;
 
 import org.ece.configuration.DataSouceConfig;
-import org.ece.dto.AccessType;
-import org.ece.dto.LoginRequest;
-import org.ece.dto.LoginResponse;
-import org.ece.dto.User;
+import org.ece.dto.*;
 import org.ece.repository.CustomerOperations;
 import org.ece.repository.UserOperations;
 import org.ece.util.SecurityUtils;
@@ -29,7 +26,7 @@ import static org.mockito.Mockito.*;
 public class LoginServiceTest {
     private static final String SAMPLE_VALID_USER_NAME = "SAMPLE_TEST_ID";
     private static final String SAMPLE_PASSWORD = "SAMPLE_PASSWORD";
-    private static final String SAMPLE_CARD_NUMBER = "SAMPLE_CARD_NUMBER";
+    private static final String SAMPLE_CARD_NUMBER = "9546987634565432";
     private static final String SAMPLE_INVALID_PASSWORD = "SAMPLE_PASSWORD_2";
     private static final String SAMPLE_FIRST_NAME = "SAMPLE_FIRST_NAME";
     private static final String SAMPLE_LAST_NAME = "SAMPLE_LAST_NAME";
@@ -56,8 +53,8 @@ public class LoginServiceTest {
     @BeforeEach
     void init() {
         this.securityUtils = new SecurityUtils();
-        loginService = new LoginService(securityUtils, dataSouceConfig, userOperations, cacheService, dbOperations,
-                customerOperations);
+        loginService = spy(new LoginService(securityUtils, dataSouceConfig, userOperations, cacheService, dbOperations,
+                customerOperations));
         doReturn(testMap).when(dataSouceConfig).getValidUserNames();
     }
 
@@ -80,6 +77,7 @@ public class LoginServiceTest {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setPassword(SAMPLE_INVALID_PASSWORD);
         loginRequest.setCardNumber(SAMPLE_CARD_NUMBER);
+        when(customerOperations.findCustomerByDebitCardNumber(any())).thenReturn(Optional.empty());
         LoginResponse loginResponse = loginService.validateLoginRequest(loginRequest);
         Assertions.assertFalse(loginResponse.isSuccess());
 
@@ -91,6 +89,8 @@ public class LoginServiceTest {
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setPassword(SAMPLE_PASSWORD);
         loginRequest.setCardNumber(SAMPLE_CARD_NUMBER);
+        when(customerOperations.findCustomerByDebitCardNumber(any())).thenReturn(Optional.of(new Customer()));
+        doReturn(new LoginResponse(true)).when(loginService).validateLoginWithUserName(any());
         LoginResponse loginResponse = loginService.validateLoginRequest(loginRequest);
         Assertions.assertTrue(loginResponse.isSuccess());
 
