@@ -31,4 +31,5 @@ public class Customer {
     private boolean isActive;
     private Long debitCardNumber;
     private Long accountBalance = 0L;
+    private LocalDate accountCreationDate;
 }

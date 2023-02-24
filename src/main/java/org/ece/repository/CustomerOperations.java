@@ -14,4 +14,5 @@ public interface CustomerOperations extends CrudRepository<Customer, String> {
     Optional<Customer> findByCustomerId(String customerId);
     @Query("SELECT c.accountBalance FROM Customer c WHERE c.customerId like :customerId")
     Long findAccountBalanceByCustomerId(@Param("customerId") String customerId);
+    Optional<Customer> findCustomerByDebitCardNumber(Long debitCardNumber);
 }

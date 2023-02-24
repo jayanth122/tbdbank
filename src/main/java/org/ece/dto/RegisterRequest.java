@@ -22,5 +22,4 @@ public class RegisterRequest {
     private String postalCode;
     private Long sinNumber;
     private Gender gender;
-
 }

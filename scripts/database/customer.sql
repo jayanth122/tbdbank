@@ -18,5 +18,6 @@ CREATE TABLE customer
     is_Active      BOOLEAN     DEFAULT FALSE,
     debit_card_number BIGINT  NULL,
     account_balance BIGINT NOT NULL DEFAULT 0,
+    account_creation_date DATE
     gender ENUM('MALE', 'FEMALE', 'OTHER') NOT NULL
 );

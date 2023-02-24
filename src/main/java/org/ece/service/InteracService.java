@@ -11,7 +11,6 @@ import java.math.BigDecimal;
 
 @Service
 public class InteracService {
-
     private static final String INVALID_SESSION_ERROR = "Invalid Session";
     private static final String NOT_LINKED_TO_BANK = "Email_ID not linked to bank";
     private static final String INVALID_EMAIL_ID = "Invalid Email_ID";

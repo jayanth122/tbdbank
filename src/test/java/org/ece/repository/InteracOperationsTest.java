@@ -38,7 +38,7 @@ public class InteracOperationsTest {
         interac.setCustomerId(EXISTING_CUSTOMER_ID);
         interac.setFirstName("test_first_name");
         interac.setLastName("test_last_name");
-        interac.setBankName("test_bank");
+        interac.setBankName(TEST_SAVE_BANKNAME);
         interac.setEmail("test_email_id@gmail.com");
         interac.setMessage("test_message");
         interacOperations.save(interac);
