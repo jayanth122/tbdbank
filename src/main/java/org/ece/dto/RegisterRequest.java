@@ -21,5 +21,6 @@ public class RegisterRequest {
     private String province;
     private String postalCode;
     private Long sinNumber;
+    private Gender gender;
 
 }

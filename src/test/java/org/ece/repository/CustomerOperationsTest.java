@@ -2,6 +2,7 @@ package org.ece.repository;
 
 import org.ece.dto.AccessType;
 import org.ece.dto.Customer;
+import org.ece.dto.Gender;
 import org.ece.dto.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,16 +37,16 @@ public class CustomerOperationsTest {
         System.out.println("Executing test for Inserting customer data and user data");
         Customer customer = new Customer();
         User user = new User();
-        user.setUserName(TEST_SAVE_CUSTOMER_NAME);
+        user.setUserName(TEST_SAVE_USER_NAME);
         user.setAccountType(AccessType.CUSTOMER);
         user.setPassword("encrypted_password");
-        customer.setUserName(TEST_SAVE_CUSTOMER_NAME);
-        customer.setFirstName("Test");
-        customer.setLastName("Customer");
+        customer.setUserName(TEST_SAVE_USER_NAME);
+        customer.setFirstName("test");
+        customer.setLastName("customer");
         LocalDate dateOfBirth = LocalDate.of(2000, 05, 01);
         customer.setDateOfBirth(dateOfBirth);
         customer.setEmail("test_customer@example.com");
-        customer.setCountryCode("1");
+        customer.setCountryCode("1000");
         customer.setMobileNumber("1234567890");
         customer.setStreetNumber("123");
         customer.setUnitNumber(123);
@@ -55,6 +56,7 @@ public class CustomerOperationsTest {
         customer.setPostalCode("123456");
         customer.setSinNumber(234411707L);
         customer.setActive(false);
+        customer.setGender(Gender.MALE);
         customer.setDebitCardNumber(1234560L);
         userOperations.save(user);
         customerOperations.save(customer);
