@@ -1,7 +1,6 @@
 package org.ece.controllers;
 
-import org.ece.dto.TransactionRequest;
-import org.ece.dto.TransactionResponse;
+import org.ece.dto.*;
 import org.ece.service.TransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,5 +24,12 @@ public class TransactionController {
         TransactionResponse transactionResponse = transactionService.validateTransactionRequest(transactionRequest);
         return ResponseEntity.ok(transactionResponse);
     }
+
+    @RequestMapping(value = "/statement", method = RequestMethod.GET)
+    public ResponseEntity statementRequest(@RequestBody StatementRequest statementRequest) {
+        StatementResponse statementResponse = transactionService.validateStatementRequest(statementRequest);
+        return ResponseEntity.ok(statementResponse);
+    }
+
 
 }
