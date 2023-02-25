@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 
 public final class ConversionUtils {
     private static final int SCALING_VALUE = 100;
-    public static Long upScale(final BigDecimal amount) {
+    public static Long convertPriceToLong(final BigDecimal amount) {
         amount.multiply(BigDecimal.valueOf(SCALING_VALUE, 2));
         return amount.longValue();
     }
@@ -14,7 +14,7 @@ public final class ConversionUtils {
         // No-op; won't be called
     }
 
-    public static BigDecimal downScale(final Long amount) {
+    public static BigDecimal convertLongToPrice(final Long amount) {
         BigDecimal d = BigDecimal.valueOf(amount, 2);
         d.divide(BigDecimal.valueOf(SCALING_VALUE));
         return d;
