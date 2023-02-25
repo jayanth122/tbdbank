@@ -2,12 +2,15 @@ package org.ece.util;
 
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public final class ConversionUtils {
     private static final int SCALING_VALUE = 100;
+    private static final int SCALE = 2;
+    private static final int BASE_SCALE = 0;
     public static Long convertPriceToLong(final BigDecimal amount) {
-        amount.multiply(BigDecimal.valueOf(SCALING_VALUE, 2));
-        return amount.longValue();
+        return amount.multiply(BigDecimal.valueOf(SCALING_VALUE))
+                .setScale(BASE_SCALE, RoundingMode.HALF_UP).longValue();
     }
 
     private ConversionUtils() {
@@ -15,9 +18,7 @@ public final class ConversionUtils {
     }
 
     public static BigDecimal convertLongToPrice(final Long amount) {
-        BigDecimal d = BigDecimal.valueOf(amount, 2);
-        d.divide(BigDecimal.valueOf(SCALING_VALUE));
-        return d;
+        return BigDecimal.valueOf(amount, SCALE);
     }
 
 
