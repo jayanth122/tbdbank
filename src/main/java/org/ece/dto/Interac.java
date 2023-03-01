@@ -12,12 +12,13 @@ import java.util.UUID;
 @Entity
 @Table(name = "Interac")
 public class Interac implements Serializable {
-    @Id
     private String interacId = UUID.randomUUID().toString();
     private String customerId;
     private String firstName;
     private String lastName;
+    @Id
     private String email;
     private String message;
     private String bankName;
+    private boolean isAutoDeposit;
 }
