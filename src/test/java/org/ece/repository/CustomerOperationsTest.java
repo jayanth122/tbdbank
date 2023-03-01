@@ -19,7 +19,8 @@ public class CustomerOperationsTest {
 
     private static final String EXISTING_USER_NAME = "manager_san";
     private static final String TEST_SAVE_USER_NAME = "test_user_name2";
-    private static final String TEST_SAVE_CUSTOMER_NAME = "test_customer_test16";
+    private static final String TEST_SAVE_CUSTOMER_NAME = "test_customer_test17";
+    private static final String TEST_SAVE_CUSTOMER_EMAIL = "test_cust17@example.com";
     private static final AccessType ACCOUNT_TYPE = AccessType.CUSTOMER;
 
     @Autowired
@@ -45,7 +46,7 @@ public class CustomerOperationsTest {
         customer.setLastName("Customer");
         LocalDate dateOfBirth = LocalDate.of(2000, 05, 01);
         customer.setDateOfBirth(dateOfBirth);
-        customer.setEmail("test_customer@example.com");
+        customer.setEmail(TEST_SAVE_CUSTOMER_EMAIL);
         customer.setCountryCode("1");
         customer.setMobileNumber("1234567890");
         customer.setStreetNumber("123");

@@ -3,6 +3,7 @@ package org.ece.service;
 import org.ece.dto.*;
 import org.ece.repository.CustomerOperations;
 import org.ece.repository.InteracOperations;
+import org.ece.util.ConversionUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -20,6 +21,7 @@ public class InteracService {
     private InteracOperations interacOperations;
     private CustomerOperations customerOperations;
     private TransactionService transactionService;
+
     public InteracService(final CacheService cacheService, final InteracOperations interacOperations,
                           final TransactionService transactionService, final CustomerOperations customerOperations) {
         this.cacheService = cacheService;
@@ -52,7 +54,7 @@ public class InteracService {
         accountBalance = accountBalance.subtract(amountTobeSent);
         TransactionRequest transactionRequest = new TransactionRequest();
         transactionRequest.setTransactionType(TransactionType.DEBIT);
-        transactionRequest.setAmount(String.valueOf(amountTobeSent));
+        transactionRequest.setAmount(amountTobeSent.toString());
         transactionRequest.setDetails("Amount Debited :" + amountTobeSent);
         transactionRequest.setSessionId(oldSessionId);
         transactionService.saveTransaction(customerId, transactionRequest, accountBalance.doubleValue());
@@ -72,12 +74,13 @@ public class InteracService {
             transactionRequest.setTransactionType(TransactionType.CREDIT);
             transactionRequest.setAmount(String.valueOf(amountTobeSent));
             transactionRequest.setDetails("Interac amount" + amountTobeSent + " is Credited");
-            double newAmount = Double.parseDouble(amountTobeSent)
-                    + (double) customerOperations.findAccountBalanceByCustomerId(receiverCustomerId);
+            BigDecimal newAmount = BigDecimal.valueOf(Double.valueOf(amountTobeSent))
+                    .add(ConversionUtils.convertLongToPrice(customerOperations.
+                            findAccountBalanceByCustomerId(receiverCustomerId)));
             transactionService.saveTransaction(receiverCustomerId, transactionRequest,
-                    newAmount);
+                    newAmount.doubleValue());
             Customer customer = customerOperations.findByCustomerId(receiverCustomerId).get();
-            customer.setAccountBalance((long) (newAmount));
+            customer.setAccountBalance(ConversionUtils.convertPriceToLong(newAmount));
             customerOperations.save(customer);
         }
     }

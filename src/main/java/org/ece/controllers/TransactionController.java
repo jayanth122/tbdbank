@@ -35,8 +35,9 @@ public class TransactionController {
     @RequestMapping(value = "/interac", method = RequestMethod.POST)
     public ResponseEntity interacRequest(@RequestBody InteracRequest interacRequest) {
         InteracResponse isValidated = interacService.validateInteracRequest(interacRequest);
-        return isValidated.isSuccess() ? ResponseEntity.ok(interacService.performInteracOperation(interacRequest))
-                : ResponseEntity.badRequest().build();
+        return isValidated.isSuccess()
+                ? ResponseEntity.ok(interacService.performInteracOperation(interacRequest))
+                : ResponseEntity.badRequest().body(isValidated);
     }
 
     @RequestMapping(value = "/statement", method = RequestMethod.GET)

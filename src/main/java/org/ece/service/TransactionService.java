@@ -3,10 +3,12 @@ package org.ece.service;
 import org.ece.dto.*;
 import org.ece.repository.CustomerOperations;
 import org.ece.repository.TransactionOperations;
+import org.ece.util.ConversionUtils;
 import org.ece.util.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -73,8 +75,8 @@ public class TransactionService {
         transaction.setCustomerId(customerId);
         transaction.setTransactionDate(LocalDate.now());
         transaction.setTransactionTime(LocalTime.now());
-        transaction.setBalance(String.valueOf(accountBalance));
-        transaction.setAmount(transactionRequest.getAmount());
+        transaction.setBalance(ConversionUtils.convertPriceToLong(BigDecimal.valueOf(accountBalance)));
+        transaction.setAmount(ConversionUtils.convertStringPriceToLong(transactionRequest.getAmount()));
         transaction.setDetails(transactionRequest.getDetails());
         transactionOperations.save(transaction);
     }
