@@ -1,6 +1,7 @@
 package org.ece.util;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+
 public final class ConversionUtils {
     private static final int SCALING_VALUE = 100;
     private static final int SCALE = 2;
@@ -9,6 +10,7 @@ public final class ConversionUtils {
     private ConversionUtils() {
         // No-op; won't be called
     }
+
     public static Long convertPriceToLong(final BigDecimal amount) {
         return amount.multiply(BigDecimal.valueOf(SCALING_VALUE))
                 .setScale(BASE_SCALE, RoundingMode.HALF_UP).longValue();

@@ -49,8 +49,9 @@ public class InteracService {
 
     private BigDecimal handleInteracDebit(final InteracRequest interacRequest, final String customerId,
                                     final String oldSessionId) {
-        BigDecimal amountTobeSent = BigDecimal.valueOf(Double.parseDouble(interacRequest.getAmount()));
-        BigDecimal accountBalance = BigDecimal.valueOf(customerOperations.findAccountBalanceByCustomerId(customerId));
+        BigDecimal amountTobeSent = ConversionUtils.covertStringPriceToBigDecimal(interacRequest.getAmount());
+        BigDecimal accountBalance = ConversionUtils.convertLongToPrice(
+                customerOperations.findAccountBalanceByCustomerId(customerId));
         accountBalance = accountBalance.subtract(amountTobeSent);
         TransactionRequest transactionRequest = new TransactionRequest();
         transactionRequest.setTransactionType(TransactionType.DEBIT);
@@ -59,7 +60,7 @@ public class InteracService {
         transactionRequest.setSessionId(oldSessionId);
         transactionService.saveTransaction(customerId, transactionRequest, accountBalance);
         Customer customer = customerOperations.findByCustomerId(customerId).get();
-        customer.setAccountBalance(accountBalance.longValue());
+        customer.setAccountBalance(ConversionUtils.convertPriceToLong(accountBalance));
         customerOperations.save(customer);
         return accountBalance;
     }
@@ -72,9 +73,9 @@ public class InteracService {
         if (bankName.equals("TBDBANK")) {
             TransactionRequest transactionRequest = new TransactionRequest();
             transactionRequest.setTransactionType(TransactionType.CREDIT);
-            transactionRequest.setAmount(String.valueOf(amountTobeSent));
-            transactionRequest.setDetails("Interac amount" + amountTobeSent + " is Credited");
-            BigDecimal newAmount = BigDecimal.valueOf(Double.valueOf(amountTobeSent))
+            transactionRequest.setAmount(amountTobeSent);
+            transactionRequest.setDetails("Interac amount " + amountTobeSent + " is Credited");
+            BigDecimal newAmount = ConversionUtils.covertStringPriceToBigDecimal(amountTobeSent)
                     .add(ConversionUtils.convertLongToPrice(customerOperations.
                             findAccountBalanceByCustomerId(receiverCustomerId)));
             transactionService.saveTransaction(receiverCustomerId, transactionRequest,
