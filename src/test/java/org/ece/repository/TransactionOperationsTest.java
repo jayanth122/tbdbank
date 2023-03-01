@@ -1,6 +1,5 @@
 package org.ece.repository;
 
-import org.ece.dto.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,6 @@ public class TransactionOperationsTest {
     private static final String TEST_SAVE_CUSTOMER_ID = "test_customer_id";
     private static final Long TEST_SAVE_BALANCE = 1000000L;
     private static final Long TEST_SAVE_AMOUNT = 1000L;
-
 
     @Autowired
     TransactionOperations transactionOperations;

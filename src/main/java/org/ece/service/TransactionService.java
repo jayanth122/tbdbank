@@ -30,14 +30,14 @@ public class TransactionService {
     }
 
     public TransactionResponse validateTransactionRequest(final TransactionRequest transactionRequest) {
-        double transactionAmount = Double.parseDouble(transactionRequest.getAmount());
         String oldSessionId = transactionRequest.getSessionId();
         SessionData sessionData = cacheService.validateSession(oldSessionId);
         final String newSessionId = SecurityUtils.generateSessionUUID();
         if (!ObjectUtils.isEmpty(sessionData)) {
             cacheService.createSession(newSessionId, sessionData);
             cacheService.killSession(oldSessionId);
-            Double accountBalance = (double) customerOperations.findAccountBalanceByCustomerId(sessionData.getUserId());
+            BigDecimal accountBalance = ConversionUtils.convertLongToPrice(
+                    customerOperations.findAccountBalanceByCustomerId(sessionData.getUserId()));
             return transactionRequest.getTransactionType().equals(TransactionType.CREDIT)
                     ? handleCreditTransactionRequest(accountBalance, newSessionId,
                     sessionData.getUserId(), transactionRequest)
@@ -47,35 +47,38 @@ public class TransactionService {
         return new TransactionResponse(false, INVALID_SESSION_ERROR);
     }
 
-    private TransactionResponse handleDebitTransactionRequest(double accountBalance, final String newSessionId,
+    private TransactionResponse handleDebitTransactionRequest(final BigDecimal accountBalance,
+                                                              final String newSessionId,
                                                               final String customerId,
                                                               final TransactionRequest transactionRequest) {
-        if (accountBalance > Double.parseDouble(transactionRequest.getAmount())) {
-            accountBalance = accountBalance - Double.parseDouble(transactionRequest.getAmount());
-            saveTransaction(customerId, transactionRequest, accountBalance);
-            return new TransactionResponse(true, String.valueOf(accountBalance), newSessionId, SUCCESS_MESSAGE);
+        BigDecimal transactionAmount = ConversionUtils.covertStringPriceToBigDecimal(transactionRequest.getAmount());
+        if (accountBalance.compareTo(transactionAmount) > 0) {
+            BigDecimal newAccountBalance = accountBalance.subtract(transactionAmount);
+            saveTransaction(customerId, transactionRequest, newAccountBalance);
+            return new TransactionResponse(true, newAccountBalance.toString(), newSessionId, SUCCESS_MESSAGE);
         }
-        return new TransactionResponse(false, String.valueOf(accountBalance),
+        return new TransactionResponse(false, accountBalance.toString(),
                 INSUFFICIENT_BALANCE_ERROR, newSessionId);
     }
 
-    private TransactionResponse handleCreditTransactionRequest(double accountBalance, final String newSessionId,
+    private TransactionResponse handleCreditTransactionRequest(final BigDecimal accountBalance,
+                                                               final String newSessionId,
                                                                final String customerId,
                                                                final TransactionRequest transactionRequest) {
-        accountBalance = accountBalance + Double.parseDouble(transactionRequest.getAmount());
-        accountBalance = accountBalance + Double.parseDouble(transactionRequest.getAmount());
-        saveTransaction(customerId, transactionRequest, accountBalance);
-        return new TransactionResponse(true, String.valueOf(accountBalance), newSessionId, SUCCESS_MESSAGE);
+        BigDecimal transactionAmount = ConversionUtils.covertStringPriceToBigDecimal(transactionRequest.getAmount());
+        BigDecimal newAccountBalance = accountBalance.add(transactionAmount);
+        saveTransaction(customerId, transactionRequest, newAccountBalance);
+        return new TransactionResponse(true, accountBalance.toString(), newSessionId, SUCCESS_MESSAGE);
 
     }
     public void saveTransaction(final String customerId, final TransactionRequest transactionRequest,
-                                double accountBalance) {
+                                final BigDecimal accountBalance) {
         Transaction transaction = new Transaction();
         transaction.setTransactionType(transactionRequest.getTransactionType());
         transaction.setCustomerId(customerId);
         transaction.setTransactionDate(LocalDate.now());
         transaction.setTransactionTime(LocalTime.now());
-        transaction.setBalance(ConversionUtils.convertPriceToLong(BigDecimal.valueOf(accountBalance)));
+        transaction.setBalance(ConversionUtils.convertPriceToLong(accountBalance));
         transaction.setAmount(ConversionUtils.convertStringPriceToLong(transactionRequest.getAmount()));
         transaction.setDetails(transactionRequest.getDetails());
         transactionOperations.save(transaction);

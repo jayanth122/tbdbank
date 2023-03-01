@@ -57,7 +57,7 @@ public class InteracService {
         transactionRequest.setAmount(amountTobeSent.toString());
         transactionRequest.setDetails("Amount Debited :" + amountTobeSent);
         transactionRequest.setSessionId(oldSessionId);
-        transactionService.saveTransaction(customerId, transactionRequest, accountBalance.doubleValue());
+        transactionService.saveTransaction(customerId, transactionRequest, accountBalance);
         Customer customer = customerOperations.findByCustomerId(customerId).get();
         customer.setAccountBalance(accountBalance.longValue());
         customerOperations.save(customer);
@@ -78,7 +78,7 @@ public class InteracService {
                     .add(ConversionUtils.convertLongToPrice(customerOperations.
                             findAccountBalanceByCustomerId(receiverCustomerId)));
             transactionService.saveTransaction(receiverCustomerId, transactionRequest,
-                    newAmount.doubleValue());
+                    newAmount);
             Customer customer = customerOperations.findByCustomerId(receiverCustomerId).get();
             customer.setAccountBalance(ConversionUtils.convertPriceToLong(newAmount));
             customerOperations.save(customer);
