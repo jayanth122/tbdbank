@@ -3,6 +3,7 @@ package org.ece.service;
 import org.apache.commons.lang3.StringUtils;
 import org.ece.dto.AccessType;
 import org.ece.dto.SessionData;
+import org.ece.util.SecurityUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -42,5 +43,13 @@ public class CacheService {
                 .filter(sessionData -> sessionData.getAccessType().equals(accessType))
                 .map(sessionData -> StringUtils.equals(sessionData.getUserId(), userId))
                 .findFirst().isPresent();
+    }
+
+    public String killAndCreateSession(final String sessionId) {
+        SessionData sessionData = validateSession(sessionId);
+        killSession(sessionId);
+        String newSessionId = SecurityUtils.generateSessionUUID();
+        createSession(newSessionId, sessionData);
+        return newSessionId;
     }
 }

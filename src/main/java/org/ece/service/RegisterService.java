@@ -41,6 +41,7 @@ public class RegisterService {
         customer.setProvince(registerRequest.getProvince());
         customer.setPostalCode(registerRequest.getPostalCode());
         customer.setSinNumber(registerRequest.getSinNumber());
+        customer.setGender(registerRequest.getGender());
         customerOperations.save(customer);
         userOperations.save(user);
     }

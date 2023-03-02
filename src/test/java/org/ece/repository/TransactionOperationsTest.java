@@ -1,6 +1,5 @@
 package org.ece.repository;
 
-import org.ece.dto.*;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,8 @@ import org.ece.dto.Transaction;
 public class TransactionOperationsTest {
     private static final String EXISTING_TRANSACTION_ID = "76dcc251-fafb-4080-89a0-2c151f777328";
     private static final String TEST_SAVE_CUSTOMER_ID = "test_customer_id";
-    private static final String TEST_SAVE_BALANCE = "10001";
-    private static final String TEST_SAVE_AMOUNT = "1";
-
+    private static final Long TEST_SAVE_BALANCE = 1000000L;
+    private static final Long TEST_SAVE_AMOUNT = 1000L;
 
     @Autowired
     TransactionOperations transactionOperations;
