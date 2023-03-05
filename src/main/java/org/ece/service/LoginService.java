@@ -79,6 +79,7 @@ public class LoginService {
         boolean isDuplicateLogin = validateDuplicateLogin(user.get());
         if (isLoginValid && !isDuplicateLogin && user.get().getAccountType().equals(AccessType.CUSTOMER)) {
             boolean isCustomerStatusActive = validateCustomerStatus(user);
+            logger.info(CUSTOMER_INACTIVE_RESPONSE);
             return buildLoginResponse(isCustomerStatusActive, user, CUSTOMER_INACTIVE_RESPONSE);
         }
         return !isLoginValid ? buildLoginResponse(false, user, INVALID_CREDENTIALS_RESPONSE)
@@ -97,6 +98,7 @@ public class LoginService {
 
     private LoginResponse buildLoginResponse(final boolean isSuccess, final Optional<User> user,
                                              final String customerInactiveResponse) {
+        logger.info(customerInactiveResponse);
         return isSuccess ? buildLoginResponse(true, user)
                 : new LoginResponse(false, customerInactiveResponse);
     }
