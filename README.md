@@ -11,6 +11,14 @@ TBD bank is a digital banking software is an easy and convenient system which he
   - Redis --> For data caching --> Port 6379
 - RabbitMQ -->  Message Queue Broker
 
+
+#Install JQ. This is required to parse json while constructing env
+- apt-get install -y jq
+
+
+#Populate environment vars
+- source setenv.sh  "{doppler api key}"
+
 ## How to Build and Run the project
 - Update username and password for database in application.properties
 - In project root directory run --> ./gradlew clean build(linux) OR gradlew clean build(windows) --> To Build the backend project
