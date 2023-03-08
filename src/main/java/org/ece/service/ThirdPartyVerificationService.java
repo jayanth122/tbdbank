@@ -5,7 +5,6 @@ import org.ece.repository.CustomerOperations;
 import org.ece.dto.Customer;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -30,7 +29,6 @@ public class ThirdPartyVerificationService {
             Customer customer = optionalCustomer.get();
             customer.setActive(verificationStatus);
             customer.setDebitCardNumber(generateUniqueCardNumber());
-            customer.setAccountCreationDate(LocalDate.now());
             customerOperations.save(customer);
         }
     }

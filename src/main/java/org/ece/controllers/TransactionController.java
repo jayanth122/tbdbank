@@ -1,11 +1,6 @@
 package org.ece.controllers;
 
 import org.ece.dto.*;
-import org.ece.dto.InteracRequest;
-import org.ece.dto.InteracResponse;
-import org.ece.dto.TransactionRequest;
-import org.ece.dto.TransactionResponse;
-import org.ece.service.InteracService;
 import org.ece.service.TransactionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,27 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
  * Rest Controller for Transaction.
  */
 @RestController
-@RequestMapping("/transaction")
 public class TransactionController {
     private TransactionService transactionService;
-    private InteracService interacService;
 
-    public TransactionController(final TransactionService transactionService, final InteracService interacService) {
+    public TransactionController(final TransactionService transactionService) {
        this.transactionService = transactionService;
-       this.interacService = interacService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/transaction", method = RequestMethod.POST)
     public ResponseEntity transactionRequest(@RequestBody TransactionRequest transactionRequest) {
         TransactionResponse transactionResponse = transactionService.validateTransactionRequest(transactionRequest);
         return ResponseEntity.ok(transactionResponse);
-    }
-    @RequestMapping(value = "/interac", method = RequestMethod.POST)
-    public ResponseEntity interacRequest(@RequestBody InteracRequest interacRequest) {
-        InteracResponse isValidated = interacService.validateInteracRequest(interacRequest);
-        return isValidated.isSuccess()
-                ? ResponseEntity.ok(interacService.performInteracOperation(interacRequest))
-                : ResponseEntity.badRequest().body(isValidated);
     }
 
     @RequestMapping(value = "/statement", method = RequestMethod.GET)

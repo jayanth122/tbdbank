@@ -13,7 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 public class InteracOperationsTest {
     private static final String EXISTING_INTERAC_ID = "03f46ba1-f3e3-4be9-848a-20c1c5c58d4b";
-    private static final String EXISTING_CUSTOMER_ID = "9f09bbfa-d1d7-45fb-b334-9f0a8ec1bde1";
+    private static final String EXISTING_CUSTOMER_ID = "3cde56d6-577e-4df9-ae2d-266e71d5bec5";
     private static final String TEST_SAVE_BANKNAME = "test_bank_name";
     private static final String TEST_SAVE_EMAIL = "test_email_id@gmail.com";
 
@@ -39,7 +39,7 @@ public class InteracOperationsTest {
         interac.setFirstName("test_first_name");
         interac.setLastName("test_last_name");
         interac.setBankName(TEST_SAVE_BANKNAME);
-        interac.setEmail(TEST_SAVE_EMAIL);
+        interac.setEmail("test_email_id@gmail.com");
         interac.setMessage("test_message");
         interacOperations.save(interac);
         Assertions.assertTrue(interacOperations.findById(interac.getInteracId()).isPresent());

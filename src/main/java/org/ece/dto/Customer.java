@@ -26,10 +26,7 @@ public class Customer {
     private String province;
     private String postalCode;
     private Long sinNumber;
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
     private boolean isActive;
     private Long debitCardNumber;
     private Long accountBalance = 0L;
-    private LocalDate accountCreationDate;
 }

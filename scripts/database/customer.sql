@@ -17,7 +17,5 @@ CREATE TABLE customer
     sin_number    BIGINT      NOT NULL,
     is_Active      BOOLEAN     DEFAULT FALSE,
     debit_card_number BIGINT  NULL,
-    account_balance BIGINT NOT NULL DEFAULT 0,
-    account_creation_date DATE,
-    gender ENUM('MALE', 'FEMALE', 'OTHER') NOT NULL
+    account_balance BIGINT NOT NULL DEFAULT 0
 );
