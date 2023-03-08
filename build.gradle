@@ -1,0 +1,63 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.1'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java-library'
+    id 'checkstyle'
+}
+
+group = 'org.ece'
+version = projectVersion
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(11)
+        vendor = JvmVendorSpec.AMAZON
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.2.2.RELEASE'
+    implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.32'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testImplementation 'junit:junit:4.13.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.12.0'
+    implementation group: 'commons-codec', name: 'commons-codec', version: '1.13'
+    implementation group: 'org.springframework', name: 'spring-jdbc', version: '5.3.14'
+    implementation group: 'com.singlestore', name: 'singlestore-jdbc-client', version: '1.1.4'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation group: 'com.google.zxing', name: 'javase', version: '3.3.0'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+test {
+    useJUnitPlatform()
+    filter {
+        excludeTestsMatching "org.ece.repository.*"
+    }
+}
+
+bootJar {
+    mainClass = 'com.ece.Main'
+    archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
+}
+
+springBoot {
+    buildInfo()
+}
+
+checkstyle {
+    configProperties.suppressionsFile = "$rootDir/config/checkstyle/suppressions.xml"
+    toolVersion = '8.41.1'
+}
+
