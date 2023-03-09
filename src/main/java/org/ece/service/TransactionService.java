@@ -128,7 +128,7 @@ public class TransactionService {
                                    final List<Customer> customerList) {
         Document document = new Document(PageSize.A4);
         PdfWriter.getInstance(document, new FileOutputStream(
-                "/Users/wreck/Desktop/tbdbank/generatedStatements/statement_from_" + statementRequest.getFromDate()
+                "generatedStatements/statement_from_" + statementRequest.getFromDate()
                         + "_to_" + statementRequest.getToDate() + ".pdf"));
         document.open();
         Font titleFont = new Font(Font.FontFamily.HELVETICA, titleFontSize);
