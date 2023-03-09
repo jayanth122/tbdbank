@@ -33,8 +33,7 @@ public class CacheService {
     }
 
     public void killSession(final String uniqueSessionId) {
-        redisTemplate.delete(uniqueSessionId);
-        redisTemplate.opsForValue();
+        redisTemplate.delete(SESSION_DATA_PREFIX + uniqueSessionId);
     }
 
     public boolean doesUserSessionExist(final AccessType accessType, final String userId) {

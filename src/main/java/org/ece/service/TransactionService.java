@@ -53,10 +53,8 @@ public class TransactionService {
     public TransactionResponse validateTransactionRequest(final TransactionRequest transactionRequest) {
         String oldSessionId = transactionRequest.getSessionId();
         SessionData sessionData = cacheService.validateSession(oldSessionId);
-        final String newSessionId = SecurityUtils.generateSessionUUID();
         if (!ObjectUtils.isEmpty(sessionData)) {
-            cacheService.createSession(newSessionId, sessionData);
-            cacheService.killSession(oldSessionId);
+            final String newSessionId = cacheService.killAndCreateSession(oldSessionId);
             BigDecimal accountBalance = ConversionUtils.convertLongToPrice(
                     customerOperations.findAccountBalanceByCustomerId(sessionData.getUserId()));
             return transactionRequest.getTransactionType().equals(TransactionType.CREDIT)
@@ -89,7 +87,7 @@ public class TransactionService {
         BigDecimal transactionAmount = ConversionUtils.covertStringPriceToBigDecimal(transactionRequest.getAmount());
         BigDecimal newAccountBalance = accountBalance.add(transactionAmount);
         saveTransaction(customerId, transactionRequest, newAccountBalance);
-        return new TransactionResponse(true, accountBalance.toString(), newSessionId, SUCCESS_MESSAGE);
+        return new TransactionResponse(true, newAccountBalance.toString(), newSessionId, SUCCESS_MESSAGE);
 
     }
     public void saveTransaction(final String customerId, final TransactionRequest transactionRequest,
@@ -102,6 +100,9 @@ public class TransactionService {
         transaction.setBalance(ConversionUtils.convertPriceToLong(accountBalance));
         transaction.setAmount(ConversionUtils.convertStringPriceToLong(transactionRequest.getAmount()));
         transaction.setDetails(transactionRequest.getDetails());
+        Customer customer = customerOperations.findByCustomerId(customerId).get();
+        customer.setAccountBalance(transaction.getBalance());
+        customerOperations.save(customer);
         transactionOperations.save(transaction);
     }
 
