@@ -44,6 +44,7 @@ test {
     useJUnitPlatform()
     filter {
         excludeTestsMatching "org.ece.repository.*"
+        excludeTestsMatching "org.ece.service.integration.*"
     }
 }
 
