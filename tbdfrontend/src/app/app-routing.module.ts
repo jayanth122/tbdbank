@@ -4,13 +4,14 @@ import { LoginComponent } from './components/login/login.component';
 import {RegistrationComponent} from "./components/registration/registration.component";
 import {UserAccountComponent} from "./components/user-account/user-account.component";
 import {TransactionsComponent} from "./components/transactions/transactions.component";
+import {AppComponent} from "./app.component";
 
 
 const routes: Routes = [
-  {path:'login', component: LoginComponent},
-  {path:'registration',component:RegistrationComponent},
-  {path:'user-account',component:UserAccountComponent},
-  {path:'transactions',component:TransactionsComponent}
+  {path:'login', component : LoginComponent},
+  {path:'registration',component : RegistrationComponent},
+  {path:'user-account',component : UserAccountComponent},
+  {path:'transactions',component : TransactionsComponent}
 ];
 
 @NgModule({
