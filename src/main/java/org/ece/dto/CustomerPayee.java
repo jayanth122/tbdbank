@@ -12,6 +12,7 @@ import java.util.UUID;
 @Table(name = "customerpayee")
 public class CustomerPayee {
     @Id
-    private String payeeName = UUID.randomUUID().toString();
+    private String payeeId = UUID.randomUUID().toString();
+    private  String payeeName;
     private String accountNumber;
 }
