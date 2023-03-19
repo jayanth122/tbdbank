@@ -15,7 +15,6 @@ ENV REDIS_HOST ${REDIS_HOST}
 WORKDIR /app
 EXPOSE 8081
 
-
 RUN chmod +x ./gradlew && \
     ./gradlew build
 
