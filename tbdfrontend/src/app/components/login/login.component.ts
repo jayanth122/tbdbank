@@ -11,7 +11,7 @@ import { Buffer } from 'buffer/';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-   loginForm !: FormGroup;
+  loginForm !: FormGroup;
   submitted = false;
   constructor(private router: Router, private dataService: DataService, private formBuilder:FormBuilder) { }
   ngOnInit(): void {
@@ -35,6 +35,7 @@ export class LoginComponent implements OnInit {
           let decoded: string;
           decoded = Buffer.from(data.encodedAccess, 'base64').toString();
           if(decoded==="CUSTOMER") {
+            localStorage.setItem('username', this.loginForm.controls.userName.value);
             this.router.navigate(['user-account'])
           }
           else if(decoded=="MANAGER") {

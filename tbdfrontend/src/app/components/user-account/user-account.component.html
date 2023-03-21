@@ -1,1 +1,13 @@
 <p>user-account works!</p>
+<h1> Customer ID : {{customerId}}</h1>
+
+  <h1>Welcome to your user account!</h1>
+  <p>Your customer ID is: {{ customerId }}</p>
+  <p>Your account balance is: {{ balance }}</p>
+
+<button (click)="goToInterac()">Go to Interac</button>
+<div *ngIf="customerId === null">
+  <p>Please log in to view your user account.</p>
+</div>
+
+
