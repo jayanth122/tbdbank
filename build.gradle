@@ -50,7 +50,7 @@ test {
 }
 
 bootJar {
-    mainClass = 'com.ece.Main'
+    mainClass = 'org.ece.Main'
     archiveFileName = "${archiveBaseName.get()}.${archiveExtension.get()}"
 }
 
