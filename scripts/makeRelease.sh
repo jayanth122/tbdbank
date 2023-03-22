@@ -7,6 +7,7 @@ ssh -i santhoshpvtkey.txt ubuntu@132.145.103.186 'cd /home/ubuntu/tbdbank/tbdban
   # Stop the container
   if [ ! -z "$container_id" ]; then
     docker stop "$container_id"
+    docker rm "$container_id"
     echo "Docker container stopped successfully"
   else
     echo "No Docker container running on port 8081"
