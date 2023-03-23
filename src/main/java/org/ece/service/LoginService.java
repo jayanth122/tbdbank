@@ -74,9 +74,12 @@ public class LoginService {
 
 
     protected LoginResponse validateLoginWithUserName(final LoginRequest loginRequest) {
+        boolean isDuplicateLogin = false;
         Optional<User> user = userOperations.findById(loginRequest.getUserName());
         boolean isLoginValid = user.isPresent() && validateUserNamePassword(user.get(), loginRequest.getPassword());
-        boolean isDuplicateLogin = validateDuplicateLogin(user.get());
+        if (isLoginValid) {
+           isDuplicateLogin = validateDuplicateLogin(user.get());
+        }
         if (isLoginValid && !isDuplicateLogin && user.get().getAccountType().equals(AccessType.CUSTOMER)) {
             boolean isCustomerStatusActive = validateCustomerStatus(user);
             logger.info(CUSTOMER_INACTIVE_RESPONSE);
