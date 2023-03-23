@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
@@ -85,5 +86,19 @@ public class QRService {
         }
 
         return bufferedImage;
+    }
+
+
+    public byte[] generateQRImageBytes(final String qrText) {
+        BufferedImage image = generateQRImage(qrText, qrText);
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            ImageIO.write(image, "jpg", baos);
+            byte[] bytes = baos.toByteArray();
+            return bytes;
+        } catch (IOException e) {
+            logger.info("Failed generating QR");
+            return null;
+        }
     }
 }
