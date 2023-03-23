@@ -11,17 +11,20 @@ import java.util.Optional;
 @Service
 public class RegisterService {
 
-    private static final String EXISTING_USER_NAME = "Test";
-    private static final Long EXISTING_SIN_NUMBER = 123456789987L;
+    private static final String SUCCESS_MESSAGE = "Thank you for Registering with TBD bank";
 
     CustomerOperations customerOperations;
     UserOperations userOperations;
+    QRService qrService;
 
-    public RegisterService(UserOperations userOperations, CustomerOperations customerOperations) {
+    public RegisterService(UserOperations userOperations, CustomerOperations customerOperations,
+                           final QRService qrService) {
         this.userOperations = userOperations;
         this.customerOperations = customerOperations;
+        this.qrService = qrService;
     }
-    public void saveCustomerData(RegisterRequest registerRequest) {
+    public RegisterResponse saveCustomerData(RegisterRequest registerRequest) {
+        RegisterResponse registerResponse = new RegisterResponse();
         User user = new User();
         user.setUserName(registerRequest.getUserName());
         user.setPassword(registerRequest.getPassword());
@@ -44,15 +47,16 @@ public class RegisterService {
         customer.setGender(registerRequest.getGender());
         customerOperations.save(customer);
         userOperations.save(user);
+        registerResponse.setSuccess(true);
+        registerResponse.setMessage(SUCCESS_MESSAGE);
+        registerResponse.setPdf(generateQR(customer.getCustomerId()));
+        return registerResponse;
     }
 
-    public Optional<Customer> findByUsername(String username) {
-        return customerOperations.findByUserName(username);
+    private byte[] generateQR(final String customerId) {
+        return qrService.generateQRImageBytes(customerId);
     }
 
-    public Optional<Customer> findBySinNumber(Long sinNumber) {
-        return customerOperations.findBySinNumber(sinNumber);
-    }
     public boolean validateRegisterRequest(RegisterRequest registerRequest) {
 
         Optional<Customer> customerByUsername = customerOperations.findByUserName(registerRequest.getUserName());
