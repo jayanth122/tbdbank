@@ -218,7 +218,7 @@
         </select>
         <div *ngIf="rfc.province.touched && this.rfc.province.errors" class="text-warning">
           <div *ngIf="this.rfc.province.errors.required ">
-            Sin Number is Required
+            Province is Required
           </div>
         </div>
       </div>
@@ -254,6 +254,9 @@
       </div>
     </div>
   </form>
+</div>
+<div class="img-fluid">
+  <img [src]="imageURL" alt="Image">
 </div>
 </body>
 <router-outlet></router-outlet>

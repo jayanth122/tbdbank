@@ -1,1 +1,52 @@
 <p>transactions works!</p>
+<div class="container-fluid justify-content-center align-items-center">
+  <form [formGroup]="transactionForm" (ngSubmit)="onSubmit()">
+    <div class="form-row align-items-center">
+      <div class="col col-lg-2">
+        <input
+          type="date"
+          formControlName="fromDate"
+          class="form-control"
+        />
+      </div>
+      <div class="col-lg-2">
+        <input
+          type="date"
+          formControlName="toDate"
+          class="form-control"
+        />
+      </div>
+      <div class="col col-lg-2">
+        <button class="btn btn-outline-primary" type="submit"> Submit </button>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="table-responsive" *ngFor="let transaction of transactions; let rowCounter = index">
+  <table class="table table-sm table-secondary">
+    <thead>
+    <tr>
+      <th scope="col"> </th>
+      <th scope="col">Customer_Id</th>
+      <th scope="col">Transaction Type</th>
+      <th scope="col">Details</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Account Balance</th>
+      <th scope="col">Transaction Date</th>
+      <th scope="col">Transaction Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th scope="row">{{rowCounter}}+1</th>
+      <td>{{this.transaction.customerId}}</td>
+      <td>{{this.transaction.transactionType}}</td>
+      <td>{{this.transaction.details}}</td>
+      <td>{{this.transaction.amount}}</td>
+      <td>{{this.transaction.balance}}</td>
+      <td>{{this.transaction.transactionDate}}</td>
+      <td>{{this.transaction.transactionTime}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

@@ -108,7 +108,7 @@ public class TransactionService {
 
     @SneakyThrows
     public StatementResponse validateStatementRequest(final StatementRequest statementRequest) {
-        String oldSessionId = statementRequest.getSessioinId();
+        String oldSessionId = statementRequest.getSessionId();
         SessionData sessionData = cacheService.validateSession(oldSessionId);
         final String newSessionId = SecurityUtils.generateSessionUUID();
         if (!ObjectUtils.isEmpty(sessionData)) {
