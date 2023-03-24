@@ -1,8 +1,9 @@
-<div class="container">
-  <h1>Interac Transfer</h1>
-  <h1>Account Balance: {{ accountBalance }}</h1>
-  <h1> Customer ID : {{customerid}}</h1>
-  <div class="container">
+
+<app-header></app-header>
+<h2 class="small-heading">Interac Transfer</h2>
+<h2 class="small-heading">Send Money</h2>
+<div class="interaccontainer">
+
   <form [formGroup]="interacForm" (ngSubmit)="onSubmit()">
     <div class="form-group">
       <label for="to-email">To Email:</label>
@@ -43,16 +44,16 @@
     {{ message }}
   </div>
 </div>
-</div>
-<div class="bns--footer">
+
+<div class="interac-footer">
   <div class="f--top bg--white">
-    <div class="container">
+    <div class="interaccontainer">
       <div class="bns--card card--text">
         <div class="c--body">
           <span class="c--icon icon-Icon_Question1"></span>
           <h6 class="c--title">Need help?</h6>
           <p class="c--text">We have answers</p>
-          <a href="https://help.scotiabank.com/?origin=dotcom_help" class="c--link text--sm">Help Centre</a>
+          <a href="" class="c--link text--sm">Help Centre</a>
         </div>
       </div>
       <div class="bns--card card--text">
@@ -60,7 +61,7 @@
           <span class="c--icon icon-Icon_Mail"></span>
           <h6 class="c--title">Mail us</h6>
           <p class="c--text">Email us for any queries</p>
-          <a href="mailto:yourmail@scotiabank.com" class="c--link text--sm">Mail us</a>
+          <a href="tbdbank@tbdbank.com" class="c--link text--sm">Mail us</a>
         </div>
       </div>
       <div class="bns--card card--text">
@@ -74,3 +75,6 @@
     </div>
   </div>
 </div>
+
+<router-outlet></router-outlet>
+<app-footer></app-footer>

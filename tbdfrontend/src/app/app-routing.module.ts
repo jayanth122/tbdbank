@@ -5,10 +5,10 @@ import {RegistrationComponent} from "./components/registration/registration.comp
 import {UserAccountComponent} from "./components/user-account/user-account.component";
 import {TransactionsComponent} from "./components/transactions/transactions.component";
 import {InteracComponent} from "./components/interac/interac.component";
-import {AppComponent} from "./app.component";
-
+import {HomePageComponent} from "./components/home-page/home-page.component";
 
 const routes: Routes = [
+  {path:'', component : HomePageComponent },
   {path:'login', component : LoginComponent},
   {path:'registration',component : RegistrationComponent},
   {path:'user-account',component : UserAccountComponent},

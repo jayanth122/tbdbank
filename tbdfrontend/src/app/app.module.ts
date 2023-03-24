@@ -12,6 +12,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { InteracComponent } from './components/interac/interac.component';
 import { RouterModule } from '@angular/router';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { RouterModule } from '@angular/router';
     TransactionsComponent,
     HeaderComponent,
     FooterComponent,
-    InteracComponent
+    InteracComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
