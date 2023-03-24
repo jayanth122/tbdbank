@@ -13,4 +13,4 @@ ssh -i santhoshpvtkey.txt ubuntu@132.145.103.186 'cd /home/ubuntu/tbdbank/tbdban
     echo "No Docker container running on port 8081"
   fi &&
    docker build -t tbdbank-image --build-arg REDIS_HOST=redis-stack . &&
-    docker run -d --net san_network -p 8081:8081 tbdbank-image'
+    docker run --log-driver json-file --log-opt max-size=10m --log-opt max-file=3 -v /var/tbd651/logs/bank.log:/var/tbd651/logs/bank.log -d --net san_network -p 8081:8081 tbdbank-image'
