@@ -1,4 +1,4 @@
-ssh -i ~/Documents/Waterloo\ Academic/ece651/santhoshpvtkey.txt ubuntu@132.145.103.186 'cd /home/ubuntu/tbdbank/tbdbank &&
+ssh -i santhoshpvtkey.txt ubuntu@132.145.103.186 'cd /home/ubuntu/tbdbank/tbdbank &&
  git checkout main &&
   git fetch && git pull &&
    cp -f /var/config/tbdbank.properties tbdbank.properties &&
