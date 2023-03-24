@@ -10,6 +10,8 @@ import org.ece.repository.CustomerOperations;
 import org.ece.repository.TransactionOperations;
 import org.ece.util.ConversionUtils;
 import org.ece.util.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -27,6 +29,7 @@ import java.util.Optional;
 
 @Service
 public class TransactionService {
+    private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
     private static final String INSUFFICIENT_BALANCE_ERROR = "Insufficient Balance";
     private static final String SUCCESS_MESSAGE = "Transaction Successful";
     private static final String INVALID_SESSION_ERROR = "Invalid Session";
@@ -114,7 +117,8 @@ public class TransactionService {
         if (!ObjectUtils.isEmpty(sessionData)) {
             cacheService.createSession(newSessionId, sessionData);
             cacheService.killSession(oldSessionId);
-
+        } else {
+            return new StatementResponse(false, "Invalid Session", "");
         }
         List<Transaction> transactionList = transactionOperations.findByLevelBetween(sessionData.getUserId(),
                 statementRequest.getFromDate(), statementRequest.getToDate());
