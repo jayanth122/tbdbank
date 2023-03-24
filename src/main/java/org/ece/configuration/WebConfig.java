@@ -1,4 +1,3 @@
-/*
 package org.ece.configuration;
 
 
@@ -20,4 +19,3 @@ public class WebConfig {
         };
     }
 }
-*/
