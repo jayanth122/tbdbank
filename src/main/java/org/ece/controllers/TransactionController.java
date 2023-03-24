@@ -40,7 +40,7 @@ public class TransactionController {
                 : ResponseEntity.badRequest().body(isValidated);
     }
 
-    @RequestMapping(value = "/statement", method = RequestMethod.GET)
+    @RequestMapping(value = "/statement", method = RequestMethod.POST)
     public ResponseEntity statementRequest(@RequestBody StatementRequest statementRequest) {
         StatementResponse statementResponse = transactionService.validateStatementRequest(statementRequest);
         return ResponseEntity.ok(statementResponse);
