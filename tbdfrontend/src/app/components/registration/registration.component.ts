@@ -9,13 +9,13 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./registration.component.scss']
 })
 export class RegistrationComponent implements OnInit {
+  public imageURL : any;
   registrationForm !:FormGroup;
   public imageURL : any;
   submitted = false;
   genders = ["Male", "Female", "Other"]
   provinces = ["AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"]
-  constructor(private dataService: DataService, private formBuilder:FormBuilder , private sanitizer: DomSanitizer) {
-  }
+  constructor(private dataService: DataService, private formBuilder:FormBuilder, private sanitizer:DomSanitizer) { }
   ngOnInit(): void {
     this.registrationForm=this.formBuilder.group({
       userName:["",Validators.required],
@@ -57,8 +57,8 @@ export class RegistrationComponent implements OnInit {
         }
         let byteArray = new Uint8Array(byteNumbers);
         const blob = new Blob([byteArray], { type: 'image/png' });
+        console.log(URL.createObjectURL(blob));
         this.imageURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
-
       } else {
         alert("Registration UnSuccessful")
       }
