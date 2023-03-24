@@ -121,7 +121,7 @@ public class TransactionService {
         Optional<Customer> customerList = customerOperations.findByCustomerId(
                 sessionData.getUserId());
         generateStatement(statementRequest, transactionList, List.of(customerList.get()));
-        return new StatementResponse(true, "", newSessionId);
+        return new StatementResponse(true, "", newSessionId, transactionList);
     }
     @SneakyThrows
     @SuppressWarnings("checkstyle:MethodLength")

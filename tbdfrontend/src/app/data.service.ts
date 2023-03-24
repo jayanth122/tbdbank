@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'
 import {Transaction} from "./dto/Transaction";
-import {StatementRequest} from "./dto/StatementRequest";
+
 
 
 @Injectable({
@@ -10,7 +10,8 @@ import {StatementRequest} from "./dto/StatementRequest";
 })
 export class DataService {
   sessionIdStorage = new Map<string,string>();
-  private url = "http://132.145.103.186:8081/tbd651"
+  // private url = "http://132.145.103.186:8081/tbd651"
+  private url = "http://localhost:8081/tbd651"
   constructor(private httpClient: HttpClient) {
   }
   sendLoginDetails(loginData:FormData): Observable<any> {
