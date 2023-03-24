@@ -6,7 +6,7 @@ import java.time.LocalDate;
 @Data
 public class StatementRequest {
 
-    private String sessioinId;
+    private String sessionId;
 
     private LocalDate fromDate;
 
