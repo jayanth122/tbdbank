@@ -1,4 +1,4 @@
-ssh -i santhoshpvtkey.txt ubuntu@132.145.103.186 'cd /home/ubuntu/tbdbank/tbdbank &&
+ssh -i ~/Documents/Waterloo\ Academic/ece651/santhoshpvtkey.txt ubuntu@132.145.103.186 'cd /home/ubuntu/tbdbank/tbdbank &&
  git checkout main &&
   git fetch && git pull &&
    cp -f /var/config/tbdbank.properties tbdbank.properties &&
@@ -12,6 +12,7 @@ ssh -i santhoshpvtkey.txt ubuntu@132.145.103.186 'cd /home/ubuntu/tbdbank/tbdban
   else
     echo "No Docker container running on port 8081"
   fi &&
+  docker start mysql-container redis-stack
   mysql_port=$(docker inspect -f "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}" mysql-container)
   echo $mysql_port
   mysql_url="jdbc:mysql://${mysql_port}:3306/tbdbank"
