@@ -4,7 +4,6 @@ import { DataService } from '../../data.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { Buffer } from 'buffer/';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

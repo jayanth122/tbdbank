@@ -11,7 +11,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class RegistrationComponent implements OnInit {
   public imageURL : any;
   registrationForm !:FormGroup;
-  public imageURL : any;
   submitted = false;
   genders = ["Male", "Female", "Other"]
   provinces = ["AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"]

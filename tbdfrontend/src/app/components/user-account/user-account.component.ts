@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../../data.service";
+import {QrRequest} from "../../dto/QrRequest";
 
 @Component({
   selector: 'app-user-account',
@@ -8,7 +9,8 @@ import {DataService} from "../../data.service";
   styleUrls: ['./user-account.component.scss']
 })
 export class UserAccountComponent implements OnInit {
-  constructor(private router: Router, private dataService: DataService) { }
+  constructor(private router: Router, private dataService: DataService) {
+  }
   ngOnInit() {
   }
   goToTransactions() {
@@ -16,11 +18,16 @@ export class UserAccountComponent implements OnInit {
   }
   generateQr(){
     let user = localStorage.getItem("userName");
+    console.log(user)
+    let qrRequest = {} as QrRequest;
     if (user){
       let sessionId = this.dataService.getSessionValues(user)
-      this.dataService.generateQr(sessionId).subscribe(data => {
-        alert(data.message)
-      })
+      console.log("Called qr method",user)
+      qrRequest.sessionId = sessionId
+      this.dataService.generateQr(qrRequest).subscribe(data => {
+          alert(data.message)
+        })
+
     }
 
   }
