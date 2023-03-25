@@ -9,6 +9,5 @@ RUN npm install
 
 
 COPY . .
-RUN ng serve --port 8080
-EXPOSE 8080
-CMD ["npm", "start"]
+RUN ng build
+CMD ["sudo", "cp", "-R", "dist/*", "/usr/share/nginx/html"]
