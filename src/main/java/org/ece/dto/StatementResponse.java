@@ -19,7 +19,6 @@ public class StatementResponse {
         this.transactionList = transactionList;
     }
     public StatementResponse(boolean isSuccess, String message, String sessionId) {
-
         this.isSuccess = isSuccess;
         this.message = message;
         this.sessionId = sessionId;
