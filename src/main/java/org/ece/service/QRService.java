@@ -1,66 +1,62 @@
 package org.ece.service;
 
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.ece.dto.Customer;
 import org.ece.dto.Interac;
 import org.ece.dto.SessionData;
 import org.ece.dto.qr.QRGenerateRequest;
+import org.ece.dto.qr.QRGenerateResponse;
+import org.ece.dto.qr.QRPaymentRequest;
+import org.ece.dto.qr.QRPaymentResponse;
+import org.ece.repository.CustomerOperations;
 import org.ece.repository.InteracOperations;
+import org.ece.util.QRUtils;
 import org.ece.util.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.util.Optional;
 
 @Service
 public class QRService {
     private static final Logger logger = LoggerFactory.getLogger(QRService.class);
     private static final String HMAC_CUSTOMER_ID_SEPARATOR = "::";
-    private static final String QR_IMAGES_DIRECTORY = "qrImages/";
-    private static final String QR_IMAGES_EXTENSION = ".jpg";
     private static final String QR_SUCCESS = "QR Generated successfully";
     private static final String INVALID_SESSION = "Invalid Session";
     private static final String INTERAC_NOT_REGISTERED = "Interac not registered";
-    private static final int QR_CODE_WIDTH = 200;
-    private static final int QR_CODE_HEIGHT = 200;
-
     @Value("${secrets.qr.hmac.key}")
     private String hmacKey;
 
     private CacheService cacheService;
     private InteracOperations interacOperations;
+    private CustomerOperations customerOperations;
 
     public QRService(final CacheService cacheService,
-                     final InteracOperations interacOperations) {
+                     final InteracOperations interacOperations,
+                     final CustomerOperations customerOperations) {
         this.cacheService = cacheService;
         this.interacOperations = interacOperations;
+        this.customerOperations = customerOperations;
     }
-    public String generateQRCode(QRGenerateRequest qrGenerateRequest) {
+    public QRGenerateResponse generateQRCode(QRGenerateRequest qrGenerateRequest) {
         SessionData sessionData = cacheService.validateSession(qrGenerateRequest.getSessionId());
         if (ObjectUtils.isEmpty(sessionData)) {
-            return INVALID_SESSION;
+            return new QRGenerateResponse(INVALID_SESSION, null, false);
         }
+        final String newSessionId = cacheService.killAndCreateSession(qrGenerateRequest.getSessionId());
         Optional<Interac> interac = interacOperations.findInteracByCustomerId(sessionData.getUserId());
 
         if (!interac.isPresent()) {
             logger.info(INTERAC_NOT_REGISTERED);
-            return INTERAC_NOT_REGISTERED;
+            return new QRGenerateResponse(INTERAC_NOT_REGISTERED, newSessionId, false);
         }
         final String hmac = SecurityUtils.calculateSecurityHmac(sessionData.getUserId().getBytes(), hmacKey);
-        generateQRImage(generateQRString(hmac, sessionData.getUserId()), qrGenerateRequest.getSessionId());
+        byte[] image = QRUtils.generateQRImage(generateQRString(hmac, sessionData.getUserId()));
         logger.info(QR_SUCCESS);
-        return QR_SUCCESS;
+        return new QRGenerateResponse(true, image, null, QR_SUCCESS, newSessionId);
     }
 
 
@@ -69,36 +65,24 @@ public class QRService {
         return  hmac + HMAC_CUSTOMER_ID_SEPARATOR + encodedCustomerId;
     }
 
-
-    private BufferedImage generateQRImage(final String qrText, final String sessionId) {
-        QRCodeWriter barcodeWriter = new QRCodeWriter();
-        BitMatrix bitMatrix = null;
-        BufferedImage bufferedImage = null;
-        try {
-            bitMatrix = barcodeWriter.encode(qrText, BarcodeFormat.QR_CODE, QR_CODE_WIDTH, QR_CODE_HEIGHT);
-            bufferedImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
-            File outputfile = new File(QR_IMAGES_DIRECTORY + sessionId + QR_IMAGES_EXTENSION);
-            ImageIO.write(bufferedImage, "jpg", outputfile);
-        } catch (WriterException e) {
-            logger.error("Cannot generate QR code for given String: {}", qrText, e);
-        } catch (IOException e) {
-            logger.error("Cannot generate QR file for given String: {}", qrText, e);
+    private QRPaymentResponse generateQRPaymentResponse(final boolean isValid, final String customerId,
+                                                        final String sessionId) {
+        if (isValid) {
+            Customer customer = customerOperations.findByCustomerId(customerId).get();
+            return new QRPaymentResponse(customer.getFirstName(), customer.getFirstName(), customer.getEmail(),
+                    sessionId, true, "Valid QR");
         }
-
-        return bufferedImage;
+        return new QRPaymentResponse(false, "Invalid QR");
     }
 
-
-    public byte[] generateQRImageBytes(final String qrText) {
-        BufferedImage image = generateQRImage(qrText, qrText);
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        try {
-            ImageIO.write(image, "jpg", baos);
-            byte[] bytes = baos.toByteArray();
-            return bytes;
-        } catch (IOException e) {
-            logger.info("Failed generating QR");
-            return null;
+    public QRPaymentResponse validateQRPaymentRequest(QRPaymentRequest qrPaymentRequest) {
+        SessionData sessionData = cacheService.validateSession(qrPaymentRequest.getSessionId());
+        if (ObjectUtils.isEmpty(sessionData)) {
+            return new QRPaymentResponse(false, INVALID_SESSION);
         }
+        final String newSessionId = cacheService.killAndCreateSession(qrPaymentRequest.getSessionId());
+        final String customerId = QRUtils.validateQRAndGetCustomerId(qrPaymentRequest.getQrImage(), hmacKey);
+        return StringUtils.isBlank(customerId) ? generateQRPaymentResponse(false, null, null)
+                : generateQRPaymentResponse(true, customerId, newSessionId);
     }
 }
