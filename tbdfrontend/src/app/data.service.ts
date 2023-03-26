@@ -9,7 +9,7 @@ import { Observable } from 'rxjs'
 export class DataService {
   sessionIdStorage = new Map<string,string>();
 
-  private url = "http://localhost:8081/tbd651"
+  private url = "http://132.145.103.186/tbd651"
   constructor(private httpClient: HttpClient) {
   }
   sendLoginDetails(loginData:FormData): Observable<any> {

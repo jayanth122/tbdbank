@@ -11,6 +11,9 @@ COPY gradle /app/gradle
 ARG REDIS_HOST=""
 ENV REDIS_HOST ${REDIS_HOST}
 
+ARG SPRING_DATASOURCE_URL=""
+ENV SPRING_DATASOURCE_URL ${SPRING_DATASOURCE_URL}
+
 
 WORKDIR /app
 EXPOSE 8081
@@ -25,4 +28,5 @@ RUN mkdir -p /app && \
     cp ./build/libs/TBDBank.jar /app/TBDBank.jar
 
 CMD ["java", "-Dspring.redis.host=${REDIS_HOST}", \
+        "-Dspring.datasource.url=${SPRING_DATASOURCE_URL}", \
         "-jar", "/app/TBDBank.jar"]

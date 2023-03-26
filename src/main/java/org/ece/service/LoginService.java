@@ -82,7 +82,6 @@ public class LoginService {
         }
         if (isLoginValid && !isDuplicateLogin && user.get().getAccountType().equals(AccessType.CUSTOMER)) {
             boolean isCustomerStatusActive = validateCustomerStatus(user);
-            logger.info(CUSTOMER_INACTIVE_RESPONSE);
             return buildLoginResponse(isCustomerStatusActive, user, isCustomerStatusActive
                     ? LOGIN_SUCCESS_RESPONSE
                     : CUSTOMER_INACTIVE_RESPONSE);
