@@ -3,6 +3,7 @@ package org.ece.service;
 import org.ece.dto.RegisterRequest;
 import org.ece.dto.*;
 import org.ece.repository.UserOperations;
+import org.ece.util.QRUtils;
 import org.springframework.stereotype.Service;
 import org.ece.repository.CustomerOperations;
 import org.ece.dto.Customer;
@@ -15,13 +16,10 @@ public class RegisterService {
 
     CustomerOperations customerOperations;
     UserOperations userOperations;
-    QRService qrService;
 
-    public RegisterService(UserOperations userOperations, CustomerOperations customerOperations,
-                           final QRService qrService) {
+    public RegisterService(UserOperations userOperations, CustomerOperations customerOperations) {
         this.userOperations = userOperations;
         this.customerOperations = customerOperations;
-        this.qrService = qrService;
     }
     public RegisterResponse saveCustomerData(RegisterRequest registerRequest) {
         RegisterResponse registerResponse = new RegisterResponse();
@@ -54,7 +52,7 @@ public class RegisterService {
     }
 
     private byte[] generateQR(final String customerId) {
-        return qrService.generateQRImageBytes(customerId);
+        return QRUtils.generateQRImage(customerId);
     }
 
     public boolean validateRegisterRequest(RegisterRequest registerRequest) {
