@@ -9,5 +9,6 @@ RUN npm install
 
 
 COPY . .
+RUN cd /frontendApp
 RUN ng build
-CMD ["sudo", "cp", "-R", "dist/*", "/usr/share/nginx/html"]
+CMD ["docker", "cp", "tbdbankfrontend-container:frontendApp/dist", "/usr/share/nginx/html"]
