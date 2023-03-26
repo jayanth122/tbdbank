@@ -5,6 +5,8 @@ import org.ece.dto.InteracRequest;
 import org.ece.dto.InteracResponse;
 import org.ece.dto.TransactionRequest;
 import org.ece.dto.TransactionResponse;
+import org.ece.dto.interac.InteracRegisterRequest;
+import org.ece.dto.interac.InteracRegisterResponse;
 import org.ece.service.InteracService;
 import org.ece.service.TransactionService;
 import org.slf4j.Logger;
@@ -50,6 +52,14 @@ public class TransactionController {
         logger.info("Received Statement Request");
         StatementResponse statementResponse = transactionService.validateStatementRequest(statementRequest);
         return ResponseEntity.ok(statementResponse);
+    }
+
+    @RequestMapping(value = "/interac/register", method = RequestMethod.POST)
+    public ResponseEntity interacRegisterRequest(@RequestBody InteracRegisterRequest interacRegisterRequest) {
+        logger.info("Received Interac Register Request");
+        InteracRegisterResponse interacRegisterResponse = interacService
+                .validateInteracRegisterRequest(interacRegisterRequest);
+        return ResponseEntity.ok(interacRegisterResponse);
     }
 
 
