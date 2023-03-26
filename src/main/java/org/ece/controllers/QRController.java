@@ -1,6 +1,9 @@
 package org.ece.controllers;
 
 import org.ece.dto.qr.QRGenerateRequest;
+import org.ece.dto.qr.QRGenerateResponse;
+import org.ece.dto.qr.QRPaymentRequest;
+import org.ece.dto.qr.QRPaymentResponse;
 import org.ece.service.QRService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +24,17 @@ public class QRController {
     }
 
     @RequestMapping(value = "/generateQR", method = RequestMethod.POST)
-    public ResponseEntity loginRequest(@RequestBody QRGenerateRequest qrGenerateRequest) {
+    public ResponseEntity<QRGenerateResponse> generateUpiQR(@RequestBody QRGenerateRequest qrGenerateRequest) {
         logger.info("Received QR Generate Request");
-        String message = qrService.generateQRCode(qrGenerateRequest);
-        return ResponseEntity.ok(message);
+        final QRGenerateResponse qrGenerateResponse = qrService.generateQRCode(qrGenerateRequest);
+        return ResponseEntity.ok(qrGenerateResponse);
+    }
+
+    @RequestMapping(value = "/QRPayment", method = RequestMethod.POST)
+    public ResponseEntity<QRPaymentResponse> ingestQR(@RequestBody QRPaymentRequest qrPaymentRequest) {
+        logger.info("Received QR Payment Request");
+        final QRPaymentResponse qrPaymentResponse = qrService.validateQRPaymentRequest(qrPaymentRequest);
+        return ResponseEntity.ok(qrPaymentResponse);
     }
 
 }
