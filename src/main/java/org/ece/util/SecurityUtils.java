@@ -2,7 +2,6 @@ package org.ece.util;
 
 import org.apache.commons.codec.binary.Base64;
 import org.ece.dto.AccessType;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
@@ -11,7 +10,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
-@Component
 public final class SecurityUtils {
     private static final String HASH_FUNCTION = "HmacSHA256";
 
