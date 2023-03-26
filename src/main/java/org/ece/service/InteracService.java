@@ -7,6 +7,8 @@ import org.ece.dto.interac.InteracRegisterResponse;
 import org.ece.repository.CustomerOperations;
 import org.ece.repository.InteracOperations;
 import org.ece.util.ConversionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -16,9 +18,10 @@ import java.util.Optional;
 
 @Service
 public class InteracService {
+    private static final Logger logger = LoggerFactory.getLogger(InteracService.class);
     private static final String INVALID_SESSION_ERROR = "Invalid Session";
     private static final String NOT_LINKED_TO_BANK = "Email_ID not linked to bank";
-    private static final String EMAIL_ALREADY_EXISTS = "EmailID Already exists";
+    private static final String EMAIL_ALREADY_EXISTS = "EmailID/Customer Already Registered";
     private static final String INVALID_EMAIL_ID = "Invalid Email_ID";
     private static final String INTERAC_SUCCESS = "Interac Successful";
     private static final String INTERAC_REGISTER_SUCCESS = "Interac Registered Successful";
@@ -108,7 +111,8 @@ public class InteracService {
         }
         final String newSessionId = cacheService.killAndCreateSession(interacRegisterRequest.getSessionId());
         Optional<Interac> interac = interacOperations.findInteracByEmail(interacRegisterRequest.getEmail());
-        if (interac.isPresent()) {
+        Optional<Interac> customerInterac = interacOperations.findInteracByCustomerId(sessionData.getUserId());
+        if (customerInterac.isPresent() || interac.isPresent()) {
             return new InteracRegisterResponse(false, EMAIL_ALREADY_EXISTS, newSessionId);
         }
         registerInterac(sessionData, interacRegisterRequest.getEmail());
@@ -125,6 +129,7 @@ public class InteracService {
         interac.setAutoDeposit(true);
         interac.setCustomerId(customer.getCustomerId());
         interacOperations.save(interac);
+        logger.info(INTERAC_REGISTER_SUCCESS);
     }
 
 
