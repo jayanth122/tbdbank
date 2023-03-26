@@ -2,14 +2,12 @@ package org.ece.service;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.ece.dto.Customer;
 import org.ece.dto.Interac;
 import org.ece.dto.SessionData;
 import org.ece.dto.qr.QRGenerateRequest;
 import org.ece.dto.qr.QRGenerateResponse;
 import org.ece.dto.qr.QRPaymentRequest;
 import org.ece.dto.qr.QRPaymentResponse;
-import org.ece.repository.CustomerOperations;
 import org.ece.repository.InteracOperations;
 import org.ece.util.QRUtils;
 import org.ece.util.SecurityUtils;
@@ -32,14 +30,11 @@ public class QRService {
 
     private CacheService cacheService;
     private InteracOperations interacOperations;
-    private CustomerOperations customerOperations;
 
     public QRService(final CacheService cacheService,
-                     final InteracOperations interacOperations,
-                     final CustomerOperations customerOperations) {
+                     final InteracOperations interacOperations) {
         this.cacheService = cacheService;
         this.interacOperations = interacOperations;
-        this.customerOperations = customerOperations;
     }
     public QRGenerateResponse generateQRCode(QRGenerateRequest qrGenerateRequest) {
         SessionData sessionData = cacheService.validateSession(qrGenerateRequest.getSessionId());
@@ -68,8 +63,8 @@ public class QRService {
     private QRPaymentResponse generateQRPaymentResponse(final boolean isValid, final String customerId,
                                                         final String sessionId) {
         if (isValid) {
-            Customer customer = customerOperations.findByCustomerId(customerId).get();
-            return new QRPaymentResponse(customer.getFirstName(), customer.getFirstName(), customer.getEmail(),
+            Interac interac = interacOperations.findInteracByCustomerId(customerId).get();
+            return new QRPaymentResponse(interac.getFirstName(), interac.getFirstName(), interac.getEmail(),
                     sessionId, true, "Valid QR");
         }
         return new QRPaymentResponse(false, "Invalid QR");
