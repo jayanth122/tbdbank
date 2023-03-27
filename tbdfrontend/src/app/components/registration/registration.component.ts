@@ -46,7 +46,7 @@ export class RegistrationComponent implements OnInit {
     }
     this.registrationForm.value['gender']=this.registrationForm.value['gender'].toUpperCase()
     this.dataService.sendRegistrationDetails(this.registrationForm.value).subscribe(data => {
-      if (data.success) {
+      if (data.isSuccess) {
         alert("Registration Successful")
         let imgBytes = data.pdf;
         let byteCharacters = atob(imgBytes);
