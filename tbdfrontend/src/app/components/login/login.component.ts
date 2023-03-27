@@ -4,14 +4,13 @@ import { DataService } from '../../data.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { Buffer } from 'buffer/';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-   loginForm !: FormGroup;
+  loginForm !: FormGroup;
   submitted = false;
   constructor(private router: Router, private dataService: DataService, private formBuilder:FormBuilder) { }
   ngOnInit(): void {
@@ -32,6 +31,8 @@ export class LoginComponent implements OnInit {
     this.dataService.sendLoginDetails(this.loginForm.value).subscribe(data => {
         if (data.success) {
           alert("Welcome " + data.firstName + " " + data.lastName)
+          localStorage.setItem("userName",this.loginForm.value['userName'])
+          this.dataService.setSessionValues(this.loginForm.value['userName'],data.uniqueSessionId)
           let decoded: string;
           decoded = Buffer.from(data.encodedAccess, 'base64').toString();
           if(decoded==="CUSTOMER") {
@@ -41,10 +42,10 @@ export class LoginComponent implements OnInit {
             //
           }
         } else {
-          alert("Login UnSuccessful")
+          alert(data.message)
         }
       }, error => (
-        alert("Please enter valid username and password")
+        alert("502")
       )
     )
   }
