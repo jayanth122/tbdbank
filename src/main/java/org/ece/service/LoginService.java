@@ -27,7 +27,6 @@ public class LoginService {
     private static final String INVALID_CARD_NUMBER_RESPONSE = "Invalid Card Number";
     private static final String DUPLICATE_LOGIN_RESPONSE = "Duplicate Login Request";
     private static final String LOGIN_SUCCESS_RESPONSE = "Login Successful";
-    private SecurityUtils securityUtils;
     private DataSouceConfig dataSouceConfig;
     private UserOperations userOperations;
     private CacheService cacheService;
@@ -35,12 +34,11 @@ public class LoginService {
     private DBOperations dbOperations;
     private CustomerOperations customerOperations;
 
-    public LoginService(final SecurityUtils securityUtils, final DataSouceConfig dataSouceConfig,
+    public LoginService(final DataSouceConfig dataSouceConfig,
                         final UserOperations userOperations,
                         final CacheService cacheService,
                         final DBOperations dbOperations,
                         final CustomerOperations customerOperations) {
-        this.securityUtils = securityUtils;
         this.dataSouceConfig = dataSouceConfig;
         this.userOperations = userOperations;
         this.dbOperations = dbOperations;
@@ -82,7 +80,6 @@ public class LoginService {
         }
         if (isLoginValid && !isDuplicateLogin && user.get().getAccountType().equals(AccessType.CUSTOMER)) {
             boolean isCustomerStatusActive = validateCustomerStatus(user);
-            logger.info(CUSTOMER_INACTIVE_RESPONSE);
             return buildLoginResponse(isCustomerStatusActive, user, isCustomerStatusActive
                     ? LOGIN_SUCCESS_RESPONSE
                     : CUSTOMER_INACTIVE_RESPONSE);
@@ -143,7 +140,7 @@ public class LoginService {
     }
 
     private String getEncodedAccessLevel(final AccessType accessType) {
-        return securityUtils.encode(accessType);
+        return SecurityUtils.encode(accessType);
     }
 
 }
