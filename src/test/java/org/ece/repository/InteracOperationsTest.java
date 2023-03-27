@@ -36,8 +36,8 @@ public class InteracOperationsTest {
         System.out.println("Executing ignored test");
         Interac interac = new Interac();
         interac.setCustomerId(EXISTING_CUSTOMER_ID);
-        interac.setFirstName("test_first_name");
-        interac.setLastName("test_last_name");
+        interac.setFirstName("Test");
+        interac.setLastName("SessionId");
         interac.setBankName(TEST_SAVE_BANKNAME);
         interac.setEmail(TEST_SAVE_EMAIL);
         interac.setMessage("test_message");

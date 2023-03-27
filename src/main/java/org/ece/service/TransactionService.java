@@ -88,7 +88,6 @@ public class TransactionService {
         BigDecimal newAccountBalance = accountBalance.add(transactionAmount);
         saveTransaction(customerId, transactionRequest, newAccountBalance);
         return new TransactionResponse(true, newAccountBalance.toString(), newSessionId, SUCCESS_MESSAGE);
-
     }
     public void saveTransaction(final String customerId, final TransactionRequest transactionRequest,
                                 final BigDecimal accountBalance) {
@@ -205,25 +204,6 @@ public class TransactionService {
             serial++;
         }
         document.add(table);
-        document.close();
-    }
-
-    private void generateQr(final StatementRequest statementRequest,
-                            final List<Transaction> transactionList)
-            throws FileNotFoundException, DocumentException, URISyntaxException {
-        Path path = Paths.get(ClassLoader.getSystemResource("Java_logo.png").toURI());
-
-        Document document = new Document();
-        PdfWriter.getInstance(document, new FileOutputStream("QR" + ".pdf"));
-        document.open();
-        Image img = null;
-        try {
-            img = Image.getInstance(path.toAbsolutePath().toString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        document.add(img);
-
         document.close();
     }
 }
