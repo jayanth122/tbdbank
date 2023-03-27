@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Transaction} from "../../dto/Transaction";
 import {DataService} from "../../data.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {StatementRequest} from "../../dto/StatementRequest";
+
 
 @Component({
   selector: 'app-transactions',
@@ -23,23 +25,24 @@ export class TransactionsComponent implements OnInit{
   }
   public onSubmit(){
     this.submitted = true;
-    let user = localStorage.getItem("userName");
+    const user = localStorage.getItem("userName");
+    let statementRequest = {} as StatementRequest;
     if (user){
-      this.transactionForm.value["sessionId"] = this.dataService.getSessionValues(user)
-      console.log(this.transactionForm.value)
-      this.dataService.getTransactionStatement(this.transactionForm.value).subscribe(data => {
-        if(data.isSuccess){
+      statementRequest.fromDate = this.transactionForm.value['fromDate']
+      statementRequest.toDate = this.transactionForm.value['toDate']
+      let sessionId = this.dataService.getSessionValues(user)
+      statementRequest.sessionId = sessionId
+      this.dataService.getTransactionStatement(statementRequest).subscribe(data => {
+        if(data.success){
           let newSessionId = data.sessionId
-          console.log(data.message)
-          if(user){
-            this.dataService.setSessionValues(newSessionId,user)
-          }
+          this.dataService.setSessionValues(user,newSessionId)
+          this.submitted=false
+        }
+        else{
+          alert(data.message)
         }
         }
       )
-    }
-    else{
-
     }
   }
 }

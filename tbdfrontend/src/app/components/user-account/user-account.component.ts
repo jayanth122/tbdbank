@@ -17,15 +17,20 @@ export class UserAccountComponent implements OnInit {
     this.router.navigate(['transaction'])
   }
   generateQr(){
-    let user = localStorage.getItem("userName");
-    console.log(user)
+    const user = localStorage.getItem("userName");
     let qrRequest = {} as QrRequest;
     if (user){
       let sessionId = this.dataService.getSessionValues(user)
-      console.log("Called qr method",user)
       qrRequest.sessionId = sessionId
       this.dataService.generateQr(qrRequest).subscribe(data => {
+        if(data.success){
           alert(data.message)
+          let newSessionId = data.sessionId
+          this.dataService.setSessionValues(user,newSessionId)
+        }
+        else{
+          alert(data.message)
+        }
         })
 
     }
