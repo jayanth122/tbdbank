@@ -1,15 +1,16 @@
 package org.ece.service;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import lombok.SneakyThrows;
 import org.ece.dto.*;
 import org.ece.repository.CustomerOperations;
 import org.ece.repository.TransactionOperations;
 import org.ece.util.ConversionUtils;
+import org.ece.util.PdfUtils;
 import org.ece.util.SecurityUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -27,20 +28,16 @@ import java.util.Optional;
 
 @Service
 public class TransactionService {
+    private static final Logger logger = LoggerFactory.getLogger(TransactionService.class);
     private static final String INSUFFICIENT_BALANCE_ERROR = "Insufficient Balance";
     private static final String SUCCESS_MESSAGE = "Transaction Successful";
     private static final String INVALID_SESSION_ERROR = "Invalid Session";
-    public static final int MAX_WIDTH = 100;
-    private static final String ADDRESS_SEPARATOR = ", ";
+
     private CacheService cacheService;
     private CustomerOperations customerOperations;
     private TransactionOperations transactionOperations;
 
-    private static final int TABLE_COLUMNS = 7;
-    private static final int titleFontSize = 12;
-    private static final int fontLSize = 10;
-    private static final int fontSize = 8;
-    private static int serial = 1;
+
 
 
     public TransactionService(final CacheService cacheService, final TransactionOperations transactionOperations,
@@ -114,98 +111,16 @@ public class TransactionService {
         if (!ObjectUtils.isEmpty(sessionData)) {
             cacheService.createSession(newSessionId, sessionData);
             cacheService.killSession(oldSessionId);
-
+        } else {
+            return new StatementResponse(false, "Invalid Session", "");
         }
         List<Transaction> transactionList = transactionOperations.findByLevelBetween(sessionData.getUserId(),
                 statementRequest.getFromDate(), statementRequest.getToDate());
-        Optional<Customer> customerList = customerOperations.findByCustomerId(
+        Optional<Customer> customer = customerOperations.findByCustomerId(
                 sessionData.getUserId());
-        generateStatement(statementRequest, transactionList, List.of(customerList.get()));
-        return new StatementResponse(true, "", newSessionId, transactionList);
-    }
-    @SneakyThrows
-    @SuppressWarnings("checkstyle:MethodLength")
-    private void generateStatement(final StatementRequest statementRequest, final List<Transaction> transactionList,
-                                   final List<Customer> customerList) {
-        Document document = new Document(PageSize.A4);
-        PdfWriter.getInstance(document, new FileOutputStream(
-                "generatedStatements/statement_from_" + statementRequest.getFromDate()
-                        + "_to_" + statementRequest.getToDate() + ".pdf"));
-        document.open();
-        Font titleFont = new Font(Font.FontFamily.HELVETICA, titleFontSize);
-        Font font = new Font(Font.FontFamily.HELVETICA, fontLSize);
-        Font fontL = new Font(Font.FontFamily.HELVETICA, fontSize);
-        Paragraph paragraph2 = new Paragraph("TBD BANK STATEMENT ", titleFont);
-        Paragraph fromDateToDate = new Paragraph(statementRequest.getFromDate()
-                + " TO " + statementRequest.getToDate(), titleFont);
-        paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
-        fromDateToDate.setAlignment(Paragraph.ALIGN_CENTER);
-        document.add(paragraph2);
-        document.add(Chunk.NEWLINE);
-        document.add(fromDateToDate);
-        document.add(Chunk.NEWLINE);
-
-        for (Customer obj : customerList) {
-            Chunk nameCell = new Chunk("Name : " + obj.getLastName() + ADDRESS_SEPARATOR + obj.getFirstName(), font);
-            Chunk streetNameCell = new Chunk("Address : " + obj.getStreetNumber()
-                    + ADDRESS_SEPARATOR + obj.getStreetName() + ADDRESS_SEPARATOR + obj.getCity()
-                    + ADDRESS_SEPARATOR + obj.getProvince() + ADDRESS_SEPARATOR + obj.getCountryCode(), font);
-            Chunk mobileCell = new Chunk("Mobile : " + obj.getMobileNumber(), font);
-            Chunk emailCell = new Chunk("Email :" + obj.getEmail(), font);
-            document.add(nameCell);
-            document.add(Chunk.NEWLINE);
-            document.add(mobileCell);
-            document.add(Chunk.NEWLINE);
-            document.add(emailCell);
-            document.add(Chunk.NEWLINE);
-            document.add(streetNameCell);
-            document.add(Chunk.NEWLINE);
-        }
-        PdfPTable table = new PdfPTable(TABLE_COLUMNS);
-        table.setWidthPercentage(MAX_WIDTH);
-        PdfPCell cell1 = new PdfPCell(new Paragraph("SERIAL NO.", fontL));
-        PdfPCell cell3 = new PdfPCell(new Paragraph("CREDIT", fontL));
-        PdfPCell cell4 = new PdfPCell(new Paragraph("DEBIT", fontL));
-        PdfPCell cell5 = new PdfPCell(new Paragraph("BALANCE", fontL));
-        PdfPCell cell6 = new PdfPCell(new Paragraph("DETAILS", fontL));
-        PdfPCell cell7 = new PdfPCell(new Paragraph("DATE", fontL));
-        PdfPCell cell8 = new PdfPCell(new Paragraph("TIME", fontL));
-        table.addCell(cell1);
-        table.addCell(cell3);
-        table.addCell(cell4);
-        table.addCell(cell6);
-        table.addCell(cell7);
-        table.addCell(cell8);
-        table.addCell(cell5);
-        for (Transaction obj : transactionList) {
-            PdfPCell transactionIdCell = new PdfPCell(new Paragraph(String.valueOf(serial), fontL));
-            PdfPCell creditCell;
-            PdfPCell debitCell;
-            if (obj.getTransactionType().equals(TransactionType.CREDIT)) {
-                creditCell = new PdfPCell(new Paragraph(String.valueOf(
-                        ConversionUtils.convertLongToPrice(obj.getAmount())), fontL));
-                debitCell = new PdfPCell(new Paragraph("", fontL));
-            } else {
-                creditCell = new PdfPCell(new Paragraph("", fontL));
-                debitCell = new PdfPCell(new Paragraph(String.valueOf(
-                        ConversionUtils.convertLongToPrice(obj.getAmount())), fontL));
-            }
-            PdfPCell balanceCell = new PdfPCell(new Paragraph(String.valueOf(
-                    ConversionUtils.convertLongToPrice(obj.getBalance())), fontL));
-            PdfPCell detailCell = new PdfPCell(new Paragraph(String.valueOf(obj.getDetails()), fontL));
-            PdfPCell dateCell = new PdfPCell(new Paragraph(String.valueOf(obj.getTransactionDate()), fontL));
-            PdfPCell timeCell = new PdfPCell(new Paragraph(String.valueOf(obj.getTransactionTime()), fontL));
-            table.addCell(transactionIdCell);
-            table.addCell(creditCell);
-            table.addCell(debitCell);
-            table.addCell(detailCell);
-            table.addCell(dateCell);
-            table.addCell(timeCell);
-            table.addCell(balanceCell);
-            serial++;
-        }
-        document.add(table);
-        document.close();
+        byte[] statementPdf = PdfUtils.generateStatementPdf(statementRequest, transactionList, customer.get());
+        logger.info("Generated statement pdf for {} {} ", customer.get().getFirstName(), customer.get().getLastName());
+        return new StatementResponse(true, "", newSessionId, transactionList, statementPdf);
     }
 
     private void generateQr(final StatementRequest statementRequest,

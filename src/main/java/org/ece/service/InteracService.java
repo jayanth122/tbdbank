@@ -1,21 +1,30 @@
 package org.ece.service;
 
 import org.ece.dto.*;
+import org.ece.dto.interac.Bank;
+import org.ece.dto.interac.InteracRegisterRequest;
+import org.ece.dto.interac.InteracRegisterResponse;
 import org.ece.repository.CustomerOperations;
 import org.ece.repository.InteracOperations;
 import org.ece.util.ConversionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
+import java.util.Optional;
 
 
 @Service
 public class InteracService {
+    private static final Logger logger = LoggerFactory.getLogger(InteracService.class);
     private static final String INVALID_SESSION_ERROR = "Invalid Session";
     private static final String NOT_LINKED_TO_BANK = "Email_ID not linked to bank";
+    private static final String EMAIL_ALREADY_EXISTS = "EmailID/Customer Already Registered";
     private static final String INVALID_EMAIL_ID = "Invalid Email_ID";
     private static final String INTERAC_SUCCESS = "Interac Successful";
+    private static final String INTERAC_REGISTER_SUCCESS = "Interac Registered Successful";
     private static final String INSUFFICIENT_BALANCE_ERROR = "Insufficient Balance";
     private CacheService cacheService;
     private InteracOperations interacOperations;
@@ -94,4 +103,34 @@ public class InteracService {
         String newSessionId = cacheService.killAndCreateSession(interacRequest.getSessionId());
         return new InteracResponse(true, INTERAC_SUCCESS, newSessionId, remainingBalance.toString());
     }
+
+    public InteracRegisterResponse validateInteracRegisterRequest(InteracRegisterRequest interacRegisterRequest) {
+        SessionData sessionData = cacheService.validateSession(interacRegisterRequest.getSessionId());
+        if (ObjectUtils.isEmpty(sessionData)) {
+            return new InteracRegisterResponse(false, INVALID_SESSION_ERROR, null);
+        }
+        final String newSessionId = cacheService.killAndCreateSession(interacRegisterRequest.getSessionId());
+        Optional<Interac> interac = interacOperations.findInteracByEmail(interacRegisterRequest.getEmail());
+        Optional<Interac> customerInterac = interacOperations.findInteracByCustomerId(sessionData.getUserId());
+        if (customerInterac.isPresent() || interac.isPresent()) {
+            return new InteracRegisterResponse(false, EMAIL_ALREADY_EXISTS, newSessionId);
+        }
+        registerInterac(sessionData, interacRegisterRequest.getEmail());
+        return new InteracRegisterResponse(true, INTERAC_REGISTER_SUCCESS, newSessionId);
+    }
+
+    private void registerInterac(final SessionData sessionData, final String email) {
+        Interac interac = new Interac();
+        interac.setEmail(email);
+        Customer customer = customerOperations.findByCustomerId(sessionData.getUserId()).get();
+        interac.setBankName(Bank.TBDBANK.name());
+        interac.setFirstName(customer.getFirstName());
+        interac.setLastName(customer.getLastName());
+        interac.setAutoDeposit(true);
+        interac.setCustomerId(customer.getCustomerId());
+        interacOperations.save(interac);
+        logger.info(INTERAC_REGISTER_SUCCESS);
+    }
+
+
 }
