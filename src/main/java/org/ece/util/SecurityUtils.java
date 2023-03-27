@@ -2,16 +2,15 @@ package org.ece.util;
 
 import org.apache.commons.codec.binary.Base64;
 import org.ece.dto.AccessType;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.math.BigInteger;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.UUID;
 
-@Component
 public final class SecurityUtils {
     private static final String HASH_FUNCTION = "HmacSHA256";
 
@@ -22,6 +21,11 @@ public final class SecurityUtils {
     public static String encode(final AccessType accessType) {
        String cred = Base64.encodeBase64String(accessType.name().getBytes());
        return cred;
+    }
+
+    public static String decode(final String text) {
+        byte[] decodedBytes = Base64.decodeBase64(text.getBytes());
+        return new String(decodedBytes, StandardCharsets.UTF_8);
     }
 
     public static String encode(final String text) {

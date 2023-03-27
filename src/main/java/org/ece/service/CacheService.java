@@ -40,7 +40,7 @@ public class CacheService {
         Set<String> keys = redisTemplate.keys(SESSION_DATA_PREFIX + "*");
         return keys.stream().map(key -> redisTemplate.opsForValue().get(key))
                 .filter(sessionData -> sessionData.getAccessType().equals(accessType))
-                .map(sessionData -> StringUtils.equals(sessionData.getUserId(), userId))
+                .filter(sessionData -> StringUtils.equals(sessionData.getUserId(), userId))
                 .findFirst().isPresent();
     }
 
