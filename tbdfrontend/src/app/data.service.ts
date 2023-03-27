@@ -11,7 +11,7 @@ import {QrRequest} from "./dto/QrRequest";
 })
 export class DataService {
   sessionIdStorage = new Map<string,string>();
-  private url = "http://132.145.103.186/tbd651"
+  private url = "https://santhoshprojects.me/tbd651"
   // private url = "http://localhost:8081/tbd651"
   constructor(private httpClient: HttpClient) {
   }
@@ -38,7 +38,7 @@ export class DataService {
   }
   generateQr(qrRequest : QrRequest) : Observable<any> {
     let headers = new HttpHeaders().set('Access-Control-Allow-Origin', '*');
-    return this.httpClient.post(`${this.url}/qr/generateQR`,qrRequest,{headers:headers, withCredentials:true})
+    return this.httpClient.post(`${this.url}/qr/generateQR`,qrRequest,{headers:headers , withCredentials:true})
   }
 
 }
