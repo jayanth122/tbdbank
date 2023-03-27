@@ -11,8 +11,10 @@ import {QrRequest} from "./dto/QrRequest";
 })
 export class DataService {
   sessionIdStorage = new Map<string,string>();
-  private url = "https://santhoshprojects.me/tbd651"
+
   // private url = "http://localhost:8081/tbd651"
+  private url = "https://www.santhoshprojects.me/tbd651"
+
   constructor(private httpClient: HttpClient) {
   }
   sendLoginDetails(loginData:FormData): Observable<any> {
