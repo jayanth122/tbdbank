@@ -2,13 +2,16 @@ package org.ece.service;
 
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.ece.dto.Customer;
 import org.ece.dto.Interac;
 import org.ece.dto.SessionData;
 import org.ece.dto.qr.QRGenerateRequest;
 import org.ece.dto.qr.QRGenerateResponse;
 import org.ece.dto.qr.QRPaymentRequest;
 import org.ece.dto.qr.QRPaymentResponse;
+import org.ece.repository.CustomerOperations;
 import org.ece.repository.InteracOperations;
+import org.ece.util.PdfUtils;
 import org.ece.util.QRUtils;
 import org.ece.util.SecurityUtils;
 import org.slf4j.Logger;
@@ -30,11 +33,14 @@ public class QRService {
 
     private CacheService cacheService;
     private InteracOperations interacOperations;
+    private CustomerOperations customerOperations;
 
     public QRService(final CacheService cacheService,
-                     final InteracOperations interacOperations) {
+                     final InteracOperations interacOperations,
+                     final CustomerOperations customerOperations) {
         this.cacheService = cacheService;
         this.interacOperations = interacOperations;
+        this.customerOperations = customerOperations;
     }
     public QRGenerateResponse generateQRCode(QRGenerateRequest qrGenerateRequest) {
         SessionData sessionData = cacheService.validateSession(qrGenerateRequest.getSessionId());
@@ -50,8 +56,11 @@ public class QRService {
         }
         final String hmac = SecurityUtils.calculateSecurityHmac(sessionData.getUserId().getBytes(), hmacKey);
         byte[] image = QRUtils.generateQRImage(generateQRString(hmac, sessionData.getUserId()));
+        Customer customer = customerOperations.findByCustomerId(interac.get().getCustomerId()).get();
+        byte[] qrPdf = PdfUtils.generatePaymentQRPdf(image, customer);
+
         logger.info(QR_SUCCESS);
-        return new QRGenerateResponse(true, image, null, QR_SUCCESS, newSessionId);
+        return new QRGenerateResponse(true, image, qrPdf, QR_SUCCESS, newSessionId);
     }
 
 
