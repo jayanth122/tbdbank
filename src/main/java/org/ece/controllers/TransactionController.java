@@ -7,6 +7,8 @@ import org.ece.dto.TransactionRequest;
 import org.ece.dto.TransactionResponse;
 import org.ece.dto.interac.InteracRegisterRequest;
 import org.ece.dto.interac.InteracRegisterResponse;
+import org.ece.dto.interac.InteracValidateRequest;
+import org.ece.dto.interac.InteracValidateResponse;
 import org.ece.service.InteracService;
 import org.ece.service.TransactionService;
 import org.slf4j.Logger;
@@ -60,6 +62,14 @@ public class TransactionController {
         InteracRegisterResponse interacRegisterResponse = interacService
                 .validateInteracRegisterRequest(interacRegisterRequest);
         return ResponseEntity.ok(interacRegisterResponse);
+    }
+
+    @RequestMapping(value = "/interac/validate", method = RequestMethod.POST)
+    public ResponseEntity interacValidateRequest(@RequestBody InteracValidateRequest interacValidateRequest) {
+        logger.info("Received Interac Validate Request");
+        InteracValidateResponse interacValidateResponse = interacService
+                .validateInteracValidateRequest(interacValidateRequest);
+        return ResponseEntity.ok(interacValidateResponse);
     }
 
 

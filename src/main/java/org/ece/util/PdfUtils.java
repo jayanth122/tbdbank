@@ -163,16 +163,13 @@ public final class PdfUtils {
             PdfPCell creditCell;
             PdfPCell debitCell;
             if (obj.getTransactionType().equals(TransactionType.CREDIT)) {
-                creditCell = new PdfPCell(new Paragraph(String.valueOf(
-                        ConversionUtils.convertLongToPrice(obj.getAmount())), FONTL));
+                creditCell = new PdfPCell(new Paragraph(String.valueOf(obj.getRoundedAmount()), FONTL));
                 debitCell = new PdfPCell(new Paragraph("", FONTL));
             } else {
                 creditCell = new PdfPCell(new Paragraph("", FONTL));
-                debitCell = new PdfPCell(new Paragraph(String.valueOf(
-                        ConversionUtils.convertLongToPrice(obj.getAmount())), FONTL));
+                debitCell = new PdfPCell(new Paragraph(String.valueOf(obj.getRoundedAmount()), FONTL));
             }
-            PdfPCell balanceCell = new PdfPCell(new Paragraph(String.valueOf(
-                    ConversionUtils.convertLongToPrice(obj.getBalance())), FONTL));
+            PdfPCell balanceCell = new PdfPCell(new Paragraph(String.valueOf(obj.getRoundedBalance()), FONTL));
             PdfPCell detailCell = new PdfPCell(new Paragraph(String.valueOf(obj.getDetails()), FONTL));
             PdfPCell dateCell = new PdfPCell(new Paragraph(String.valueOf(obj.getTransactionDate()), FONTL));
             PdfPCell timeCell = new PdfPCell(new Paragraph(String.valueOf(obj.getTransactionTime()), FONTL));

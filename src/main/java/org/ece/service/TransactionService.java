@@ -116,12 +116,25 @@ public class TransactionService {
         }
         List<Transaction> transactionList = transactionOperations.findByLevelBetween(sessionData.getUserId(),
                 statementRequest.getFromDate(), statementRequest.getToDate());
+        setRoundedTransactions(transactionList);
+
         Optional<Customer> customer = customerOperations.findByCustomerId(
                 sessionData.getUserId());
         byte[] statementPdf = PdfUtils.generateStatementPdf(statementRequest, transactionList, customer.get());
         logger.info("Generated statement pdf for {} {} ", customer.get().getFirstName(), customer.get().getLastName());
         return new StatementResponse(true, "", newSessionId, transactionList, statementPdf);
     }
+
+    private void setRoundedTransactions(final List<Transaction> transactionList) {
+        transactionList.stream()
+                .forEach(transaction -> {
+                    transaction.setRoundedAmount(ConversionUtils.
+                            convertLongToPrice(transaction.getAmount()).doubleValue());
+                    transaction.setRoundedBalance(ConversionUtils.
+                            convertLongToPrice(transaction.getBalance()).doubleValue());
+                });
+    }
+
 
     private void generateQr(final StatementRequest statementRequest,
                             final List<Transaction> transactionList)

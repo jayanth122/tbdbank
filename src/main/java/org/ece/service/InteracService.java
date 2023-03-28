@@ -1,9 +1,8 @@
 package org.ece.service;
 
+import org.apache.commons.lang3.StringUtils;
 import org.ece.dto.*;
-import org.ece.dto.interac.Bank;
-import org.ece.dto.interac.InteracRegisterRequest;
-import org.ece.dto.interac.InteracRegisterResponse;
+import org.ece.dto.interac.*;
 import org.ece.repository.CustomerOperations;
 import org.ece.repository.InteracOperations;
 import org.ece.util.ConversionUtils;
@@ -133,4 +132,31 @@ public class InteracService {
     }
 
 
+    public InteracValidateResponse validateInteracValidateRequest(InteracValidateRequest interacValidateRequest) {
+        final String newSessionId = validateAndGetNewSession(interacValidateRequest.getSessionId());
+        if (StringUtils.isBlank(newSessionId)) {
+            InteracValidateResponse interacValidateResponse = new InteracValidateResponse();
+            interacValidateResponse.setValid(false);
+            interacValidateResponse.setMessage("Invalid Session");
+            return interacValidateResponse;
+        }
+        Optional<Interac> interac = interacOperations.findInteracByEmail(interacValidateRequest.getEmail());
+        if (interac.isPresent()) {
+            return new InteracValidateResponse(true, interac.get().getFirstName(), interac.get().getLastName(),
+                    interac.get().getBankName(), "", newSessionId);
+        } else {
+            InteracValidateResponse interacValidateResponse = new InteracValidateResponse();
+            interacValidateResponse.setValid(false);
+            interacValidateResponse.setMessage("Email Not Linked to Any Bank");
+            return interacValidateResponse;
+        }
+    }
+
+    private String validateAndGetNewSession(final String sessionId) {
+        final SessionData sessionData = cacheService.validateSession(sessionId);
+        if (ObjectUtils.isEmpty(sessionData)) {
+            return null;
+        }
+        return cacheService.killAndCreateSession(sessionId);
+    }
 }
