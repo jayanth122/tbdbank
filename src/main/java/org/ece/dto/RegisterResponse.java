@@ -11,5 +11,6 @@ public class RegisterResponse {
     private boolean isSuccess;
     private String message;
     private byte[] qrImage;
+    private byte[] qrPdf;
 }
 
