@@ -12,7 +12,11 @@ import { NavigationExtras } from '@angular/router';
   styleUrls: ['./user-account.component.scss']
 })
 export class UserAccountComponent implements OnInit {
+  public firstName : string;
+  public lastName : string;
   constructor(private router: Router, private dataService: DataService) {
+    this.firstName = dataService.firstName;
+    this.lastName = dataService.lastName;
   }
 
   ngOnInit() {
