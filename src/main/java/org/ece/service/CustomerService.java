@@ -36,6 +36,7 @@ public class CustomerService {
         if (customer.isPresent()) {
             if (customer.get().isActive()) {
                 final Customer customer1 = customer.get();
+                customer1.setCustomerId("");
                 customer1.setCountryCode("");
                 customer1.setMobileNumber("");
                 customer1.setStreetNumber("");
