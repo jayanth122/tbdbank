@@ -15,6 +15,10 @@ public class Transaction {
     private String transactionId = UUID.randomUUID().toString();
     private String customerId;
     private Long amount;
+    @Transient
+    private double roundedAmount;
+    @Transient
+    private double roundedBalance;
     private Long balance;
     @Enumerated(EnumType.STRING)
     private TransactionType transactionType;
