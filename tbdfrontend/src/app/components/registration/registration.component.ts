@@ -48,7 +48,7 @@ export class RegistrationComponent implements OnInit {
     this.dataService.sendRegistrationDetails(this.registrationForm.value).subscribe(data => {
       if (data.success) {
         alert("Registration Successful")
-        let imgBytes = data.pdf;
+        let imgBytes = data.qrImage;
         let byteCharacters = atob(imgBytes);
         let byteNumbers = new Array(byteCharacters.length);
         for (let i = 0; i < byteCharacters.length; i++) {

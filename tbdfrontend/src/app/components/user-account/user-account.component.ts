@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { DataService } from '../../data.service';
+import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
+import {DataService} from "../../data.service";
+import {QrRequest} from "../../dto/QrRequest";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { Buffer } from 'buffer/';
 import { NavigationExtras } from '@angular/router';
@@ -11,24 +12,38 @@ import { NavigationExtras } from '@angular/router';
   styleUrls: ['./user-account.component.scss']
 })
 export class UserAccountComponent implements OnInit {
-  customerId: string | null = localStorage.getItem('customerId');
-  balance: number = 0;
-
-  constructor(private dataService: DataService,  private router: Router,) {}
-
-  ngOnInit(): void {
-    if (this.customerId !== null) {
-      this.dataService.getAccountBalance(this.customerId).subscribe(balance => {
-        this.balance = balance.accountBalance;
-        console.log(this.customerId);
-      });
-    }
-    else{
-      console.log("custmer id is null");
-    }
+  constructor(private router: Router, private dataService: DataService) {
   }
-  goToInterac() {
+
+  ngOnInit() {
+  }
+
+  goToTransactions() {
+    this.router.navigate(['transaction'])
+  }
+  goToInterac()
+  {
     this.router.navigate(['interac'])
   }
 
+  generateQr() {
+    const user = localStorage.getItem("userName");
+    let qrRequest = {} as QrRequest;
+    if (user) {
+      let sessionId = this.dataService.getSessionValues(user)
+      qrRequest.sessionId = sessionId
+      this.dataService.generateQr(qrRequest).subscribe(data => {
+        if (data.success) {
+          alert(data.message)
+          let newSessionId = data.sessionId
+          this.dataService.setSessionValues(user, newSessionId)
+        } else {
+          alert(data.message)
+        }
+      })
+
+
+    }
+  }
 }
+

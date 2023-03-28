@@ -3,6 +3,7 @@ package org.ece.service;
 import org.ece.dto.RegisterRequest;
 import org.ece.dto.*;
 import org.ece.repository.UserOperations;
+import org.ece.util.PdfUtils;
 import org.ece.util.QRUtils;
 import org.springframework.stereotype.Service;
 import org.ece.repository.CustomerOperations;
@@ -21,12 +22,8 @@ public class RegisterService {
         this.userOperations = userOperations;
         this.customerOperations = customerOperations;
     }
-    public RegisterResponse saveCustomerData(RegisterRequest registerRequest) {
-        RegisterResponse registerResponse = new RegisterResponse();
-        User user = new User();
-        user.setUserName(registerRequest.getUserName());
-        user.setPassword(registerRequest.getPassword());
-        user.setAccountType(AccessType.CUSTOMER);
+
+    private Customer buildCustomer(final RegisterRequest registerRequest) {
         Customer customer = new Customer();
         customer.setUserName(registerRequest.getUserName());
         customer.setFirstName(registerRequest.getFirstName());
@@ -43,16 +40,24 @@ public class RegisterService {
         customer.setPostalCode(registerRequest.getPostalCode());
         customer.setSinNumber(registerRequest.getSinNumber());
         customer.setGender(registerRequest.getGender());
+        return customer;
+    }
+
+    public RegisterResponse saveCustomerData(RegisterRequest registerRequest) {
+        RegisterResponse registerResponse = new RegisterResponse();
+        User user = new User();
+        user.setUserName(registerRequest.getUserName());
+        user.setPassword(registerRequest.getPassword());
+        user.setAccountType(AccessType.CUSTOMER);
+        Customer customer = buildCustomer(registerRequest);
         customerOperations.save(customer);
         userOperations.save(user);
         registerResponse.setSuccess(true);
         registerResponse.setMessage(SUCCESS_MESSAGE);
-        registerResponse.setPdf(generateQR(customer.getCustomerId()));
+        byte[] qrImage = QRUtils.generateQRImage(customer.getCustomerId());
+        registerResponse.setQrPdf(PdfUtils.generateRegistrationQRPdf(qrImage));
+        registerResponse.setQrImage(qrImage);
         return registerResponse;
-    }
-
-    private byte[] generateQR(final String customerId) {
-        return QRUtils.generateQRImage(customerId);
     }
 
     public boolean validateRegisterRequest(RegisterRequest registerRequest) {
