@@ -3,6 +3,7 @@ package org.ece.service;
 import org.ece.dto.RegisterRequest;
 import org.ece.dto.*;
 import org.ece.repository.UserOperations;
+import org.ece.util.PdfUtils;
 import org.ece.util.QRUtils;
 import org.springframework.stereotype.Service;
 import org.ece.repository.CustomerOperations;
@@ -47,12 +48,9 @@ public class RegisterService {
         userOperations.save(user);
         registerResponse.setSuccess(true);
         registerResponse.setMessage(SUCCESS_MESSAGE);
-        registerResponse.setQrImage(generateQR(customer.getCustomerId()));
+        byte[] qrImage = QRUtils.generateQRImage(customer.getCustomerId());
+        registerResponse.setQrImage(PdfUtils.generateRegistrationQRPdf(qrImage));
         return registerResponse;
-    }
-
-    private byte[] generateQR(final String customerId) {
-        return QRUtils.generateQRImage(customerId);
     }
 
     public boolean validateRegisterRequest(RegisterRequest registerRequest) {
