@@ -2,6 +2,7 @@ package org.ece.repository;
 
 import org.ece.dto.AccessType;
 import org.ece.dto.Customer;
+import org.ece.dto.Gender;
 import org.ece.dto.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
