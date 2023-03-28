@@ -10,7 +10,9 @@ import {UserAccountComponent} from "./components/user-account/user-account.compo
 import { TransactionsComponent } from './components/transactions/transactions.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-
+import { InteracComponent } from './components/interac/interac.component';
+import { RouterModule } from '@angular/router';
+import { HomePageComponent } from './components/home-page/home-page.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { FooterComponent } from './components/footer/footer.component';
     UserAccountComponent,
     TransactionsComponent,
     HeaderComponent,
-    FooterComponent
+    FooterComponent,
+    InteracComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
