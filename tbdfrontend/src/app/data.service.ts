@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'
+import {QrRequest} from "./dto/QrRequest";
+import {StatementRequest} from "./dto/StatementRequest";
 
 
 @Injectable({
