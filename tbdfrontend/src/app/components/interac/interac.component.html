@@ -8,9 +8,9 @@
       <h2 class="text-center mb-5">Interac Transfer</h2>
       <form class="form-horizontal" [formGroup]="interacForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
-          <label for="to-email">To Email:</label>
-          <input type="email" id="to-email" class="form-control" formControlName="toEmail">
-          <div *ngIf="interacForm?.get('toEmail')?.invalid && (interacForm?.get('toEmail')?.dirty || interacForm?.get('toEmail')?.touched)" class="alert alert-danger">
+          <label for="receiverEmail">To Email:</label>
+          <input type="email" id="receiverEmail" class="form-control" formControlName="receiverEmail">
+          <div *ngIf="interacForm?.get('receiverEmail')?.invalid && (interacForm?.get('receiverEmail')?.dirty || interacForm?.get('receiverEmail')?.touched)" class="alert alert-danger">
             To Email is required.
           </div>
         </div>
@@ -31,15 +31,15 @@
           <textarea id="message" class="form-control" formControlName="message" rows="1" cols="3"></textarea>
         </div>
         <div class="form-group">
-          <label for="security-question">Security Question:</label>
-          <input type="text" id="security-question" class="form-control" formControlName="securityQuestion">
+          <label for="securityQuestion">Security Question:</label>
+          <input type="text" id="securityQuestion" class="form-control" formControlName="securityQuestion">
           <div *ngIf="interacForm?.get('securityQuestion')?.invalid && (interacForm?.get('securityQuestion')?.dirty || interacForm?.get('securityQuestion')?.touched)" class="alert alert-danger">
             Security Question is required.
           </div>
         </div>
         <div class="form-group">
-          <label for="security-answer">Security Answer:</label>
-          <input type="text" id="security-answer" class="form-control" formControlName="securityAnswer">
+          <label for="securityAnswer">Security Answer:</label>
+          <input type="text" id="securityAnswer" class="form-control" formControlName="securityAnswer">
           <div *ngIf="interacForm?.get('securityAnswer')?.invalid && (interacForm?.get('securityAnswer')?.dirty || interacForm?.get('securityAnswer')?.touched)" class="alert alert-danger">
             Security Answer is required.
           </div>
@@ -48,9 +48,7 @@
           <button type="submit" class="btn btn-success">Send Transfer</button>
         </div>
       </form>
-      <div *ngIf="interacSent" class="alert alert-success mt-3">
-        {{ message }}
-      </div>
+
     </div>
   </div>
 </div>
