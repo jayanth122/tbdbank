@@ -47,7 +47,7 @@ public class RegisterService {
         userOperations.save(user);
         registerResponse.setSuccess(true);
         registerResponse.setMessage(SUCCESS_MESSAGE);
-        registerResponse.setPdf(generateQR(customer.getCustomerId()));
+        registerResponse.setQrImage(generateQR(customer.getCustomerId()));
         return registerResponse;
     }
 

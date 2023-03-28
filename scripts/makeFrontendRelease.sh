@@ -17,4 +17,5 @@ ssh -i santhoshpvtkey.txt ubuntu@132.145.103.186 'cd /home/ubuntu/tbdbank/tbdban
   fi &&
    docker build -t tbdbankfrontend-image . &&
    docker run -d -p 8080:80 --name tbdbankfrontend-container tbdbankfrontend-image
-   sudo docker cp tbdbankfrontend-container:/frontendApp/dist/tbdfrontend /usr/share/nginx/html'
+   sudo docker cp tbdbankfrontend-container:/frontendApp/dist/tbdfrontend /usr/share/nginx/html
+   docker system prune -f'
