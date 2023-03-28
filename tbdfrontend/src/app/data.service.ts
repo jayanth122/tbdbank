@@ -22,7 +22,7 @@ export class DataService {
     return this.httpClient.post(`${this.url}/register`, registrationData)
   }
   sendInteracDetails(interacData:FormData): Observable<any>{
-    return this.httpClient.post(`${this.url}/interac`, interacData)
+    return this.httpClient.post(`${this.url}/transaction/interac`, interacData)
   }
   getAccountBalance(customerId: string): Observable<any> {
     return this.httpClient.get<any>(`${this.url}/customers/${customerId}/accountBalance`);
