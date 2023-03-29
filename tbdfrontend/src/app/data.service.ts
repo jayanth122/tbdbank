@@ -10,6 +10,11 @@ import {StatementRequest} from "./dto/StatementRequest";
 })
 export class DataService {
   sessionIdStorage = new Map<string,string>();
+  verificationImage : any;
+  verificationPdf : any;
+  paymentQrImage : any;
+  paymentQrPdf : any;
+
   private url = "https://www.santhoshprojects.me/tbd651"
 
   constructor(private httpClient: HttpClient) {
@@ -24,17 +29,6 @@ export class DataService {
   sendInteracDetails(interacData:FormData): Observable<any>{
     return this.httpClient.post(`${this.url}/transaction/interac`, interacData)
   }
-  getAccountBalance(customerId: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.url}/customers/${customerId}/accountBalance`);
-  }
-  getCustomerIdByUsername(username: string): Observable<any> {
-    return this.httpClient.get<any>(`${this.url}/user-account/${username}`);
-  }
-  getCustomerById(customerId: number) {
-    const url = `${this.url}/customers/${customerId}`;
-    return this.httpClient.get<any>(url);
-  }
-
   setSessionValues(userName:string, value:string){
     this.sessionIdStorage.set(userName,value)
   }
@@ -43,6 +37,30 @@ export class DataService {
       return this.sessionIdStorage.get(userName);
     }
     return null
+  }
+  setVerificationImage(imageData : any) {
+    this.verificationImage = imageData;
+  }
+  getVerificationImage():any {
+    return this.verificationImage;
+  }
+  setVerificationPdf(pdfData:any){
+    this.verificationPdf = pdfData;
+  }
+  getVerificationPdf():any{
+    return this.verificationPdf
+  }
+  setPaymentQrImage(qRImageData:any){
+    this.paymentQrImage = qRImageData;
+  }
+  getPaymentQrImage() : any{
+    return this.paymentQrImage;
+  }
+  setPaymentQrPdf(qrPdfData:any){
+    this.paymentQrPdf = qrPdfData;
+  }
+  getPaymentQrPdf() : any{
+    return this.paymentQrPdf;
   }
 
   getTransactionStatement(statementRequest : StatementRequest): Observable<any> {

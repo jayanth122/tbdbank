@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../data.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { DomSanitizer } from '@angular/platform-browser';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-registration',
@@ -14,7 +15,7 @@ export class RegistrationComponent implements OnInit {
   submitted = false;
   genders = ["Male", "Female", "Other"]
   provinces = ["AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"]
-  constructor(private dataService: DataService, private formBuilder:FormBuilder, private sanitizer:DomSanitizer) { }
+  constructor(private dataService: DataService, private formBuilder:FormBuilder, private router:Router) { }
   ngOnInit(): void {
     this.registrationForm=this.formBuilder.group({
       userName:["",Validators.required],
@@ -47,20 +48,15 @@ export class RegistrationComponent implements OnInit {
     this.registrationForm.value['gender']=this.registrationForm.value['gender'].toUpperCase()
     this.dataService.sendRegistrationDetails(this.registrationForm.value).subscribe(data => {
       if (data.success) {
-        alert("Registration Successful")
-        let imgBytes = data.qrImage;
-        let byteCharacters = atob(imgBytes);
-        let byteNumbers = new Array(byteCharacters.length);
-        for (let i = 0; i < byteCharacters.length; i++) {
-          byteNumbers[i] = byteCharacters.charCodeAt(i);
-        }
-        let byteArray = new Uint8Array(byteNumbers);
-        const blob = new Blob([byteArray], { type: 'image/png' });
-        console.log(URL.createObjectURL(blob));
-        this.imageURL = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+        alert(data.message)
+        this.dataService.setVerificationImage(data.qrImage)
+        this.dataService.setVerificationPdf(data.qrPdf)
+        this.router.navigate(['verification'])
       } else {
-        alert("Registration UnSuccessful")
+        alert(data.message)
       }
+    },error => {
+      alert("502")
     })
   }
   onReset(){
