@@ -33,6 +33,9 @@ export class LoginComponent implements OnInit {
           alert("Welcome " + data.firstName + " " + data.lastName)
           localStorage.setItem("userName",this.loginForm.value['userName'])
           this.dataService.setSessionValues(this.loginForm.value['userName'],data.uniqueSessionId)
+          this.dataService.setFirstName(data.firstName);
+          this.dataService.setLastName(data.lastName);
+
           let decoded: string;
           decoded = Buffer.from(data.encodedAccess, 'base64').toString();
           if(decoded==="CUSTOMER") {

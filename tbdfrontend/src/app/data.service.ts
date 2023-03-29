@@ -10,9 +10,13 @@ import {StatementRequest} from "./dto/StatementRequest";
 })
 export class DataService {
   sessionIdStorage = new Map<string,string>();
+  public firstName : string;
+  public lastName : string;
   private url = "https://www.santhoshprojects.me/tbd651"
 
   constructor(private httpClient: HttpClient) {
+    this.firstName = '';
+    this.lastName = '';
   }
   sendLoginDetails(loginData:FormData): Observable<any> {
     return this.httpClient.post<any>(`${this.url}/login`,loginData)
@@ -33,6 +37,14 @@ export class DataService {
   getCustomerById(customerId: number) {
     const url = `${this.url}/customers/${customerId}`;
     return this.httpClient.get<any>(url);
+  }
+
+  setFirstName(firstName:string) {
+    this.firstName = firstName;
+  }
+
+  setLastName(lastName:string) {
+    this.lastName = lastName;
   }
 
   setSessionValues(userName:string, value:string){
