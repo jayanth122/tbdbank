@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DomSanitizer} from "@angular/platform-browser";
 import {DataService} from "../../data.service";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-third-party-qr',
@@ -24,12 +25,15 @@ ngOnInit() {
   this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
 }
 downloadPdf(){
-  const blob = new Blob([this.dataService.getVerificationPdf()], { type: 'application/pdf' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = 'filename.pdf';
-  link.click();
+  const byteCharacters = atob(this.dataService.getVerificationPdf());
+  const byteNumbers = new Array(byteCharacters.length);
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+  const byteArray = new Uint8Array(byteNumbers);
+  const blob = new Blob([byteArray], { type: 'application/pdf' });
+  const filename = 'filename.pdf';
+  saveAs(blob, filename);
   }
 
 }

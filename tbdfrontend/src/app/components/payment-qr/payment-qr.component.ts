@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {DataService} from "../../data.service";
 import {DomSanitizer} from "@angular/platform-browser";
+import { saveAs } from 'file-saver'
 
 @Component({
   selector: 'app-payment-qr',
@@ -9,7 +10,6 @@ import {DomSanitizer} from "@angular/platform-browser";
 })
 export class PaymentQrComponent implements OnInit {
   public imageUrl : any;
-  public pdfUrl:any
   constructor(private dataService:DataService,private sanitizer:DomSanitizer){}
 ngOnInit() {
   let imgBytes = this.dataService.getPaymentQrImage();
@@ -23,13 +23,13 @@ ngOnInit() {
   URL.createObjectURL(blob)
   this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
 }
-  downloadPdf(){
-    const blob = new Blob([this.dataService.getPaymentQrPdf()], { type: 'application/pdf' });
+  downloadPdf() {
+
+    const blob = new Blob([this.dataService.getVerificationPdf()], { type: 'application/pdf' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
     link.download = 'filename.pdf';
     link.click();
   }
-
 }

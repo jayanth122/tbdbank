@@ -16,6 +16,7 @@ export class DataService {
   paymentQrPdf : any;
 
   private url = "https://www.santhoshprojects.me/tbd651"
+  // private url = "http://localhost:8081/tbd651"
 
   constructor(private httpClient: HttpClient) {
   }
