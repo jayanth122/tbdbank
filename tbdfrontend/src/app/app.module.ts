@@ -11,8 +11,11 @@ import { TransactionsComponent } from './components/transactions/transactions.co
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { InteracComponent } from './components/interac/interac.component';
-import { RouterModule } from '@angular/router';
 import { HomePageComponent } from './components/home-page/home-page.component';
+import { ThirdPartyQrComponent } from './components/third-party-qr/third-party-qr.component';
+import { PaymentQrComponent } from './components/payment-qr/payment-qr.component';
+
+
 
 @NgModule({
   declarations: [
@@ -24,7 +27,9 @@ import { HomePageComponent } from './components/home-page/home-page.component';
     HeaderComponent,
     FooterComponent,
     InteracComponent,
-    HomePageComponent
+    HomePageComponent,
+    ThirdPartyQrComponent,
+    PaymentQrComponent
   ],
   imports: [
     BrowserModule,

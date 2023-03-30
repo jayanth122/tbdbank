@@ -10,14 +10,7 @@ import {DataService} from "../../data.service";
 })
 export class InteracComponent implements OnInit {
   interacForm!: FormGroup;
-  //sessionId!: string;
-  //remainingBalance!: string;
-  ///errorMessage!: string;
-  //successMessage!: string;
-  //interacSent: boolean = false;
   submitted = false;
-
-  //message!:string;
   constructor(private formBuilder: FormBuilder, private dataService: DataService, private http: HttpClient) {
   }
 
@@ -37,13 +30,11 @@ export class InteracComponent implements OnInit {
     if (this.interacForm.invalid) {
       return;
     }
-    console.log(JSON.stringify(this.interacForm.value));
     let user = localStorage.getItem("userName");
     if (user) {
       this.interacForm.value["sessionId"] = this.dataService.getSessionValues(user)
-      console.log(this.interacForm.value)
       this.dataService.sendInteracDetails(this.interacForm.value).subscribe(data => {
-        if (data.isSuccess) {
+        if (data.success) {
           var newSessionId = data.sessionId
           console.log(data.message)
           let user = localStorage.getItem("userName");
