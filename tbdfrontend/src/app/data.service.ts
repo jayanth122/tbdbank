@@ -14,8 +14,8 @@ export class DataService {
   verificationPdf : any;
   paymentQrImage : any;
   paymentQrPdf : any;
-  firstName : string;
-  lastName : string;
+  firstName:string;
+  lastName:string;
 
   private url = "https://www.santhoshprojects.me/tbd651"
 
