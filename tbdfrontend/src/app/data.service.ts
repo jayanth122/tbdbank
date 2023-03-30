@@ -19,6 +19,8 @@ export class DataService {
   // private url = "http://localhost:8081/tbd651"
 
   constructor(private httpClient: HttpClient) {
+    this.firstName = '';
+    this.lastName = '';
   }
   sendLoginDetails(loginData:FormData): Observable<any> {
     return this.httpClient.post<any>(`${this.url}/login`,loginData)
