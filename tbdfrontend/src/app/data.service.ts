@@ -14,14 +14,24 @@ export class DataService {
   verificationPdf : any;
   paymentQrImage : any;
   paymentQrPdf : any;
+  firstName : string;
+  lastName : string;
 
   private url = "https://www.santhoshprojects.me/tbd651"
-  // private url = "http://localhost:8081/tbd651"
 
   constructor(private httpClient: HttpClient) {
     this.firstName = '';
     this.lastName = '';
   }
+
+  setFirstName(firstName:string) {
+    this.firstName = firstName;
+  }
+
+  setLastName(lastName:string) {
+    this.lastName = lastName;
+  }
+
   sendLoginDetails(loginData:FormData): Observable<any> {
     return this.httpClient.post<any>(`${this.url}/login`,loginData)
   }
