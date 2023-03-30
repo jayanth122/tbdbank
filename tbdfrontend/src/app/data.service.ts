@@ -17,7 +17,7 @@ export class DataService {
   firstName : string;
   lastName : string;
 
-  private url = "https://www.santhoshprojects.me/tbd651"
+  private url = "https://www.tbdbank.me/tbd651"
 
   constructor(private httpClient: HttpClient) {
     this.firstName = '';
