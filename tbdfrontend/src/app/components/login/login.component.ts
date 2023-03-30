@@ -35,7 +35,6 @@ export class LoginComponent implements OnInit {
           this.dataService.setSessionValues(this.loginForm.value['userName'],data.uniqueSessionId)
           this.dataService.setFirstName(data.firstName);
           this.dataService.setLastName(data.lastName);
-
           let decoded: string;
           decoded = Buffer.from(data.encodedAccess, 'base64').toString();
           if(decoded==="CUSTOMER") {
