@@ -5,7 +5,6 @@ import {RegistrationComponent} from "./components/registration/registration.comp
 import {UserAccountComponent} from "./components/user-account/user-account.component";
 import {TransactionsComponent} from "./components/transactions/transactions.component";
 import {InteracComponent} from "./components/interac/interac.component";
-import {HomePageComponent} from "./components/home-page/home-page.component";
 import {ThirdPartyQrComponent} from "./components/third-party-qr/third-party-qr.component";
 import {PaymentQrComponent} from "./components/payment-qr/payment-qr.component";
 import {AboutComponent} from "./components/about/about.component";
