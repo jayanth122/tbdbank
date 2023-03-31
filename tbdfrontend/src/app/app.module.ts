@@ -14,7 +14,7 @@ import { InteracComponent } from './components/interac/interac.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { ThirdPartyQrComponent } from './components/third-party-qr/third-party-qr.component';
 import { PaymentQrComponent } from './components/payment-qr/payment-qr.component';
-
+import { AboutComponent } from './components/about/about.component';
 
 
 @NgModule({
@@ -29,7 +29,8 @@ import { PaymentQrComponent } from './components/payment-qr/payment-qr.component
     InteracComponent,
     HomePageComponent,
     ThirdPartyQrComponent,
-    PaymentQrComponent
+    PaymentQrComponent,
+    AboutComponent
   ],
   imports: [
     BrowserModule,
