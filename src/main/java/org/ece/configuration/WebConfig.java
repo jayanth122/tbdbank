@@ -12,9 +12,7 @@ public class WebConfig {
     private static final String TBDBANK_DOMAIN_2 = "tbdbank.me";
     private static final String SANTHOSH_DOMAIN = "https://www.santhoshprojects.me";
     private static final String SANTHOSH_DOMAIN_2 = "santhoshprojects.me";
-    private static final String ANIRUDH_IP = "http://192.168.0.28:4200";
-    private static final String ANIRUDH_IP_2 = "http://192.168.0.28";
-    private static final String ANIRUDH_IP_3 = "http://localhost:4200";
+    private static final String COMMON_LOCAL_IP = "http://localhost:4277";
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {
@@ -24,7 +22,7 @@ public class WebConfig {
                 registry.addMapping("/**")
                         .allowCredentials(true)
                         .allowedOrigins(TBDBANK_DOMAIN, TBDBANK_DOMAIN_2, SANTHOSH_DOMAIN, SANTHOSH_DOMAIN_2,
-                                ANIRUDH_IP, ANIRUDH_IP_2, ANIRUDH_IP_3);
+                                COMMON_LOCAL_IP);
             }
         };
     }
