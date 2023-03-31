@@ -10,6 +10,7 @@ import {StatementRequest} from "./dto/StatementRequest";
 })
 export class DataService {
   sessionIdStorage = new Map<string,string>();
+<<<<<<< Updated upstream
   verificationImage : any;
   verificationPdf : any;
   paymentQrImage : any;
@@ -17,6 +18,10 @@ export class DataService {
   firstName:string;
   lastName:string;
 
+=======
+  public firstName : string;
+  public lastName : string;
+>>>>>>> Stashed changes
   private url = "https://www.tbdbank.me/tbd651"
 
   constructor(private httpClient: HttpClient) {

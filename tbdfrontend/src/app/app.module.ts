@@ -12,10 +12,14 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { InteracComponent } from './components/interac/interac.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
+<<<<<<< Updated upstream
 import { ThirdPartyQrComponent } from './components/third-party-qr/third-party-qr.component';
 import { PaymentQrComponent } from './components/payment-qr/payment-qr.component';
 
 
+=======
+import { AboutComponent } from './components/about/about.component';
+>>>>>>> Stashed changes
 
 @NgModule({
   declarations: [
@@ -28,8 +32,12 @@ import { PaymentQrComponent } from './components/payment-qr/payment-qr.component
     FooterComponent,
     InteracComponent,
     HomePageComponent,
+<<<<<<< Updated upstream
     ThirdPartyQrComponent,
     PaymentQrComponent
+=======
+    AboutComponent
+>>>>>>> Stashed changes
   ],
   imports: [
     BrowserModule,

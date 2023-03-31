@@ -6,18 +6,28 @@ import {UserAccountComponent} from "./components/user-account/user-account.compo
 import {TransactionsComponent} from "./components/transactions/transactions.component";
 import {InteracComponent} from "./components/interac/interac.component";
 import {HomePageComponent} from "./components/home-page/home-page.component";
+<<<<<<< Updated upstream
 import {ThirdPartyQrComponent} from "./components/third-party-qr/third-party-qr.component";
 import {PaymentQrComponent} from "./components/payment-qr/payment-qr.component";
+=======
+import {AboutComponent} from "./components/about/about.component";
+>>>>>>> Stashed changes
 
 const routes: Routes = [
-  {path:'', component : HomePageComponent },
+  {path:'', component : AboutComponent},
   {path:'login', component : LoginComponent},
   {path:'registration',component : RegistrationComponent},
   {path:'user-account',component : UserAccountComponent},
+<<<<<<< Updated upstream
   {path:'interac', component:InteracComponent},
   {path:'transaction',component : TransactionsComponent},
   {path:'verification',component:ThirdPartyQrComponent},
   {path:'qr',component:PaymentQrComponent}
+=======
+  {path:'transactions',component : TransactionsComponent},
+  {path:'interac', component:InteracComponent},
+  {path:'about',component:AboutComponent}
+>>>>>>> Stashed changes
 ];
 
 @NgModule({
