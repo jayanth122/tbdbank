@@ -5,6 +5,7 @@ import {QrRequest} from "../../dto/QrRequest";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { Buffer } from 'buffer/';
 import { NavigationExtras } from '@angular/router';
+import {UserDetailsRequest} from "../../dto/UserDetailsRequest";
 
 @Component({
   selector: 'app-user-account',
@@ -20,6 +21,7 @@ export class UserAccountComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchCustomerDetails();
   }
 
   goToTransactions() {
@@ -29,14 +31,14 @@ export class UserAccountComponent implements OnInit {
   {
     this.router.navigate(['interac'])
   }
-
-  generateQr() {
+  fetchCustomerDetails()
+  {
     const user = localStorage.getItem("userName");
-    let qrRequest = {} as QrRequest;
+    let userDetailsRequest = {} as UserDetailsRequest;
     if (user) {
       let sessionId = this.dataService.getSessionValues(user)
-      qrRequest.sessionId = sessionId
-      this.dataService.generateQr(qrRequest).subscribe(data => {
+      userDetailsRequest.sessionId = sessionId
+      this.dataService.fetchUserDetails(userDetailsRequest).subscribe(data => {
         if (data.success) {
           alert(data.message)
           let newSessionId = data.sessionId
@@ -48,9 +50,27 @@ export class UserAccountComponent implements OnInit {
           alert(data.message)
         }
       })
-
-
     }
   }
+  // generateQr() {
+  //   const user = localStorage.getItem("userName");
+  //   let qrRequest = {} as QrRequest;
+  //   if (user) {
+  //     let sessionId = this.dataService.getSessionValues(user)
+  //     qrRequest.sessionId = sessionId
+  //     this.dataService.generateQr(qrRequest).subscribe(data => {
+  //       if (data.success) {
+  //         alert(data.message)
+  //         let newSessionId = data.sessionId
+  //         this.dataService.setSessionValues(user, newSessionId)
+  //         this.dataService.setPaymentQrImage(data.qrImage);
+  //         this.dataService.setPaymentQrPdf(data.qrPdf)
+  //         this.router.navigate(['qr'])
+  //       } else {
+  //         alert(data.message)
+  //       }
+  //     })
+  //   }
+  // }
 }
 

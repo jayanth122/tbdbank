@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'
 import {QrRequest} from "./dto/QrRequest";
 import {StatementRequest} from "./dto/StatementRequest";
+import {UserDetailsRequest} from "./dto/UserDetailsRequest";
 
 
 @Injectable({
@@ -82,6 +83,10 @@ export class DataService {
 
   generateQr(qrRequest : QrRequest) : Observable<any> {
     return this.httpClient.post(`${this.url}/qr/generateQR`,qrRequest)
+  }
+
+  fetchUserDetails(userDetailsRequest : UserDetailsRequest) : Observable<any> {
+    return this.httpClient.post(`${this.url}/customer`,userDetailsRequest)
   }
 
 }
