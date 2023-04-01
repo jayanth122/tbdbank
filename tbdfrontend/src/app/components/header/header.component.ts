@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 
 @Component({
@@ -7,16 +7,16 @@ import {Router} from "@angular/router";
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
- isClicked:boolean=false;
+  @Input()
+  isHomePage!: boolean;
+  @Input()
+  afterLogin!:boolean
  constructor(private router:Router) {
  }
  ngOnInit() {
-   this.isClicked=false;
+
  }
- goToHome(){
-   this.router.navigate([''])
-   this.isClicked=true;
- }
+
 
 
 }
