@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {DataService} from "../../data.service";
+import {InteracValidateRequest} from "../../dto/InteracValidateRequest";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-interac',
@@ -11,7 +13,8 @@ import {DataService} from "../../data.service";
 export class InteracComponent implements OnInit {
   interacForm!: FormGroup;
   submitted = false;
-  constructor(private formBuilder: FormBuilder, private dataService: DataService, private http: HttpClient) {
+
+  constructor(private formBuilder: FormBuilder, private dataService: DataService, private router: Router) {
   }
 
   ngOnInit(): void {
@@ -39,11 +42,32 @@ export class InteracComponent implements OnInit {
           console.log(data.message)
           let user = localStorage.getItem("userName");
           if (user) {
-            this.dataService.setSessionValues(user,newSessionId)
+            this.dataService.setSessionValues(user, newSessionId)
           }
         }
       })
+    }
+  }
 
+  validateInterac() {
+    const user = localStorage.getItem("userName");
+    let interacValidateRequest = {} as InteracValidateRequest;
+    if (user) {
+      let sessionId = this.dataService.getSessionValues(user)
+      interacValidateRequest.sessionId = sessionId
+      interacValidateRequest.email = ""
+      this.dataService.validateInterac(interacValidateRequest).subscribe(data => {
+        if (data.valid) {
+          alert(data.message)
+          let newSessionId = data.sessionId
+          this.dataService.setSessionValues(user, newSessionId)
+          this.router.navigate(['interac'])
+        } else {
+          alert(data.message)
+          let newSessionId = data.sessionId
+          this.dataService.setSessionValues(user, newSessionId)
+        }
+      })
     }
   }
 }

@@ -2,9 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../../data.service";
 import {QrRequest} from "../../dto/QrRequest";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import { Buffer } from 'buffer/';
-import { NavigationExtras } from '@angular/router';
+import {UserDetailsRequest} from "../../dto/UserDetailsRequest";
 
 @Component({
   selector: 'app-user-account',
@@ -20,6 +18,7 @@ export class UserAccountComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchCustomerDetails()
   }
 
   goToTransactions() {
@@ -48,8 +47,28 @@ export class UserAccountComponent implements OnInit {
           alert(data.message)
         }
       })
+    }
+  }
 
-
+  fetchCustomerDetails()
+  {
+    const user = localStorage.getItem("userName");
+    let userDetailsRequest = {} as UserDetailsRequest;
+    if (user) {
+      let sessionId = this.dataService.getSessionValues(user)
+      userDetailsRequest.sessionId = sessionId
+        this.dataService.fetchUserDetails(userDetailsRequest).subscribe(data => {
+          if (data.success) {
+            alert(data.message)
+            let newSessionId = data.sessionId
+            this.dataService.setSessionValues(user, newSessionId)
+            this.dataService.user.accountBalance = data.customer.accountBalance
+            this.dataService.user.email = data.customer.email
+          }
+          else{
+            alert(data.message)
+          }
+        })
     }
   }
 }

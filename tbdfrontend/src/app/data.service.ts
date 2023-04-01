@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'
 import {QrRequest} from "./dto/QrRequest";
 import {StatementRequest} from "./dto/StatementRequest";
+import {InteracValidateRequest} from "./dto/InteracValidateRequest";
+import {UserDetailsRequest} from "./dto/UserDetailsRequest";
 
 
 @Injectable({
@@ -16,6 +18,13 @@ export class DataService {
   paymentQrPdf : any;
   firstName : string;
   lastName : string;
+  user = {
+    firstName : '',
+    lastName : '',
+    email : '',
+    accountBalance : 0,
+    interacEmail : ''
+  };
 
   private url = "https://www.tbdbank.me/tbd651"
 
@@ -83,5 +92,14 @@ export class DataService {
   generateQr(qrRequest : QrRequest) : Observable<any> {
     return this.httpClient.post(`${this.url}/qr/generateQR`,qrRequest)
   }
+
+  validateInterac(validateInteracRequest : InteracValidateRequest):Observable<any> {
+    return this.httpClient.post(`${this.url}/transaction/interac/validate`,validateInteracRequest);
+  }
+  fetchUserDetails(userDetailsRequest : UserDetailsRequest) : Observable<any> {
+    return this.httpClient.post(`${this.url}/customer`,userDetailsRequest)
+  }
+
+
 
 }
