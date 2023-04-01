@@ -8,6 +8,8 @@ import {InteracComponent} from "./components/interac/interac.component";
 import {ThirdPartyQrComponent} from "./components/third-party-qr/third-party-qr.component";
 import {PaymentQrComponent} from "./components/payment-qr/payment-qr.component";
 import {AboutComponent} from "./components/about/about.component";
+import {StatementComponent} from "./components/statement/statement.component";
+import {FooterComponent} from "./components/footer/footer.component";
 
 
 const routes: Routes = [
@@ -19,7 +21,8 @@ const routes: Routes = [
   {path:'transaction',component : TransactionsComponent},
   {path:'verification',component:ThirdPartyQrComponent},
   {path:'qr',component:PaymentQrComponent},
-  {path:'about',component:AboutComponent}
+  {path:'about',component:AboutComponent},
+  {path:'statement',component:StatementComponent}
 ];
 
 @NgModule({

@@ -14,8 +14,8 @@ export class DataService {
   verificationPdf : any;
   paymentQrImage : any;
   paymentQrPdf : any;
-  firstName:string;
-  lastName:string;
+  firstName : string;
+  lastName : string;
 
   private url = "https://www.tbdbank.me/tbd651"
 
@@ -83,4 +83,5 @@ export class DataService {
   generateQr(qrRequest : QrRequest) : Observable<any> {
     return this.httpClient.post(`${this.url}/qr/generateQR`,qrRequest)
   }
+
 }
