@@ -17,10 +17,13 @@ public class RegisterService {
 
     CustomerOperations customerOperations;
     UserOperations userOperations;
+    ThirdPartyVerificationService thirdPartyVerificationService;
 
-    public RegisterService(UserOperations userOperations, CustomerOperations customerOperations) {
+    public RegisterService(UserOperations userOperations, CustomerOperations customerOperations,
+                           final ThirdPartyVerificationService thirdPartyVerificationService) {
         this.userOperations = userOperations;
         this.customerOperations = customerOperations;
+        this.thirdPartyVerificationService = thirdPartyVerificationService;
     }
 
     private Customer buildCustomer(final RegisterRequest registerRequest) {
@@ -57,6 +60,12 @@ public class RegisterService {
         byte[] qrImage = QRUtils.generateQRImage(customer.getCustomerId());
         registerResponse.setQrPdf(PdfUtils.generateRegistrationQRPdf(qrImage));
         registerResponse.setQrImage(qrImage);
+        if (registerRequest.isTestAccount()) {
+            ThirdPartyVerificationRequest thirdPartyVerificationRequest = new ThirdPartyVerificationRequest();
+            thirdPartyVerificationRequest.setCustomerId(customer.getCustomerId());
+            thirdPartyVerificationRequest.setVerificationStatus(true);
+            thirdPartyVerificationService.updateCustomerVerification(thirdPartyVerificationRequest);
+        }
         return registerResponse;
     }
 
