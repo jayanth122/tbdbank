@@ -109,8 +109,11 @@ public class InteracService {
             return new InteracRegisterResponse(false, INVALID_SESSION_ERROR, null);
         }
         final String newSessionId = cacheService.killAndCreateSession(interacRegisterRequest.getSessionId());
-        Optional<Interac> interac = interacOperations.findInteracByEmail(interacRegisterRequest.getEmail());
         Optional<Interac> customerInterac = interacOperations.findInteracByCustomerId(sessionData.getUserId());
+        if (StringUtils.isBlank(interacRegisterRequest.getEmail())) {
+            return new InteracRegisterResponse(customerInterac.isPresent(), "", newSessionId);
+        }
+        Optional<Interac> interac = interacOperations.findInteracByEmail(interacRegisterRequest.getEmail());
         if (customerInterac.isPresent() || interac.isPresent()) {
             return new InteracRegisterResponse(false, EMAIL_ALREADY_EXISTS, newSessionId);
         }

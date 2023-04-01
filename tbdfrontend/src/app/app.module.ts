@@ -11,10 +11,10 @@ import { TransactionsComponent } from './components/transactions/transactions.co
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { InteracComponent } from './components/interac/interac.component';
-import { HomePageComponent } from './components/home-page/home-page.component';
 import { ThirdPartyQrComponent } from './components/third-party-qr/third-party-qr.component';
 import { PaymentQrComponent } from './components/payment-qr/payment-qr.component';
 import { AboutComponent } from './components/about/about.component';
+import { StatementComponent } from './components/statement/statement.component';
 
 
 @NgModule({
@@ -27,10 +27,10 @@ import { AboutComponent } from './components/about/about.component';
     HeaderComponent,
     FooterComponent,
     InteracComponent,
-    HomePageComponent,
     ThirdPartyQrComponent,
     PaymentQrComponent,
-    AboutComponent
+    AboutComponent,
+    StatementComponent
   ],
   imports: [
     BrowserModule,

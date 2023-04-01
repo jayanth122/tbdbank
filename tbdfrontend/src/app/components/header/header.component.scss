@@ -1,8 +1,3 @@
-
-
-/*--------------------------------------------------------------
-# General
---------------------------------------------------------------*/
 body {
   font-family: "Open Sans", sans-serif;
   color: #444444;
@@ -27,9 +22,6 @@ h6 {
   font-family: "Raleway", sans-serif;
 }
 
-/*--------------------------------------------------------------
-# Back to top button
---------------------------------------------------------------*/
 .back-to-top {
   position: fixed;
   visibility: hidden;
@@ -95,59 +87,6 @@ h6 {
     transform: rotate(360deg);
   }
 }
-
-/*--------------------------------------------------------------
-# Disable aos animation delay on mobile devices
---------------------------------------------------------------*/
-@media screen and (max-width: 768px) {
-  [data-aos-delay] {
-    transition-delay: 0 !important;
-  }
-}
-
-/*--------------------------------------------------------------
-# Top Bar
---------------------------------------------------------------*/
-#topbar {
-  background: #191919;
-  font-size: 15px;
-  height: 40px;
-  padding: 0;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-#topbar .contact-info a {
-  line-height: 0;
-  color: rgba(255, 255, 255, 0.6);
-  transition: 0.3s;
-}
-
-#topbar .contact-info a:hover {
-  color: #fff;
-}
-
-#topbar .contact-info i {
-  color: #cc1616;
-  line-height: 0;
-  margin-right: 5px;
-}
-
-#topbar .contact-info .phone-icon {
-  margin-left: 15px;
-}
-
-#topbar .social-links a {
-  color: rgba(255, 255, 255, 0.6);
-  padding: 4px 12px;
-  display: inline-block;
-  line-height: 1px;
-  transition: 0.3s;
-}
-
-#topbar .social-links a:hover {
-  color: #fff;
-}
-
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
@@ -165,7 +104,8 @@ h6 {
 }
 
 #header .logo {
-  font-family: "Algerian", Arial, sans-serif;
+  font-family: "Algerian";
+  font-weight: bold;
   font-size: 25px;
   margin: 0;
   padding: 0;
@@ -186,7 +126,6 @@ h6 {
 .scrolled-offset {
   margin-top: 70px;
 }
-
 /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
