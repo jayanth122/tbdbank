@@ -11,7 +11,7 @@ h2{
   color: darkred;
 }
 body{
-  background-color: lightcyan;
+  background-color: lightgray;
 }
 .buttons{
   color: darkblue;
@@ -24,3 +24,64 @@ body{
   width: 10%;
   length:10%;
 }
+@media (min-width: 1025px) {
+  .h-custom {
+    height: 100px;
+  }
+}
+.card-registration .select-input.form-control[readonly]:not([disabled]) {
+  font-size: 1rem;
+  line-height: 2.15;
+  padding-left: .75em;
+  padding-right: .75em;
+}
+.card-registration .select-arrow {
+  top: 13px;
+}
+.custom-height {
+  width: 100%;
+}
+.custom-width {
+  width: 100%;
+}
+.gradient-custom-2 {
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to right, rgba(161, 196, 253, 0.5), rgba(194, 233, 251, 0.5))
+}
+
+.bg-indigo {
+  background-color: #4835d4;
+}
+@media (min-width: 992px) {
+  .card-registration-2 .bg-indigo {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+}
+@media (max-width: 991px) {
+  .card-registration-2 .bg-indigo {
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+  }
+}
+
+select {
+  /* Set padding to make room for the arrow */
+  padding: 0.5rem 2rem 0.5rem 1rem;
+  /* Remove default appearance */
+  appearance: none;
+  /* Add custom arrow */
+  background-size: 16px 16px;
+  /* Add custom border */
+  border: 1px solid #ccc;
+  border-radius: 0.25rem;
+  /* Add custom font and colors */
+  font-family: Arial, sans-serif;
+  font-size: 1rem;
+  color: #333;
+  background: #fff url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'><path d='M8 12.5L3.5 8H12z'/></svg>") no-repeat right 0.5rem center;
+}
+input::placeholder {
+  color: black;
+}
+
