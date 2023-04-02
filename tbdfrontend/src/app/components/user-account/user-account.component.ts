@@ -15,7 +15,7 @@ export class UserAccountComponent implements OnInit {
   public firstName : string;
   public lastName : string;
   constructor(private router: Router, private dataService: DataService) {
-    if(this.dataService.isLoginValid) {
+    if(!this.dataService.isLoginValid) {
       this.router.navigate(['login'])
     }
     this.firstName = dataService.firstName;
