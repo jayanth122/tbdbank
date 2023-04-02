@@ -110,9 +110,6 @@ public class InteracService {
         }
         final String newSessionId = cacheService.killAndCreateSession(interacRegisterRequest.getSessionId());
         Optional<Interac> customerInterac = interacOperations.findInteracByCustomerId(sessionData.getUserId());
-        if (StringUtils.isBlank(interacRegisterRequest.getEmail())) {
-            return new InteracRegisterResponse(customerInterac.isPresent(), "", newSessionId);
-        }
         Optional<Interac> interac = interacOperations.findInteracByEmail(interacRegisterRequest.getEmail());
         if (customerInterac.isPresent() || interac.isPresent()) {
             return new InteracRegisterResponse(false, EMAIL_ALREADY_EXISTS, newSessionId);
@@ -136,12 +133,17 @@ public class InteracService {
 
 
     public InteracValidateResponse validateInteracValidateRequest(InteracValidateRequest interacValidateRequest) {
-        final String newSessionId = validateAndGetNewSession(interacValidateRequest.getSessionId());
-        if (StringUtils.isBlank(newSessionId)) {
+        final SessionData sessionData = cacheService.validateSession(interacValidateRequest.getSessionId());
+        if (ObjectUtils.isEmpty(sessionData)) {
             InteracValidateResponse interacValidateResponse = new InteracValidateResponse();
             interacValidateResponse.setValid(false);
             interacValidateResponse.setMessage("Invalid Session");
             return interacValidateResponse;
+        }
+        final String newSessionId = cacheService.killAndCreateSession(interacValidateRequest.getSessionId());
+        if (StringUtils.isBlank(interacValidateRequest.getEmail())) {
+            Optional<Interac> interac = interacOperations.findInteracByCustomerId(sessionData.getUserId());
+            return new InteracValidateResponse(interac.isPresent(), "", newSessionId);
         }
         Optional<Interac> interac = interacOperations.findInteracByEmail(interacValidateRequest.getEmail());
         if (interac.isPresent()) {
