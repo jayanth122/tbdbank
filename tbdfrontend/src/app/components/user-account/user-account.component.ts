@@ -28,6 +28,7 @@ export class UserAccountComponent implements OnInit {
   }
 
   goToTransactions() {
+    console.log("In GotoTransaction : loginValid = ", this.dataService.isLoginValid);
     if(this.dataService.isLoginValid) {
       this.router.navigate(['transaction'])
     } else {
