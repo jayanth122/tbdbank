@@ -15,6 +15,9 @@ export class UserAccountComponent implements OnInit {
   public firstName : string;
   public lastName : string;
   constructor(private router: Router, private dataService: DataService) {
+    if(this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
     this.firstName = dataService.firstName;
     this.lastName = dataService.lastName;
     console.log(this.firstName);
@@ -25,11 +28,20 @@ export class UserAccountComponent implements OnInit {
   }
 
   goToTransactions() {
-    this.router.navigate(['transaction'])
+    if(this.dataService.isLoginValid) {
+      this.router.navigate(['transaction'])
+    } else {
+      this.router.navigate(['login'])
+    }
   }
   goToInterac()
   {
-    this.router.navigate(['interac'])
+    if(this.dataService.isLoginValid) {
+      this.router.navigate(['interac'])
+    } else {
+      this.router.navigate(['login'])
+    }
+
   }
 
   generateQr() {

@@ -1,4 +1,6 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from "@angular/router";
+import {DataService} from "../../data.service";
 
 
 
@@ -10,6 +12,9 @@ import {Component, OnInit} from '@angular/core';
 export class TransactionsComponent implements OnInit{
   ngOnInit() {
   }
-  constructor() {
+  constructor(private router: Router, private dataService: DataService) {
+    if(this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
   }
 }
