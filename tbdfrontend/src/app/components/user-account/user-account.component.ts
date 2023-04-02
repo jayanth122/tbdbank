@@ -46,6 +46,9 @@ export class UserAccountComponent implements OnInit {
   }
 
   generateQr() {
+    if(!this.dataService.isLoginValid) {
+      this.router.navigate(['interac'])
+    }
     const user = localStorage.getItem("userName");
     let qrRequest = {} as QrRequest;
     if (user) {
