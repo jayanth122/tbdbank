@@ -16,7 +16,7 @@ export class DataService {
   paymentQrPdf : any;
   firstName : string;
   lastName : string;
-  isLoginValid : boolean;
+  isLoginValid : any;
 
   private url = "https://www.tbdbank.me/tbd651"
 
