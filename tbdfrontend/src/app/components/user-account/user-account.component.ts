@@ -29,7 +29,7 @@ export class UserAccountComponent implements OnInit {
     if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
       this.router.navigate(['login'])
     } else {
-      this.router.navigate(['login'])
+      this.router.navigate(['transaction'])
     }
   }
   goToInterac()
@@ -37,7 +37,7 @@ export class UserAccountComponent implements OnInit {
     if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
       this.router.navigate(['login'])
     } else {
-      this.router.navigate(['login'])
+      this.router.navigate(['interac'])
     }
 
   }
