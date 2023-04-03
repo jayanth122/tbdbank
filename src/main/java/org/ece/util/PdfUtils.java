@@ -1,9 +1,7 @@
 package org.ece.util;
 
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
-import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.*;
 import org.ece.dto.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +13,12 @@ import java.util.List;
 
 public final class PdfUtils {
     private static final Logger logger = LoggerFactory.getLogger(PdfUtils.class);
+    private static final int CANVAS_FONT = 32;
+    private static final int LOGO_SIZE = 100;
     private static final int TABLE_COLUMNS = 7;
+    private static final float x = 220f;
+    private static final float y = 750f;
+    private static final int TABLE_COL = 2;
     private static final int titleFontSize = 12;
     private static final int FONTLSize = 10;
     private static final int fontSize = 8;
@@ -30,8 +33,10 @@ public final class PdfUtils {
         
     }
 
+
     public static byte[] generateRegistrationQRPdf(final byte[] image) {
         try {
+            Image logo = Image.getInstance("tbdfrontend/src/assets/TBDLOGO_NEW.png");
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             Document document = new Document(PageSize.A4);
             PdfWriter.getInstance(document, outputStream);
@@ -40,25 +45,31 @@ public final class PdfUtils {
             Paragraph note = new Paragraph("Please visit nearbyCanada Post/ UPS Store with 2 Government Issued"
                     + "physical ID's to complete the Verification Process.", TITLE_FONT);
             paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
+            logo.setAlignment(Element.ALIGN_LEFT);
+            document.add(logo);
             note.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(paragraph2);
             document.add(Chunk.NEWLINE);
             document.add(note);
             document.add(Chunk.NEWLINE);
 
-            addImageToPdf(image, document);
+            addImageToPdf(image, document, "Verification QR");
             document.close();
             return outputStream.toByteArray();
         } catch (DocumentException e) {
             logger.error("Error Generating Statement Pdf: ", e);
             return null;
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    private static void addImageToPdf(byte[] image, Document document) {
+    private static void addImageToPdf(byte[] image, Document document, String paragraph) {
         try {
             Image qrImage = Image.getInstance(image);
-            Paragraph p1 = new Paragraph("Payment QR: ", TITLE_FONT);
+            Paragraph p1 = new Paragraph(paragraph + ": ", TITLE_FONT);
             document.add(p1);
             p1.setAlignment(Paragraph.ALIGN_CENTER);
             qrImage.setAlignment(Paragraph.ALIGN_CENTER);
@@ -78,26 +89,48 @@ public final class PdfUtils {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             Document document = new Document(PageSize.A4);
-            PdfWriter.getInstance(document, outputStream);
+            PdfWriter writer = PdfWriter.getInstance(document, outputStream);
             document.open();
-            Paragraph paragraph2 = new Paragraph("UPI Payment ", TITLE_FONT);
+            Paragraph imageParagraph = getLogoAndTitle(writer, "UPI PAYMENT", document);
             Paragraph note = new Paragraph("Payee Details:", TITLE_FONT);
-            paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
             note.setAlignment(Paragraph.ALIGN_CENTER);
-            document.add(paragraph2);
+            document.add(imageParagraph);
             document.add(Chunk.NEWLINE);
             document.add(note);
             document.add(Chunk.NEWLINE);
-
             setCustomerDetailsInPdf(customer, document);
-            addImageToPdf(image, document);
-
+            addImageToPdf(image, document, "UPI Payment QR");
             document.close();
             return outputStream.toByteArray();
         } catch (DocumentException e) {
             logger.error("Error Generating Statement Pdf: ", e);
             return null;
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
+    }
+
+    public static Paragraph getLogoAndTitle(PdfWriter writer, String title, Document document)
+            throws DocumentException, IOException {
+        Image logo = Image.getInstance("tbdfrontend/src/assets/TBDLOGO_NEW.png");
+        logo.scaleAbsolute(LOGO_SIZE, LOGO_SIZE);
+        Header header = new Header("UPI Payment", title);
+        Paragraph paragraph2 = new Paragraph("UPI Payment ", TITLE_FONT);
+        paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
+        Paragraph imageParagraph = new Paragraph();
+        PdfContentByte canvas = writer.getDirectContent();
+        BaseFont font = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+        canvas.setFontAndSize(font, CANVAS_FONT);
+        canvas.beginText();
+        canvas.moveText(x, y);
+        canvas.showText(paragraph2.getContent());
+        canvas.endText();
+        imageParagraph.add(logo);
+        document.add(header);
+        imageParagraph.setAlignment(Element.ALIGN_LEFT);
+        return imageParagraph;
     }
 
 
@@ -135,13 +168,13 @@ public final class PdfUtils {
     }
 
     private static void setCustomerDetailsInPdf(final Customer customer, final Document document) {
-        Chunk nameCell = new Chunk("Name : " + customer.getLastName() + ADDRESS_SEPARATOR
-                + customer.getFirstName(), FONT);
-        Chunk streetNameCell = new Chunk("Address : " + customer.getStreetNumber()
-                + ADDRESS_SEPARATOR + customer.getStreetName() + ADDRESS_SEPARATOR + customer.getCity()
-                + ADDRESS_SEPARATOR + customer.getProvince() + ADDRESS_SEPARATOR + customer.getCountryCode(), FONT);
-        Chunk mobileCell = new Chunk("Mobile : " + customer.getMobileNumber(), FONT);
-        Chunk emailCell = new Chunk("Email :" + customer.getEmail(), FONT);
+        Chunk nameCell = new Chunk("Name: " + customer.getLastName().toUpperCase() + " "
+                + customer.getFirstName().toUpperCase(), FONT);
+        Chunk streetNameCell = new Chunk("Address: " + customer.getStreetNumber()
+                + " " + customer.getStreetName() + ADDRESS_SEPARATOR + customer.getCity()
+                + ADDRESS_SEPARATOR + customer.getProvince(), FONT);
+        Chunk mobileCell = new Chunk("Mobile: +" + customer.getCountryCode() + customer.getMobileNumber(), FONT);
+        Chunk emailCell = new Chunk("Email: " + customer.getEmail(), FONT);
         try {
             document.add(nameCell);
             document.add(Chunk.NEWLINE);
