@@ -15,6 +15,9 @@ export class UserAccountComponent implements OnInit {
   public firstName : string;
   public lastName : string;
   constructor(private router: Router, private dataService: DataService) {
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
     this.firstName = dataService.firstName;
     this.lastName = dataService.lastName;
   }
@@ -23,26 +26,38 @@ export class UserAccountComponent implements OnInit {
   }
 
   goToTransactions() {
-    this.router.navigate(['transaction'])
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    } else {
+      this.router.navigate(['transaction'])
+    }
   }
   goToInterac()
   {
-    this.router.navigate(['interac'])
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    } else {
+      this.router.navigate(['interac'])
+    }
+
   }
 
   generateQr() {
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
     const user = localStorage.getItem("userName");
     let qrRequest = {} as QrRequest;
     if (user) {
-      let sessionId = this.dataService.getSessionValues(user)
-      qrRequest.sessionId = sessionId
+      qrRequest.sessionId = localStorage.getItem('sessionId') as string;
       this.dataService.generateQr(qrRequest).subscribe(data => {
         if (data.success) {
           alert(data.message)
           let newSessionId = data.sessionId
-          this.dataService.setSessionValues(user, newSessionId)
+          //this.dataService.setSessionValues(user, newSessionId)
           this.dataService.setPaymentQrImage(data.qrImage);
           this.dataService.setPaymentQrPdf(data.qrPdf)
+          this.dataService.updateSession(true, newSessionId);
           this.router.navigate(['qr'])
         } else {
           alert(data.message)

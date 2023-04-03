@@ -16,12 +16,17 @@ export class DataService {
   paymentQrPdf : any;
   firstName : string;
   lastName : string;
+  isLoginValid !: boolean;
+  isNestedCall !: boolean;
+  timeoutId !: number;
 
   private url = "https://www.tbdbank.me/tbd651"
 
   constructor(private httpClient: HttpClient) {
     this.firstName = '';
     this.lastName = '';
+    this.isLoginValid = false;
+    this.isNestedCall = false;
   }
 
   setFirstName(firstName:string) {
@@ -30,6 +35,20 @@ export class DataService {
 
   setLastName(lastName:string) {
     this.lastName = lastName;
+  }
+
+  setIsLoginValid(isValid:boolean, newSessionId:string) {
+    this.isLoginValid = isValid;
+    localStorage.setItem('sessionId', newSessionId);
+    this.timeoutId = setTimeout(() => {
+      this.isLoginValid = false;
+      localStorage.setItem('sessionId', '');
+    }, 300000);
+  }
+
+  updateSession(isValid:boolean, newSessionId:string) {
+    clearTimeout(this.timeoutId);
+    this.setIsLoginValid(isValid, newSessionId);
   }
 
   sendLoginDetails(loginData:FormData): Observable<any> {
