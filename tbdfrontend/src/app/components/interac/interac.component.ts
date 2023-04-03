@@ -14,7 +14,7 @@ export class InteracComponent implements OnInit {
   submitted = false;
   constructor(private formBuilder: FormBuilder, private dataService: DataService, private http: HttpClient, private router: Router) {
     console.log("Interac isValid: ", dataService.isLoginValid )
-    if(!this.dataService.isLoginValid) {
+    if(!this.dataService.isLoginValid || !localStorage.getItem('sessionId')) {
       this.router.navigate(['login'])
     }
   }
@@ -45,6 +45,7 @@ export class InteracComponent implements OnInit {
           let user = localStorage.getItem("userName");
           if (user) {
             this.dataService.setSessionValues(user,newSessionId)
+            localStorage.setItem('sessionId', newSessionId);
           }
         }
       })

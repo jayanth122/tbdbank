@@ -33,10 +33,12 @@ export class DataService {
     this.lastName = lastName;
   }
 
-  setIsLoginValid(isValid:boolean) {
+  setIsLoginValid(isValid:boolean, newSessionId:string) {
     this.isLoginValid = isValid;
+    localStorage.setItem('sessionId', newSessionId);
       setTimeout(() => {
         this.isLoginValid = false;
+        localStorage.setItem('sessionId', '');
       }, 300000);
   }
 

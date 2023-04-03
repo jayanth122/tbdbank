@@ -15,7 +15,7 @@ export class UserAccountComponent implements OnInit {
   public firstName : string;
   public lastName : string;
   constructor(private router: Router, private dataService: DataService) {
-    if(!this.dataService.isLoginValid) {
+    if(!this.dataService.isLoginValid || !localStorage.getItem('sessionId')) {
       this.router.navigate(['login'])
     }
     this.firstName = dataService.firstName;
@@ -29,7 +29,7 @@ export class UserAccountComponent implements OnInit {
 
   goToTransactions() {
     console.log("In GotoTransaction : loginValid = ", this.dataService.isLoginValid);
-    if(this.dataService.isLoginValid) {
+    if(this.dataService.isLoginValid || localStorage.getItem('sessionId')) {
       this.router.navigate(['transaction'])
     } else {
       this.router.navigate(['login'])
@@ -37,7 +37,7 @@ export class UserAccountComponent implements OnInit {
   }
   goToInterac()
   {
-    if(this.dataService.isLoginValid) {
+    if(this.dataService.isLoginValid || localStorage.getItem('sessionId')) {
       this.router.navigate(['interac'])
     } else {
       this.router.navigate(['login'])
@@ -47,7 +47,7 @@ export class UserAccountComponent implements OnInit {
 
   generateQr() {
     console.log("In generateQR : loginValid = ", this.dataService.isLoginValid);
-    if(!this.dataService.isLoginValid) {
+    if(!this.dataService.isLoginValid || !localStorage.getItem('sessionId')) {
       this.router.navigate(['interac'])
     }
     const user = localStorage.getItem("userName");
