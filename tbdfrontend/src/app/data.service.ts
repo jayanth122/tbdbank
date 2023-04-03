@@ -36,9 +36,11 @@ export class DataService {
 
   setIsLoginValid(isValid:boolean) {
     this.isLoginValid = isValid;
-      setTimeout(() => {
-        this.isLoginValid = false;
-      }, 300000);
+   // localStorage.setItem("isLoginValid","true");
+      //setTimeout(() => {
+        //this.isLoginValid = false;
+        //localStorage.setItem("isLoginValid","false");
+      //}, 300000);
   }
 
   sendLoginDetails(loginData:FormData): Observable<any> {
