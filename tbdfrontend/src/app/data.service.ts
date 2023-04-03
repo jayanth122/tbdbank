@@ -23,6 +23,7 @@ export class DataService {
   constructor(private httpClient: HttpClient) {
     this.firstName = '';
     this.lastName = '';
+    this.isLoginValid = false;
   }
 
   setFirstName(firstName:string) {

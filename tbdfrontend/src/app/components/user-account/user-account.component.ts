@@ -15,13 +15,11 @@ export class UserAccountComponent implements OnInit {
   public firstName : string;
   public lastName : string;
   constructor(private router: Router, private dataService: DataService) {
-    if(!this.dataService.isLoginValid || !localStorage.getItem('sessionId')) {
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
       this.router.navigate(['login'])
     }
     this.firstName = dataService.firstName;
     this.lastName = dataService.lastName;
-    console.log(this.firstName);
-    console.log(this.lastName);
   }
 
   ngOnInit() {

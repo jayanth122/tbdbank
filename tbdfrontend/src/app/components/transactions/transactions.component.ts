@@ -13,7 +13,7 @@ export class TransactionsComponent implements OnInit{
   ngOnInit() {
   }
   constructor(private router: Router, private dataService: DataService) {
-    if(!this.dataService.isLoginValid) {
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
       this.router.navigate(['login'])
     }
   }
