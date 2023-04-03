@@ -46,6 +46,7 @@ export class UserAccountComponent implements OnInit {
   }
 
   generateQr() {
+    console.log("In generateQR : loginValid = ", this.dataService.isLoginValid);
     if(!this.dataService.isLoginValid) {
       this.router.navigate(['interac'])
     }
