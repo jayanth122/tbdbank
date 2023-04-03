@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'
 import {QrRequest} from "./dto/QrRequest";
 import {StatementRequest} from "./dto/StatementRequest";
+import {Router} from "@angular/router";
 
 
 @Injectable({
@@ -19,15 +20,36 @@ export class DataService {
   isLoginValid !: boolean;
   isNestedCall !: boolean;
   timeoutId !: number;
+  startTime = Date.now();
 
   private url = "https://www.tbdbank.me/tbd651"
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     this.firstName = '';
     this.lastName = '';
     this.isLoginValid = false;
     this.isNestedCall = false;
+
+    window.addEventListener('beforeunload', (event) => {
+      localStorage.setItem('timeoutState', JSON.stringify({
+        timeoutId: this.timeoutId,
+        remainingTime: 300000 - (Date.now() - this.startTime)
+      }));
+    });
+
+    let timeoutState = localStorage.getItem('timeoutState');
+    if (timeoutState) {
+      timeoutState = JSON.parse(timeoutState);
+      const remainingTime = 300000 - (Date.now() - this.startTime);
+      this.timeoutId = setTimeout(() => {
+        this.isLoginValid = false;
+        localStorage.setItem('sessionId', '');
+        this.router.navigate(['login'])
+      }, remainingTime);
+    }
   }
+
+
 
   setFirstName(firstName:string) {
     this.firstName = firstName;
@@ -40,6 +62,7 @@ export class DataService {
   setIsLoginValid(isValid:boolean, newSessionId:string) {
     this.isLoginValid = isValid;
     localStorage.setItem('sessionId', newSessionId);
+     this.startTime = Date.now();
     this.timeoutId = setTimeout(() => {
       this.isLoginValid = false;
       localStorage.setItem('sessionId', '');
