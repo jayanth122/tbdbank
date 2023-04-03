@@ -32,8 +32,8 @@ constructor(private dataService:DataService, private formBuilder:FormBuilder, pr
     if (user){
       statementRequest.fromDate = this.statementForm.value['fromDate']
       statementRequest.toDate = this.statementForm.value['toDate']
-      let sessionId = this.dataService.getSessionValues(user)
-      statementRequest.sessionId = sessionId
+      let sessionId = localStorage.getItem('sessionId') as string;
+      statementRequest.sessionId = sessionId;
       this.dataService.getTransactionStatement(statementRequest).subscribe(data => {
           if(data.success){
             let newSessionId = data.sessionId

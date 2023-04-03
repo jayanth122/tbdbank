@@ -49,8 +49,7 @@ export class UserAccountComponent implements OnInit {
     const user = localStorage.getItem("userName");
     let qrRequest = {} as QrRequest;
     if (user) {
-      let sessionId = this.dataService.getSessionValues(user)
-      qrRequest.sessionId = localStorage.getItem('sessionId');
+      qrRequest.sessionId = localStorage.getItem('sessionId') as string;
       this.dataService.generateQr(qrRequest).subscribe(data => {
         if (data.success) {
           alert(data.message)

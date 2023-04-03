@@ -12,7 +12,11 @@ import { Buffer } from 'buffer/';
 export class LoginComponent implements OnInit {
   loginForm !: FormGroup;
   submitted = false;
-  constructor(private router: Router, private dataService: DataService, private formBuilder:FormBuilder) { }
+  constructor(private router: Router, private dataService: DataService, private formBuilder:FormBuilder) {
+    if(localStorage.getItem('sessionId') && this.dataService.isLoginValid) {
+      this.router.navigate(['user-account'])
+    }
+  }
   ngOnInit(): void {
     this.loginForm = this.formBuilder.group({
       userName:["",Validators.required],

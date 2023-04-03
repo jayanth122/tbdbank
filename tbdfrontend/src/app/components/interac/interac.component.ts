@@ -13,8 +13,6 @@ export class InteracComponent implements OnInit {
   interacForm!: FormGroup;
   submitted = false;
   constructor(private formBuilder: FormBuilder, private dataService: DataService, private http: HttpClient, private router: Router) {
-    console.log("Interac isValid: ", dataService.isLoginValid )
-    console.log(localStorage.getItem('sessionId'));
     if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
       this.router.navigate(['login'])
     }
@@ -38,7 +36,7 @@ export class InteracComponent implements OnInit {
     }
     let user = localStorage.getItem("userName");
     if (user) {
-      this.interacForm.value["sessionId"] = this.dataService.getSessionValues(user)
+      this.interacForm.value["sessionId"] = localStorage.getItem('sessionId') as string;
       this.dataService.sendInteracDetails(this.interacForm.value).subscribe(data => {
         if (data.success) {
           var newSessionId = data.sessionId
