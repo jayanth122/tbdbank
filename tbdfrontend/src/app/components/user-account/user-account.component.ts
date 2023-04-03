@@ -26,17 +26,16 @@ export class UserAccountComponent implements OnInit {
   }
 
   goToTransactions() {
-    console.log("In GotoTransaction : loginValid = ", this.dataService.isLoginValid);
-    if(this.dataService.isLoginValid || localStorage.getItem('sessionId')) {
-      this.router.navigate(['transaction'])
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
     } else {
       this.router.navigate(['login'])
     }
   }
   goToInterac()
   {
-    if(this.dataService.isLoginValid || localStorage.getItem('sessionId')) {
-      this.router.navigate(['interac'])
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
     } else {
       this.router.navigate(['login'])
     }
@@ -44,9 +43,8 @@ export class UserAccountComponent implements OnInit {
   }
 
   generateQr() {
-    console.log("In generateQR : loginValid = ", this.dataService.isLoginValid);
-    if(!this.dataService.isLoginValid || !localStorage.getItem('sessionId')) {
-      this.router.navigate(['interac'])
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
     }
     const user = localStorage.getItem("userName");
     let qrRequest = {} as QrRequest;
@@ -60,6 +58,7 @@ export class UserAccountComponent implements OnInit {
           this.dataService.setSessionValues(user, newSessionId)
           this.dataService.setPaymentQrImage(data.qrImage);
           this.dataService.setPaymentQrPdf(data.qrPdf)
+          this.dataService.setIsLoginValid(true, newSessionId);
           this.router.navigate(['qr'])
         } else {
           alert(data.message)

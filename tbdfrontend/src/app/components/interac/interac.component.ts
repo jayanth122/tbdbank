@@ -46,7 +46,7 @@ export class InteracComponent implements OnInit {
           let user = localStorage.getItem("userName");
           if (user) {
             this.dataService.setSessionValues(user,newSessionId)
-            localStorage.setItem('sessionId', newSessionId);
+            this.dataService.setIsLoginValid(true, newSessionId);
           }
         }
       })
