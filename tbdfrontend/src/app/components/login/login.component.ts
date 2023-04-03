@@ -13,7 +13,7 @@ export class LoginComponent implements OnInit {
   loginForm !: FormGroup;
   submitted = false;
   constructor(private router: Router, private dataService: DataService, private formBuilder:FormBuilder) {
-    if(localStorage.getItem('sessionId') && this.dataService.isLoginValid) {
+    if(localStorage.getItem('sessionId') || this.dataService.isLoginValid) {
       this.router.navigate(['user-account'])
     }
   }
