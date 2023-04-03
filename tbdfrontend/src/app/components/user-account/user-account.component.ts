@@ -50,12 +50,12 @@ export class UserAccountComponent implements OnInit {
     let qrRequest = {} as QrRequest;
     if (user) {
       let sessionId = this.dataService.getSessionValues(user)
-      qrRequest.sessionId = sessionId
+      qrRequest.sessionId = localStorage.getItem('sessionId');
       this.dataService.generateQr(qrRequest).subscribe(data => {
         if (data.success) {
           alert(data.message)
           let newSessionId = data.sessionId
-          this.dataService.setSessionValues(user, newSessionId)
+          //this.dataService.setSessionValues(user, newSessionId)
           this.dataService.setPaymentQrImage(data.qrImage);
           this.dataService.setPaymentQrPdf(data.qrPdf)
           this.dataService.updateSession(true, newSessionId);
