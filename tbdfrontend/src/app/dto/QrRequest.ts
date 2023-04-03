@@ -1,3 +1,3 @@
 export interface QrRequest{
-  sessionId : string;
+  sessionId : string | null;
 }
