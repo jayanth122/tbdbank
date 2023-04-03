@@ -16,7 +16,7 @@ export class DataService {
   paymentQrPdf : any;
   firstName : string;
   lastName : string;
-  isLoginValid : any;
+  isLoginValid !: boolean;
 
   private url = "https://www.tbdbank.me/tbd651"
 
@@ -35,11 +35,9 @@ export class DataService {
 
   setIsLoginValid(isValid:boolean) {
     this.isLoginValid = isValid;
-   // localStorage.setItem("isLoginValid","true");
-      //setTimeout(() => {
-        //this.isLoginValid = false;
-        //localStorage.setItem("isLoginValid","false");
-      //}, 300000);
+      setTimeout(() => {
+        this.isLoginValid = false;
+      }, 300000);
   }
 
   sendLoginDetails(loginData:FormData): Observable<any> {
