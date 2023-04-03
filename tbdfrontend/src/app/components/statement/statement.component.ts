@@ -38,7 +38,7 @@ constructor(private dataService:DataService, private formBuilder:FormBuilder, pr
           if(data.success){
             let newSessionId = data.sessionId
             this.dataService.setSessionValues(user,newSessionId);
-            this.dataService.setIsLoginValid(true, newSessionId);
+            this.dataService.updateSession(true, newSessionId);
             this.submitted=false
           }
           else{

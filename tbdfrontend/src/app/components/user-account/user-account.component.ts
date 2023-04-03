@@ -58,7 +58,7 @@ export class UserAccountComponent implements OnInit {
           this.dataService.setSessionValues(user, newSessionId)
           this.dataService.setPaymentQrImage(data.qrImage);
           this.dataService.setPaymentQrPdf(data.qrPdf)
-          this.dataService.setIsLoginValid(true, newSessionId);
+          this.dataService.updateSession(true, newSessionId);
           this.router.navigate(['qr'])
         } else {
           alert(data.message)
