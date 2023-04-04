@@ -18,7 +18,7 @@ public final class PdfUtils {
     private static final int TABLE_COLUMNS = 7;
     private static final float x = 220f;
     private static final float y = 750f;
-    private static final int TABLE_COL = 2;
+    private static final int fontHSize = 20;
     private static final int titleFontSize = 12;
     private static final int FONTLSize = 10;
     private static final int fontSize = 8;
@@ -26,6 +26,7 @@ public final class PdfUtils {
     private static final int MAX_WIDTH = 100;
     private static final String ADDRESS_SEPARATOR = ", ";
     private static final Font TITLE_FONT = new Font(Font.FontFamily.HELVETICA, titleFontSize);
+    private static final Font FONT_H = new Font(Font.FontFamily.HELVETICA, fontHSize);
     private static final Font FONT = new Font(Font.FontFamily.HELVETICA, FONTLSize);
     private static final Font FONTL = new Font(Font.FontFamily.HELVETICA, fontSize);
     
@@ -39,7 +40,7 @@ public final class PdfUtils {
             Image logo = Image.getInstance("tbdfrontend/src/assets/TBDLOGO_NEW.png");
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             Document document = new Document(PageSize.A4);
-            PdfWriter.getInstance(document, outputStream);
+            PdfWriter writer = PdfWriter.getInstance(document, outputStream);
             document.open();
             Paragraph paragraph2 = new Paragraph("ID Verification ", TITLE_FONT);
             Paragraph note = new Paragraph("Please visit nearbyCanada Post/ UPS Store with 2 Government Issued"
@@ -52,7 +53,6 @@ public final class PdfUtils {
             document.add(Chunk.NEWLINE);
             document.add(note);
             document.add(Chunk.NEWLINE);
-
             addImageToPdf(image, document, "Verification QR");
             document.close();
             return outputStream.toByteArray();
@@ -69,7 +69,10 @@ public final class PdfUtils {
     private static void addImageToPdf(byte[] image, Document document, String paragraph) {
         try {
             Image qrImage = Image.getInstance(image);
-            Paragraph p1 = new Paragraph(paragraph + ": ", TITLE_FONT);
+            Paragraph p1 = new Paragraph(paragraph, FONT_H);
+            p1.setAlignment(Element.ALIGN_CENTER);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
             document.add(p1);
             p1.setAlignment(Paragraph.ALIGN_CENTER);
             qrImage.setAlignment(Paragraph.ALIGN_CENTER);
@@ -116,7 +119,6 @@ public final class PdfUtils {
             throws DocumentException, IOException {
         Image logo = Image.getInstance("tbdfrontend/src/assets/TBDLOGO_NEW.png");
         logo.scaleAbsolute(LOGO_SIZE, LOGO_SIZE);
-        Header header = new Header("UPI Payment", title);
         Paragraph paragraph2 = new Paragraph("UPI Payment ", TITLE_FONT);
         paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
         Paragraph imageParagraph = new Paragraph();
@@ -128,7 +130,6 @@ public final class PdfUtils {
         canvas.showText(paragraph2.getContent());
         canvas.endText();
         imageParagraph.add(logo);
-        document.add(header);
         imageParagraph.setAlignment(Element.ALIGN_LEFT);
         return imageParagraph;
     }
@@ -141,29 +142,28 @@ public final class PdfUtils {
         try {
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             Document document = new Document(PageSize.A4);
-            PdfWriter.getInstance(document, outputStream);
+            PdfWriter writer = PdfWriter.getInstance(document, outputStream);
             document.open();
-            Paragraph paragraph2 = new Paragraph("TBD BANK STATEMENT ", TITLE_FONT);
+            Paragraph imageParagraph = getLogoAndTitle(writer, "TBD BANK STATEMENT", document);
+            document.add(imageParagraph);
+            document.add(Chunk.NEWLINE);
             Paragraph fromDateToDate = new Paragraph(statementRequest.getFromDate()
                     + " TO " + statementRequest.getToDate(), TITLE_FONT);
-            paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
             fromDateToDate.setAlignment(Paragraph.ALIGN_CENTER);
-            document.add(paragraph2);
             document.add(Chunk.NEWLINE);
             document.add(fromDateToDate);
             document.add(Chunk.NEWLINE);
-
             setCustomerDetailsInPdf(customer, document);
-
             PdfPTable table = generateStatementPdfTable();
             setTransactionsInPdfTable(table, transactionList);
-
             document.add(table);
             document.close();
             return outputStream.toByteArray();
         } catch (DocumentException e) {
             logger.error("Error Generating Statement Pdf: ", e);
             return null;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
