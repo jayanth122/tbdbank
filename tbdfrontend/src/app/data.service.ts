@@ -44,7 +44,9 @@ export class DataService {
       this.timeoutId = setTimeout(() => {
         this.isLoginValid = false;
         localStorage.setItem('sessionId', '');
-        this.router.navigate(['login'])
+        if(this.router.url !== "login" && this.router.url !== "registration") {
+          this.router.navigate(['login'])
+        }
       }, remainingTime);
     }
   }
