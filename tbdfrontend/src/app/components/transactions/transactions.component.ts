@@ -11,7 +11,10 @@ import {Router} from "@angular/router";
 export class TransactionsComponent implements OnInit{
   ngOnInit() {
   }
-  constructor(private dataService : DataService, private router : Router) {
+  constructor(private router: Router, private dataService: DataService) {
+    if(!this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
   }
   validateCustomerInterac(){
     const user = localStorage.getItem("userName");

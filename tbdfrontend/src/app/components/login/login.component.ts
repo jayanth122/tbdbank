@@ -33,11 +33,10 @@ export class LoginComponent implements OnInit {
           alert("Welcome " + data.firstName + " " + data.lastName)
           localStorage.setItem("userName",this.loginForm.value['userName'])
           this.dataService.setSessionValues(this.loginForm.value['userName'],data.uniqueSessionId)
-          // this.dataService.setFirstName(data.firstName);
-          // this.dataService.setLastName(data.lastName);
-          this.dataService.user.firstName = data.firstName;
-          this.dataService.user.lastName = data.lastName
-          let decoded : string;
+          this.dataService.setFirstName(data.firstName);
+          this.dataService.setLastName(data.lastName);
+          this.dataService.setIsLoginValid(true);
+          let decoded: string;
           decoded = Buffer.from(data.encodedAccess, 'base64').toString();
           if(decoded==="CUSTOMER") {
             localStorage.setItem('username', this.loginForm.controls.userName.value);

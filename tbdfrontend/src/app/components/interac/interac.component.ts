@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {DataService} from "../../data.service";
+
 import {InteracValidateRequest} from "../../dto/InteracValidateRequest";
 import {Router} from "@angular/router";
 
@@ -14,7 +15,10 @@ export class InteracComponent implements OnInit {
   interacForm!: FormGroup;
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder, private dataService: DataService, private router: Router) {
+  constructor(private formBuilder: FormBuilder, private dataService: DataService, private http: HttpClient, private router: Router) {
+    if(!this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
   }
 
   ngOnInit(): void {

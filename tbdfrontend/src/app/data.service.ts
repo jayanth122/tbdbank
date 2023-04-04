@@ -25,12 +25,15 @@ export class DataService {
     accountBalance : 0,
     interacEmail : ''
   };
+  isLoginValid : boolean;
+
 
   private url = "https://www.tbdbank.me/tbd651"
 
   constructor(private httpClient: HttpClient) {
     this.firstName = '';
     this.lastName = '';
+    this.isLoginValid = false;
   }
 
   setFirstName(firstName:string) {
@@ -39,6 +42,10 @@ export class DataService {
 
   setLastName(lastName:string) {
     this.lastName = lastName;
+  }
+
+  setIsLoginValid(isValid:boolean) {
+    this.isLoginValid = isValid;
   }
 
   sendLoginDetails(loginData:FormData): Observable<any> {
