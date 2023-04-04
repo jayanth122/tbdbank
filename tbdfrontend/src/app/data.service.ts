@@ -5,6 +5,8 @@ import {QrRequest} from "./dto/QrRequest";
 import {StatementRequest} from "./dto/StatementRequest";
 import {InteracValidateRequest} from "./dto/InteracValidateRequest";
 import {UserDetailsRequest} from "./dto/UserDetailsRequest";
+import {Router} from "@angular/router";
+
 
 
 @Injectable({
@@ -25,16 +27,40 @@ export class DataService {
     accountBalance : 0,
     interacEmail : ''
   };
-  isLoginValid : boolean;
+  isLoginValid !: boolean;
+  isNestedCall !: boolean;
+  timeoutId !: number;
+  startTime = Date.now();
 
 
   private url = "https://www.tbdbank.me/tbd651"
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private router: Router) {
     this.firstName = '';
     this.lastName = '';
     this.isLoginValid = false;
+    this.isNestedCall = false;
+
+    window.addEventListener('beforeunload', (event) => {
+      localStorage.setItem('timeoutState', JSON.stringify({
+        timeoutId: this.timeoutId,
+        remainingTime: 300000 - (Date.now() - this.startTime)
+      }));
+    });
+
+    let timeoutState = localStorage.getItem('timeoutState');
+    if (timeoutState) {
+      timeoutState = JSON.parse(timeoutState);
+      const remainingTime = 300000 - (Date.now() - this.startTime);
+      this.timeoutId = setTimeout(() => {
+        this.isLoginValid = false;
+        localStorage.setItem('sessionId', '');
+        this.router.navigate(['login'])
+      }, remainingTime);
+    }
   }
+
+
 
   setFirstName(firstName:string) {
     this.firstName = firstName;
@@ -44,8 +70,19 @@ export class DataService {
     this.lastName = lastName;
   }
 
-  setIsLoginValid(isValid:boolean) {
+  setIsLoginValid(isValid:boolean, newSessionId:string) {
     this.isLoginValid = isValid;
+    localStorage.setItem('sessionId', newSessionId);
+     this.startTime = Date.now();
+    this.timeoutId = setTimeout(() => {
+      this.isLoginValid = false;
+      localStorage.setItem('sessionId', '');
+    }, 300000);
+  }
+
+  updateSession(isValid:boolean, newSessionId:string) {
+    clearTimeout(this.timeoutId);
+    this.setIsLoginValid(isValid, newSessionId);
   }
 
   sendLoginDetails(loginData:FormData): Observable<any> {
