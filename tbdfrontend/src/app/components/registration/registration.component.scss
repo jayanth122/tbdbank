@@ -31,6 +31,11 @@ h2{
   width: 100%;
 
 }
+
+.container.py-5.h-100 {
+  padding-top: 3rem;
+  padding-bottom: 5rem;
+}
 .card-registration {
   font-size: 1rem;
   line-height: 2.15;
@@ -48,7 +53,7 @@ h2{
   width: 100%;
 }
 .custom-width {
-  width: 100%;
+  width: 350px;
 }
 
 
@@ -93,4 +98,28 @@ body{
 .form-outline{
   width: 350px;
 }
+
+/*--------------------------------------------------------------
+# Breadcrumbs
+--------------------------------------------------------------*/
+.breadcrumbs {
+  background-color: #e7e7e7;
+}
+
+.breadcrumbs h2 {
+  font-size: 26px;
+  font-weight: 600;
+  padding-top: 5%;
+  padding-bottom:0%;
+  text-align: center;
+  color:#343a40;
+  background-color: #e7e7e7;
+  text-stroke: 1px black;
+  font-family: Arial, Helvetica, sans-serif;
+  align-content: center;
+}
+
+
+
+
 

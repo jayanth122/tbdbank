@@ -3,18 +3,22 @@
 
 
 <form (ngSubmit)="onSubmit()" [formGroup]="registrationForm">
-
+  <section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+      <h2>TBD Bank Account registration form</h2>
+    </div>
+  </section><!-- End Breadcrumbs -->
   <section class="h-100 h-custom gradient-custom-2">
-    <div class="container py-5 h-100">
+    <div class="container py-md-6 h-100" style="padding-bottom: 4rem;padding-top: 2rem">
       <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col-12">
           <div class="card card-registration card-registration-2" style="border-radius: 25px;">
             <div class="card-body p-0">
               <div class="row g-0">
-                <div class="col-lg-6">
+                <div class="col-lg-6" style="color: #343a40">
                   <div class="p-5">
 
-                    <h3 class="fw-normal mb-5" style="color: black;">General Information</h3>
+                    <h3 class="fw-normal mb-5" style="color: #343a40;">General Information</h3>
 
                     <div class="row">
                       <div class="form-row justify-content-center align-items-center">
@@ -37,7 +41,8 @@
 
                         <div class="col col-md-4 form-group">
                           <label class="form-label" for="middleName">Middle Name</label>
-                          <input [ngClass]="{'is-invalid': submitted && this.rfc.middleName.errors}" class="form-control" formControlName="middleName"
+                          <input [ngClass]="{'is-invalid': submitted && this.rfc.middleName.errors}"
+                                 class="form-control" formControlName="middleName"
                                  id="middleName"
                                  placeholder="Middle Name"
                                  type="text"
@@ -47,7 +52,8 @@
 
                         <div class="col col-md-4 form-group">
                           <label class="form-label" for="lastName">Last Name</label>
-                          <input [ngClass]="{'is-invalid': submitted && this.rfc.lastName.errors}" class="form-control" formControlName="lastName"
+                          <input [ngClass]="{'is-invalid': submitted && this.rfc.lastName.errors}" class="form-control"
+                                 formControlName="lastName"
                                  id="lastName"
                                  placeholder="Last Name"
                                  type="text"/>
@@ -63,7 +69,8 @@
                       <div class="form-row justify-content-center align-items-center">
                         <div class="col col-md-5 form-group custom-width">
                           <label for="GenderSelection">Gender</label>
-                          <select [ngClass]="{'is-invalid': submitted && this.rfc.gender.errors}" class="form-control" formControlName="gender"
+                          <select [ngClass]="{'is-invalid': submitted && this.rfc.gender.errors}" class="form-control"
+                                  formControlName="gender"
                                   id="GenderSelection">
                             <option disabled selected value="">Select Gender</option>
                             <option *ngFor="let gen of genders" [value]="gen">{{gen|uppercase}}</option>
@@ -77,7 +84,8 @@
 
                         <div class="col col-md-5 form-group">
                           <label class="control-label" for="birthDate">Date of Birth</label>
-                          <input [ngClass]="{'is-invalid': submitted && this.rfc.dateOfBirth.errors}" class="form-control" formControlName="dateOfBirth"
+                          <input [ngClass]="{'is-invalid': submitted && this.rfc.dateOfBirth.errors}"
+                                 class="form-control" formControlName="dateOfBirth"
                                  id="birthDate"
                                  type="date"
                           />
@@ -92,7 +100,8 @@
                     <div class="form-row justify-content-center align-items-center">
                       <div class="form-outline mb-4 form-group">
                         <label class="control-label" for="email">Email</label>
-                        <input [ngClass]="{'is-invalid':submitted && rfc.email.errors}" class="form-control" formControlName="email" id="email"
+                        <input [ngClass]="{'is-invalid':submitted && rfc.email.errors}" class="form-control"
+                               formControlName="email" id="email"
                                placeholder="Email"
                                type="email"
                         />
@@ -109,7 +118,8 @@
                     <div class="form-row justify-content-center align-items-center">
                       <div class="form-outline mb-4 form-group">
                         <label class="control-label" for="Username">Username</label>
-                        <input [ngClass]="{'is-invalid': submitted && this.rfc.userName.errors}" class="form-control" formControlName="userName" id="userName"
+                        <input [ngClass]="{'is-invalid': submitted && this.rfc.userName.errors}" class="form-control"
+                               formControlName="userName" id="userName"
                                placeholder="Username"
                                type="text"/>
                         <div *ngIf="rfc.userName.touched && this.rfc.userName.errors" class="text-warning">
@@ -122,7 +132,8 @@
                     <div class="form-row justify-content-center align-items-center">
                       <div class="form-outline mb-4 form-group">
                         <label class="control-label" for="password">Password</label>
-                        <input [ngClass]="{'is-invalid': submitted && this.rfc.password.errors}" class="form-control" formControlName="password" id="password"
+                        <input [ngClass]="{'is-invalid': submitted && this.rfc.password.errors}" class="form-control"
+                               formControlName="password" id="password"
                                placeholder="Password"
                                type="password"/>
                         <div *ngIf="this.rfc.password.touched && this.rfc.password.errors" class="text-warning">
@@ -139,7 +150,8 @@
                     <div class="form-row justify-content-center align-items-center">
                       <div class="form-outline mb-4 form-group">
                         <label class="control-label" for="sinNo">SIN Number</label>
-                        <input [ngClass]="{'is-invalid': submitted && this.rfc.sinNumber.errors}" class="form-control" formControlName="sinNumber" id="sinNo"
+                        <input [ngClass]="{'is-invalid': submitted && this.rfc.sinNumber.errors}" class="form-control"
+                               formControlName="sinNumber" id="sinNo"
                                placeholder="10 digit SIN number"
                                type="text"
                         />
@@ -151,6 +163,24 @@
                       </div>
                     </div>
 
+
+                    <div class="form-row justify-content-center align-items-center">
+                      <div class="col col-md-10 form-group" style="width: 350px">
+                        <label class="control-label" for="isTestAccount">Is Test Account</label>
+
+                        <select [ngClass]="{'is-invalid': submitted && this.rfc.isTestAccount.errors}"
+                                class="form-control" formControlName="isTestAccount"
+                                id="isTestAccount">
+                          <option disabled selected value="">Select Account Type</option>
+                          <option *ngFor="let ta of isTestAccount" [value]="ta">{{ta}}</option>
+                        </select>
+                        <div *ngIf="rfc.isTestAccount.touched && rfc.isTestAccount.errors" class="text-warning">
+                          <div *ngIf="rfc.isTestAccount.errors.required ">
+                            Account type is Required
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -161,10 +191,11 @@
                     <h3 class="fw-normal mb-5">Contact Details</h3>
 
                     <div class="form-row justify-content-center align-items-center">
-                      <div class="col col-md-3 form-group">
+                      <div class="col col-md-5 form-group custom-width">
                         <label class="control-label" for="countryCode">Country Code </label>
 
-                        <select [ngClass]="{'is-invalid': submitted && this.rfc.countryCode.errors}" class="form-control" formControlName="countryCode"
+                        <select [ngClass]="{'is-invalid': submitted && this.rfc.countryCode.errors}"
+                                class="form-control" formControlName="countryCode"
                                 id="countryCode">
                           <option disabled selected value="">Select Code</option>
                           <option *ngFor="let cc of countryCode" [value]="cc">{{cc}}</option>
@@ -180,9 +211,10 @@
                       </div>
 
 
-                      <div class="col col-sm-5 form-group">
+                      <div class="col col-md-5 form-group custom-width">
                         <label class="control-label" for="phoneNumber">Phone Number</label>
-                        <input [ngClass]="{'is-invalid':submitted && rfc.mobileNumber.errors}" class="form-control" formControlName="mobileNumber"
+                        <input [ngClass]="{'is-invalid':submitted && rfc.mobileNumber.errors}" class="form-control"
+                               formControlName="mobileNumber"
                                id="phoneNumber"
                                placeholder="Phone Number"
                                type="text"
@@ -202,9 +234,10 @@
                     </div>
 
                     <div class="form-row justify-content-center align-items-center">
-                      <div class="col col-md-4 form-group">
+                      <div class="col col-md-5 form-group custom-width">
                         <label class="col col-sm control-label" for="StreetNo">Street No.</label>
-                        <input [ngClass]="{'is-invalid': submitted && this.rfc.streetNumber.errors}" class="form-control" formControlName="streetNumber" id="streetNo"
+                        <input [ngClass]="{'is-invalid': submitted && this.rfc.streetNumber.errors}"
+                               class="form-control" formControlName="streetNumber" id="streetNo"
                                placeholder="Street No."
                                type="text"
                         />
@@ -215,9 +248,10 @@
                         </div>
                       </div>
 
-                      <div class="col col-md-4 form-group">
+                      <div class="col col-md-5 form-group custom-width">
                         <label class="col col-sm control-label" for="unitNo">Unit No.</label>
-                        <input [ngClass]="{'is-invalid': submitted && this.rfc.unitNumber.errors}" class="form-control" formControlName="unitNumber" id="unitNo"
+                        <input [ngClass]="{'is-invalid': submitted && this.rfc.unitNumber.errors}" class="form-control"
+                               formControlName="unitNumber" id="unitNo"
                                placeholder="Unit No."
                                type="text"
                         />
@@ -226,7 +260,8 @@
                     <div class="form-row justify-content-center align-items-center">
                       <div class="form-outline mb-4 form-group">
                         <label class="col col-lg-auto control-label" for="streetName">Street Name</label>
-                        <input [ngClass]="{'is-invalid': submitted && this.rfc.streetName.errors}" class="form-control" formControlName="streetName" id="streetName"
+                        <input [ngClass]="{'is-invalid': submitted && this.rfc.streetName.errors}" class="form-control"
+                               formControlName="streetName" id="streetName"
                                placeholder="Street Name"
                                type="text"
 
@@ -241,7 +276,8 @@
                     <div class="form-row justify-content-center align-items-center">
                       <div class="form-outline mb-4 form-group">
                         <label class="col col-sm control-label" for="city">City</label>
-                        <input [ngClass]="{'is-invalid': submitted && this.rfc.city.errors}" class="form-control" formControlName="city" id="city"
+                        <input [ngClass]="{'is-invalid': submitted && this.rfc.city.errors}" class="form-control"
+                               formControlName="city" id="city"
                                placeholder="City"
                                type="text"
                         />
@@ -253,7 +289,7 @@
                       </div>
                     </div>
                     <div class="form-row justify-content-center align-items-center">
-                      <div class="col col-md-6 form-group">
+                      <div class="col col-md-10 form-group" style="width: 350px">
                         <label for="Province">Province</label>
                         <select [ngClass]="{'is-invalid': submitted && this.rfc.province.errors}" class="form-control"
                                 formControlName="province"
@@ -272,7 +308,8 @@
                     <div class="form-row justify-content-center align-items-center">
                       <div class="form-outline mb-4 form-group">
                         <label class="col col-lg-auto control-label" for="postalCode">Postal Code</label>
-                        <input [ngClass]="{'is-invalid': submitted && rfc.postalCode.errors}" class="form-control" formControlName="postalCode" id="postalCode"
+                        <input [ngClass]="{'is-invalid': submitted && rfc.postalCode.errors}" class="form-control"
+                               formControlName="postalCode" id="postalCode"
                                placeholder="PostalCode"
                                type="text"
                         />
@@ -283,8 +320,6 @@
                         </div>
                       </div>
                     </div>
-
-
                     <div class="form-row justify-content-center align-items-center">
                       <div class="form-check">
                         <input class="form-check-input" id="invalidCheck" required type="checkbox" value="">
@@ -293,13 +328,10 @@
                         </label>
                       </div>
                     </div>
-
                     <div class="mt-4 pt-2 text-center">
                       <button class="btn btn-danger btn-lg mx-2" type="submit">Submit</button>
                       <button (click)="onReset()" class="btn btn-light btn-lg mx-2">Reset</button>
                     </div>
-
-
                   </div>
                 </div>
               </div>
