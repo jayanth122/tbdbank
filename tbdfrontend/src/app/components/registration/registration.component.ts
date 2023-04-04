@@ -15,6 +15,8 @@ export class RegistrationComponent implements OnInit {
   submitted = false;
   genders = ["Male", "Female", "Other"]
   provinces = ["AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"]
+  countryCode = ["1","91","44","52","86"]
+
   constructor(private dataService: DataService, private formBuilder:FormBuilder, private router:Router) { }
   ngOnInit(): void {
     this.registrationForm=this.formBuilder.group({

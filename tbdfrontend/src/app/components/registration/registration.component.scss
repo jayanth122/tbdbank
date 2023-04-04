@@ -10,9 +10,7 @@ h2{
   padding:1%;
   color: darkred;
 }
-body{
-  background-color: lightgray;
-}
+
 .buttons{
   color: darkblue;
   background-color: grey;
@@ -29,14 +27,22 @@ body{
     height: 100px;
   }
 }
-.card-registration .select-input.form-control[readonly]:not([disabled]) {
+.card{
+  width: 100%;
+
+}
+.card-registration {
   font-size: 1rem;
   line-height: 2.15;
   padding-left: .75em;
   padding-right: .75em;
+  width: 100%;
 }
 .card-registration .select-arrow {
   top: 13px;
+}
+.card-registration-2{
+  width: 100%;
 }
 .custom-height {
   width: 100%;
@@ -44,14 +50,9 @@ body{
 .custom-width {
   width: 100%;
 }
-.gradient-custom-2 {
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to right, rgba(161, 196, 253, 0.5), rgba(194, 233, 251, 0.5))
-}
 
-.bg-indigo {
-  background-color: #4835d4;
-}
+
+
 @media (min-width: 992px) {
   .card-registration-2 .bg-indigo {
     border-top-right-radius: 15px;
@@ -83,5 +84,13 @@ select {
 }
 input::placeholder {
   color: black;
+}
+
+body{
+  background-color: #e7e7e7;
+  margin-top: 3%;
+}
+.form-outline{
+  width: 350px;
 }
 
