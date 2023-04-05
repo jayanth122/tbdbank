@@ -34,6 +34,7 @@ public class LoginPageController {
 
     @RequestMapping(value = "/logout", method = RequestMethod.POST)
     public ResponseEntity logoutRequest(@RequestBody LogoutRequest logoutRequest) {
+        logger.info("Received Logout Request");
         loginService.logout(logoutRequest.getSessionId());
         return ResponseEntity.ok().body("Logged out successfully");
     }
