@@ -7,10 +7,7 @@ import {InteracValidateRequest} from "./dto/InteracValidateRequest";
 import {UserDetailsRequest} from "./dto/UserDetailsRequest";
 import {Router} from "@angular/router";
 import {LogOutRequest} from "./dto/LogOutRequest";
-import {getXHRResponse} from "rxjs/internal/ajax/getXHRResponse";
 import {RefreshRequest} from "./dto/RefreshRequest";
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +18,10 @@ export class DataService {
   verificationPdf : any;
   paymentQrImage : any;
   paymentQrPdf : any;
-  user = {
-    firstName : '',
-    lastName : '',
-    email : '',
-    accountBalance : 0,
-    interacEmail : ''
-  };
   isLoginValid !: boolean;
   isNestedCall !: boolean;
   timeoutId !: number;
   startTime = Date.now();
-
 
   private url = "https://www.tbdbank.me/tbd651"
 
@@ -193,8 +182,6 @@ export class DataService {
       })
     }
   }
-
-
 
   logOut(logOutRequest : LogOutRequest) {
     return this.httpClient.post(`${this.url}/logout`,logOutRequest,{responseType:"text"})
