@@ -57,6 +57,7 @@ export class DataService {
         localStorage.setItem('sessionId', '');
         if(this.router.url !== "login" && this.router.url !== "registration") {
           this.router.navigate(['login'])
+          localStorage.clear();
         }
       }, remainingTime);
     }

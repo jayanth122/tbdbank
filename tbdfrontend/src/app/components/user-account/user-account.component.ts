@@ -15,7 +15,6 @@ export class UserAccountComponent implements OnInit {
   constructor(private router: Router, private dataService: DataService) {
     this.firstName = ''
     this.lastName = ''
-   // this.fetchCustomerDetails();
   }
 
   ngOnInit() {
