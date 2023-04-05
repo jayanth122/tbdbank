@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {HttpClient} from '@angular/common/http';
 import {DataService} from "../../data.service";
-
 import {InteracValidateRequest} from "../../dto/InteracValidateRequest";
 import {Router} from "@angular/router";
 

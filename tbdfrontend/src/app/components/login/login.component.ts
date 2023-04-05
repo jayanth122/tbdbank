@@ -50,10 +50,10 @@ export class LoginComponent implements OnInit {
             //
           }
         } else {
-          alert(data.message)
+          console.log(data.message)
         }
       }, error => (
-        alert("502")
+        console.error(error)
       )
     )
   }

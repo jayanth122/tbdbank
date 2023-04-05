@@ -18,10 +18,10 @@ export class UserAccountComponent implements OnInit {
     }
     this.firstName = dataService.firstName;
     this.lastName = dataService.lastName;
+    this.fetchCustomerDetails()
   }
 
   ngOnInit() {
-    this.fetchCustomerDetails()
   }
 
   goToTransactions() {
@@ -53,7 +53,6 @@ export class UserAccountComponent implements OnInit {
         if (data.success) {
           alert(data.message)
           let newSessionId = data.sessionId
-          //this.dataService.setSessionValues(user, newSessionId)
           this.dataService.setPaymentQrImage(data.qrImage);
           this.dataService.setPaymentQrPdf(data.qrPdf)
           this.dataService.updateSession(true, newSessionId);
@@ -64,19 +63,18 @@ export class UserAccountComponent implements OnInit {
       })
     }
   }
-
   fetchCustomerDetails()
   {
-    const user = localStorage.getItem("userName");
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
     let userDetailsRequest = {} as UserDetailsRequest;
-    if (user) {
-      let sessionId = this.dataService.getSessionValues(user)
+      let sessionId = localStorage.getItem('sessionId') as string
       userDetailsRequest.sessionId = sessionId
         this.dataService.fetchUserDetails(userDetailsRequest).subscribe(data => {
           if (data.success) {
-            alert(data.message)
             let newSessionId = data.sessionId
-            this.dataService.setSessionValues(user, newSessionId)
+            this.dataService.updateSession(true,newSessionId)
             this.dataService.user.accountBalance = data.customer.accountBalance
             this.dataService.user.email = data.customer.email
           }
@@ -85,6 +83,5 @@ export class UserAccountComponent implements OnInit {
           }
         })
     }
-  }
 }
 

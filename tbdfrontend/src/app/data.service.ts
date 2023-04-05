@@ -6,6 +6,8 @@ import {StatementRequest} from "./dto/StatementRequest";
 import {InteracValidateRequest} from "./dto/InteracValidateRequest";
 import {UserDetailsRequest} from "./dto/UserDetailsRequest";
 import {Router} from "@angular/router";
+import {LogOutRequest} from "./dto/LogOutRequest";
+import {getXHRResponse} from "rxjs/internal/ajax/getXHRResponse";
 
 
 
@@ -148,6 +150,7 @@ export class DataService {
     return this.httpClient.post(`${this.url}/customer`,userDetailsRequest)
   }
 
-
-
+  logOut(logOutRequest : LogOutRequest) {
+    return this.httpClient.post(`${this.url}/logout`,logOutRequest,{responseType:"text"})
+  }
 }
