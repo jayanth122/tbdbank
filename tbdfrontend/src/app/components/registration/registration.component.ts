@@ -16,7 +16,7 @@ export class RegistrationComponent implements OnInit {
   genders = ["Male", "Female", "Other"]
   provinces = ["AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"]
   countryCode = ["1","91","44","52","86"]
-  isTestAccount = ["Yes","No"]
+  testAccount = ["Yes","No"]
 
   mapYesNoToBoolean(value: string): boolean {
     return value === 'Yes' ? true : false;
@@ -41,7 +41,7 @@ export class RegistrationComponent implements OnInit {
       province:["",Validators.required],
       postalCode:["",Validators.required],
       sinNumber:["",[Validators.required,Validators.minLength(10)]],
-      isTestAccount:["",Validators.required]
+      testAccount:["",Validators.required]
     })
   }
   get rfc(){
@@ -53,7 +53,7 @@ export class RegistrationComponent implements OnInit {
       return;
     }
     this.registrationForm.value['gender']=this.registrationForm.value['gender'].toUpperCase()
-    this.registrationForm.value['isTestAccount'] = this.mapYesNoToBoolean(this.registrationForm.value['isTestAccount']);
+    this.registrationForm.value['testAccount'] = this.mapYesNoToBoolean(this.registrationForm.value['testAccount']);
     this.dataService.sendRegistrationDetails(this.registrationForm.value).subscribe(data => {
       if (data.success) {
         alert(data.message)

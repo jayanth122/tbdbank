@@ -169,16 +169,15 @@
 
                     <div class="form-row justify-content-center align-items-center">
                       <div class="col col-md-10 form-group" style="width: 350px">
-                        <label class="control-label" for="isTestAccount">Is Test Account</label>
-
-                        <select [ngClass]="{'is-invalid': submitted && this.rfc.isTestAccount.errors}"
-                                class="form-control" formControlName="isTestAccount"
-                                id="isTestAccount">
+                        <label class="control-label" for="testAccount">Is Test Account</label>
+                        <select [ngClass]="{'is-invalid': submitted && this.rfc.testAccount.errors}"
+                                class="form-control" formControlName="testAccount"
+                                id="testAccount">
                           <option disabled selected value="">Select Account Type</option>
-                          <option *ngFor="let ta of isTestAccount" [value]="ta">{{ta}}</option>
+                          <option *ngFor="let ta of testAccount" [value]="ta">{{ta}}</option>
                         </select>
-                        <div *ngIf="rfc.isTestAccount.touched && rfc.isTestAccount.errors" class="text-warning">
-                          <div *ngIf="rfc.isTestAccount.errors.required ">
+                        <div *ngIf="rfc.testAccount.touched && rfc.testAccount.errors" class="text-warning">
+                          <div *ngIf="rfc.testAccount.errors.required ">
                             Account type is Required
                           </div>
                         </div>
