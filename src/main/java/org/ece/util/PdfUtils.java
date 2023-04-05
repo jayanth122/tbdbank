@@ -163,7 +163,8 @@ public final class PdfUtils {
             logger.error("Error Generating Statement Pdf: ", e);
             return null;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("Error Generating Statement Pdf: ", e);
+            return null;
         }
     }
 
