@@ -57,6 +57,10 @@ public class LoginService {
                 : validateLoginWithCardNumber(loginRequest);
     }
 
+    public void logout(final String sessionId) {
+        cacheService.killSession(sessionId);
+    }
+
     private LoginResponse validateLoginWithCardNumber(final LoginRequest loginRequest) {
         Optional<Customer> customer  = customerOperations
                 .findCustomerByDebitCardNumber(Long.parseLong(loginRequest.getCardNumber()));

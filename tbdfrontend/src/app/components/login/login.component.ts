@@ -12,8 +12,12 @@ import { Buffer } from 'buffer/';
 export class LoginComponent implements OnInit {
   loginForm !: FormGroup;
   submitted = false;
-  constructor(private router: Router, private dataService: DataService, private formBuilder:FormBuilder) { }
+  constructor(private router: Router, private dataService: DataService, private formBuilder:FormBuilder) {
+  }
   ngOnInit(): void {
+    if(localStorage.getItem('sessionId') || this.dataService.isLoginValid) {
+      this.router.navigate(['user-account'])
+    }
     this.loginForm = this.formBuilder.group({
       userName:["",Validators.required],
       password:["",[Validators.required,Validators.minLength(8)]]
@@ -33,8 +37,10 @@ export class LoginComponent implements OnInit {
           alert("Welcome " + data.firstName + " " + data.lastName)
           localStorage.setItem("userName",this.loginForm.value['userName'])
           this.dataService.setSessionValues(this.loginForm.value['userName'],data.uniqueSessionId)
-          this.dataService.setFirstName(data.firstName);
-          this.dataService.setLastName(data.lastName);
+          localStorage.setItem("firstName",JSON.stringify(data.firstName))
+          localStorage.setItem("lastName",JSON.stringify(data.firstName))
+          this.dataService.setIsLoginValid(true, data.uniqueSessionId);
+          localStorage.setItem("loginValidity","true");
           let decoded: string;
           decoded = Buffer.from(data.encodedAccess, 'base64').toString();
           if(decoded==="CUSTOMER") {
@@ -45,10 +51,10 @@ export class LoginComponent implements OnInit {
             //
           }
         } else {
-          alert(data.message)
+          console.log(data.message)
         }
       }, error => (
-        alert("502")
+        console.error(error)
       )
     )
   }

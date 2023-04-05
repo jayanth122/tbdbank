@@ -5,6 +5,8 @@ import org.ece.dto.*;
 import org.ece.repository.UserOperations;
 import org.ece.util.PdfUtils;
 import org.ece.util.QRUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.ece.repository.CustomerOperations;
 import org.ece.dto.Customer;
@@ -12,15 +14,19 @@ import java.util.Optional;
 
 @Service
 public class RegisterService {
+    private static final Logger logger = LoggerFactory.getLogger(RegisterService.class);
 
     private static final String SUCCESS_MESSAGE = "Thank you for Registering with TBD bank";
 
     CustomerOperations customerOperations;
     UserOperations userOperations;
+    ThirdPartyVerificationService thirdPartyVerificationService;
 
-    public RegisterService(UserOperations userOperations, CustomerOperations customerOperations) {
+    public RegisterService(UserOperations userOperations, CustomerOperations customerOperations,
+                           final ThirdPartyVerificationService thirdPartyVerificationService) {
         this.userOperations = userOperations;
         this.customerOperations = customerOperations;
+        this.thirdPartyVerificationService = thirdPartyVerificationService;
     }
 
     private Customer buildCustomer(final RegisterRequest registerRequest) {
@@ -57,6 +63,13 @@ public class RegisterService {
         byte[] qrImage = QRUtils.generateQRImage(customer.getCustomerId());
         registerResponse.setQrPdf(PdfUtils.generateRegistrationQRPdf(qrImage));
         registerResponse.setQrImage(qrImage);
+        if (registerRequest.isTestAccount()) {
+            logger.info("Verification done for test account");
+            ThirdPartyVerificationRequest thirdPartyVerificationRequest = new ThirdPartyVerificationRequest();
+            thirdPartyVerificationRequest.setCustomerId(customer.getCustomerId());
+            thirdPartyVerificationRequest.setVerificationStatus(true);
+            thirdPartyVerificationService.updateCustomerVerification(thirdPartyVerificationRequest);
+        }
         return registerResponse;
     }
 
