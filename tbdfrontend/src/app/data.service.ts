@@ -8,6 +8,7 @@ import {UserDetailsRequest} from "./dto/UserDetailsRequest";
 import {Router} from "@angular/router";
 import {LogOutRequest} from "./dto/LogOutRequest";
 import {getXHRResponse} from "rxjs/internal/ajax/getXHRResponse";
+import {RefreshRequest} from "./dto/RefreshRequest";
 
 
 
@@ -49,6 +50,7 @@ export class DataService {
     let timeoutState = localStorage.getItem('timeoutState');
     if (timeoutState) {
       timeoutState = JSON.parse(timeoutState);
+      this.refreshSession();
       const remainingTime = 300000 - (Date.now() - this.startTime);
       this.timeoutId = setTimeout(() => {
         this.isLoginValid = false;
@@ -71,13 +73,6 @@ export class DataService {
   getEmail() {
     return JSON.stringify(localStorage.getItem('email'))
   }
-  // setFirstName(firstName:string) {
-  //   this.firstName = firstName;
-  // }
-
-  // setLastName(lastName:string) {
-  //   this.lastName = lastName;
-  // }
 
   setIsLoginValid(isValid:boolean, newSessionId:string) {
     this.isLoginValid = isValid;
@@ -96,6 +91,25 @@ export class DataService {
       timeoutId: this.timeoutId,
       remainingTime: 300000 - (Date.now() - this.startTime)
     }));
+  }
+
+  refreshSession() {
+    if(!localStorage.getItem('sessionId') && !this.isLoginValid) {
+      this.router.navigate(['login'])
+    }
+    else{
+      let refreshRequest = {} as RefreshRequest;
+      refreshRequest.sessionId = localStorage.getItem('sessionId') as string
+      this.refresh(refreshRequest).subscribe(
+        (response) => {
+          this.updateSession(true,response)
+        },
+        error => {
+          console.error(error)
+        }
+      )
+
+    }
   }
 
   sendLoginDetails(loginData:FormData): Observable<any> {
@@ -159,5 +173,9 @@ export class DataService {
 
   logOut(logOutRequest : LogOutRequest) {
     return this.httpClient.post(`${this.url}/logout`,logOutRequest,{responseType:"text"})
+  }
+
+  refresh(refreshRequest : RefreshRequest) {
+    return this.httpClient.post(`${this.url}/refresh`,refreshRequest,{responseType:"text"})
   }
 }
