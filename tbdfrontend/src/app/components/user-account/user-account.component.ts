@@ -15,7 +15,7 @@ export class UserAccountComponent implements OnInit {
   constructor(private router: Router, private dataService: DataService) {
     this.firstName = ''
     this.lastName = ''
-    this.fetchCustomerDetails();
+   // this.fetchCustomerDetails();
   }
 
   ngOnInit() {
@@ -72,26 +72,5 @@ export class UserAccountComponent implements OnInit {
       })
     }
   }
-  fetchCustomerDetails()
-  {
-    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
-      this.router.navigate(['login'])
-    }
-    else{
-      let userDetailsRequest = {} as UserDetailsRequest;
-      userDetailsRequest.sessionId = localStorage.getItem('sessionId') as string
-      this.dataService.fetchUserDetails(userDetailsRequest).subscribe(data => {
-        if (data.success) {
-          let newSessionId = data.sessionId
-          this.dataService.updateSession(true,newSessionId)
-          localStorage.setItem("accountBalance",JSON.stringify(data.customer.accountBalance))
-          localStorage.setItem("email",JSON.stringify(data.customer.email))
-        }
-        else{
-          alert(data.message)
-        }
-      })
-      }
-    }
 }
 

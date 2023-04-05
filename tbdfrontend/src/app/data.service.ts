@@ -102,7 +102,8 @@ export class DataService {
       refreshRequest.sessionId = localStorage.getItem('sessionId') as string
       this.refresh(refreshRequest).subscribe(
         (response) => {
-          this.updateSession(true,response)
+          this.updateSession(true,response);
+          this.fetchCustomerDetails();
         },
         error => {
           console.error(error)
@@ -170,6 +171,30 @@ export class DataService {
   fetchUserDetails(userDetailsRequest : UserDetailsRequest) : Observable<any> {
     return this.httpClient.post(`${this.url}/customer`,userDetailsRequest)
   }
+
+  fetchCustomerDetails()
+  {
+    if(!localStorage.getItem('sessionId') && !this.isLoginValid) {
+      this.router.navigate(['login'])
+    }
+    else{
+      let userDetailsRequest = {} as UserDetailsRequest;
+      userDetailsRequest.sessionId = localStorage.getItem('sessionId') as string
+      this.fetchUserDetails(userDetailsRequest).subscribe(data => {
+        if (data.success) {
+          let newSessionId = data.sessionId
+          this.updateSession(true,newSessionId)
+          localStorage.setItem("accountBalance",JSON.stringify(data.customer.accountBalance))
+          localStorage.setItem("email",JSON.stringify(data.customer.email))
+        }
+        else{
+          alert(data.message)
+        }
+      })
+    }
+  }
+
+
 
   logOut(logOutRequest : LogOutRequest) {
     return this.httpClient.post(`${this.url}/logout`,logOutRequest,{responseType:"text"})
