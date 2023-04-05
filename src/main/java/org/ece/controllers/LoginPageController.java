@@ -2,6 +2,7 @@ package org.ece.controllers;
 
 import org.ece.dto.LoginRequest;
 import org.ece.dto.LoginResponse;
+import org.ece.dto.LogoutRequest;
 import org.ece.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,13 @@ public class LoginPageController {
        logger.info("Received Login Request for user: {}", loginRequest.getUserName());
        LoginResponse loginResponse = loginService.validateLoginRequest(loginRequest);
        return ResponseEntity.ok(loginResponse);
+    }
+
+    @RequestMapping(value = "/logout", method = RequestMethod.POST)
+    public ResponseEntity<String> logoutRequest(@RequestBody LogoutRequest logoutRequest) {
+        logger.info("Received Logout Request for sessionId: {} ", logoutRequest.getSessionId());
+        loginService.logout(logoutRequest.getSessionId());
+        return ResponseEntity.ok().body("Logged out successfully");
     }
 
 
