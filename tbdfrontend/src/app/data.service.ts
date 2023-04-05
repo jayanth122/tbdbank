@@ -191,4 +191,8 @@ export class DataService {
   refresh(refreshRequest : RefreshRequest) {
     return this.httpClient.post(`${this.url}/refresh`,refreshRequest,{responseType:"text"})
   }
+
+  interacRegister(interacRegForm : FormData) : Observable<any> {
+    return this.httpClient.post(`${this.url}/transaction/interac/register`,interacRegForm)
+  }
 }

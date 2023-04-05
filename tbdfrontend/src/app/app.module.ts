@@ -15,6 +15,7 @@ import { ThirdPartyQrComponent } from './components/third-party-qr/third-party-q
 import { PaymentQrComponent } from './components/payment-qr/payment-qr.component';
 import { AboutComponent } from './components/about/about.component';
 import { StatementComponent } from './components/statement/statement.component';
+import { InteracRegisterComponent } from './components/interac-register/interac-register.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { StatementComponent } from './components/statement/statement.component';
     ThirdPartyQrComponent,
     PaymentQrComponent,
     AboutComponent,
-    StatementComponent
+    StatementComponent,
+    InteracRegisterComponent
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {DataService} from "../../data.service";
 import {QrRequest} from "../../dto/QrRequest";
 import {UserDetailsRequest} from "../../dto/UserDetailsRequest";
+import {InteracValidateRequest} from "../../dto/InteracValidateRequest";
 
 @Component({
   selector: 'app-user-account',
@@ -48,27 +49,48 @@ export class UserAccountComponent implements OnInit {
     }
 
   }
+  validateCustomerInterac() {
+    let interacValidateRequest = {} as InteracValidateRequest;
+    if (!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
+    let sessionId = localStorage.getItem('sessionId') as string
+    interacValidateRequest.sessionId = sessionId
+    interacValidateRequest.email = ""
+    this.dataService.validateInterac(interacValidateRequest).subscribe(data => {
+      if (data.valid) {
+        let newSessionId = data.sessionId
+        this.dataService.updateSession(true, newSessionId)
+        this.generateQr();
+      } else {
+        alert("Interac Not Registered")
+        let newSessionId = data.sessionId
+        this.dataService.updateSession(true, newSessionId)
+        this.router.navigate(['interac-register'])
+      }
+    })
+  }
 
   generateQr() {
     if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
       this.router.navigate(['login'])
     }
-    const user = localStorage.getItem("userName");
-    let qrRequest = {} as QrRequest;
-    if (user) {
-      qrRequest.sessionId = localStorage.getItem('sessionId') as string;
-      this.dataService.generateQr(qrRequest).subscribe(data => {
-        if (data.success) {
-          alert(data.message)
-          let newSessionId = data.sessionId
-          this.dataService.setPaymentQrImage(data.qrImage);
-          this.dataService.setPaymentQrPdf(data.qrPdf)
-          this.dataService.updateSession(true, newSessionId);
-          this.router.navigate(['qr'])
-        } else {
-          alert(data.message)
-        }
-      })
+    else{
+      let qrRequest = {} as QrRequest;
+        qrRequest.sessionId = localStorage.getItem('sessionId') as string;
+        this.dataService.generateQr(qrRequest).subscribe(data => {
+          if (data.success) {
+            alert(data.message)
+            let newSessionId = data.sessionId
+            this.dataService.setPaymentQrImage(data.qrImage);
+            this.dataService.setPaymentQrPdf(data.qrPdf)
+            this.dataService.updateSession(true, newSessionId);
+            this.router.navigate(['qr'])
+          } else {
+            alert(data.message)
+          }
+        })
+
     }
   }
 }
