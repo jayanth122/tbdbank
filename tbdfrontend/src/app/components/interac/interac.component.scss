@@ -7,7 +7,7 @@
 }
 
 .container {
-  padding-bottom: 30px;
+  padding-bottom: 20px;
   padding-top: 30px;
   background-color: black;
   align-content: center;
@@ -26,7 +26,7 @@ section {
 
 .section-title {
   text-align: center;
-  padding: 20px;
+  padding-top: 10px;
   position: relative;
 }
 
@@ -35,7 +35,6 @@ section {
   font-weight: 700;
   text-transform: uppercase;
   margin-bottom: 1px;
-  padding-bottom: 0;
   color: #343a40;
   position: relative;
   z-index: 2;
