@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit {
             //
           }
         } else {
-          console.log(data.message)
+          alert(data.message)
         }
       }, error => (
         console.error(error)
