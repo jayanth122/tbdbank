@@ -56,8 +56,6 @@ h2{
   width: 350px;
 }
 
-
-
 @media (min-width: 992px) {
   .card-registration-2 .bg-indigo {
     border-top-right-radius: 15px;
@@ -99,27 +97,45 @@ body{
   width: 350px;
 }
 
-/*--------------------------------------------------------------
-# Breadcrumbs
---------------------------------------------------------------*/
-.breadcrumbs {
-  background-color: #e7e7e7;
+section {
+  overflow: hidden;
+  padding-top: 2%;
 }
 
-.breadcrumbs h2 {
-  font-size: 26px;
-  font-weight: 600;
-  padding-top: 5%;
-  padding-bottom:0%;
+.section-title {
   text-align: center;
-  color:#343a40;
-  background-color: #e7e7e7;
-  text-stroke: 1px black;
-  font-family: Arial, Helvetica, sans-serif;
-  align-content: center;
+  padding: 20px;
+  position: relative;
 }
 
+.section-title h2 {
+  font-size: 32px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1px;
+  padding-bottom: 0;
+  color: #343a40;
+  position: relative;
+  z-index: 2;
+}
 
+.section-title span {
+  position: absolute;
+  top: 30px;
+  color: white;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  font-weight: 700;
+  font-size: 52px;
+  text-transform: uppercase;
+  line-height: 0;
+}
 
+.section-title p {
+  margin-bottom: 0;
+  position: relative;
+  z-index: 2;
+}
 
 
