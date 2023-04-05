@@ -2,7 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../../data.service";
 import {QrRequest} from "../../dto/QrRequest";
-import {UserDetailsRequest} from "../../dto/UserDetailsRequest";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { Buffer } from 'buffer/';
+import { NavigationExtras } from '@angular/router';
 
 @Component({
   selector: 'app-user-account',
@@ -10,27 +12,17 @@ import {UserDetailsRequest} from "../../dto/UserDetailsRequest";
   styleUrls: ['./user-account.component.scss']
 })
 export class UserAccountComponent implements OnInit {
-  firstName : string;
-  lastName : string;
+  public firstName : string;
+  public lastName : string;
   constructor(private router: Router, private dataService: DataService) {
-    this.firstName = ''
-    this.lastName = ''
-  }
-
-  ngOnInit() {
     if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
       this.router.navigate(['login'])
     }
-    this.fetchCustomerDetails()
-    this.setFirstName(this.dataService.getFirstName())
-    this.setLastName(this.dataService.getLastName())
-  }
-  setFirstName(name:string) {
-    this.firstName = name;
+    this.firstName = dataService.firstName;
+    this.lastName = dataService.lastName;
   }
 
-  setLastName(name:string) {
-    this.lastName = name;
+  ngOnInit() {
   }
 
   goToTransactions() {
@@ -62,6 +54,7 @@ export class UserAccountComponent implements OnInit {
         if (data.success) {
           alert(data.message)
           let newSessionId = data.sessionId
+          //this.dataService.setSessionValues(user, newSessionId)
           this.dataService.setPaymentQrImage(data.qrImage);
           this.dataService.setPaymentQrPdf(data.qrPdf)
           this.dataService.updateSession(true, newSessionId);
@@ -70,28 +63,9 @@ export class UserAccountComponent implements OnInit {
           alert(data.message)
         }
       })
+
+
     }
   }
-  fetchCustomerDetails()
-  {
-    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
-      this.router.navigate(['login'])
-    }
-    else{
-      let userDetailsRequest = {} as UserDetailsRequest;
-      userDetailsRequest.sessionId = localStorage.getItem('sessionId') as string
-      this.dataService.fetchUserDetails(userDetailsRequest).subscribe(data => {
-        if (data.success) {
-          let newSessionId = data.sessionId
-          this.dataService.updateSession(true,newSessionId)
-          localStorage.setItem("accountBalance",JSON.stringify(data.customer.accountBalance))
-          localStorage.setItem("email",JSON.stringify(data.customer.email))
-        }
-        else{
-          alert(data.message)
-        }
-      })
-      }
-    }
 }
 

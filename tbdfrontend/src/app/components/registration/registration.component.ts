@@ -15,12 +15,6 @@ export class RegistrationComponent implements OnInit {
   submitted = false;
   genders = ["Male", "Female", "Other"]
   provinces = ["AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"]
-  countryCode = ["1","91","44","52","86"]
-  testAccount = ["Yes","No"]
-
-  mapYesNoToBoolean(value: string): boolean {
-    return value === 'Yes' ? true : false;
-  }
   constructor(private dataService: DataService, private formBuilder:FormBuilder, private router:Router) { }
   ngOnInit(): void {
     this.registrationForm=this.formBuilder.group({
@@ -40,8 +34,7 @@ export class RegistrationComponent implements OnInit {
       city:["",Validators.required],
       province:["",Validators.required],
       postalCode:["",Validators.required],
-      sinNumber:["",[Validators.required,Validators.minLength(10)]],
-      testAccount:["",Validators.required]
+      sinNumber:["",[Validators.required,Validators.minLength(10)]]
     })
   }
   get rfc(){
@@ -53,7 +46,6 @@ export class RegistrationComponent implements OnInit {
       return;
     }
     this.registrationForm.value['gender']=this.registrationForm.value['gender'].toUpperCase()
-    this.registrationForm.value['testAccount'] = this.mapYesNoToBoolean(this.registrationForm.value['testAccount']);
     this.dataService.sendRegistrationDetails(this.registrationForm.value).subscribe(data => {
       if (data.success) {
         alert(data.message)

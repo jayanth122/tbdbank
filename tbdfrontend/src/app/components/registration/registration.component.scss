@@ -10,7 +10,9 @@ h2{
   padding:1%;
   color: darkred;
 }
-
+body{
+  background-color: lightcyan;
+}
 .buttons{
   color: darkblue;
   background-color: grey;
@@ -22,120 +24,3 @@ h2{
   width: 10%;
   length:10%;
 }
-@media (min-width: 1025px) {
-  .h-custom {
-    height: 100px;
-  }
-}
-.card{
-  width: 100%;
-
-}
-
-.container.py-5.h-100 {
-  padding-top: 3rem;
-  padding-bottom: 5rem;
-}
-.card-registration {
-  font-size: 1rem;
-  line-height: 2.15;
-  padding-left: .75em;
-  padding-right: .75em;
-  width: 100%;
-}
-.card-registration .select-arrow {
-  top: 13px;
-}
-.card-registration-2{
-  width: 100%;
-}
-.custom-height {
-  width: 100%;
-}
-.custom-width {
-  width: 350px;
-}
-
-@media (min-width: 992px) {
-  .card-registration-2 .bg-indigo {
-    border-top-right-radius: 15px;
-    border-bottom-right-radius: 15px;
-  }
-}
-@media (max-width: 991px) {
-  .card-registration-2 .bg-indigo {
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-  }
-}
-
-select {
-  /* Set padding to make room for the arrow */
-  padding: 0.5rem 2rem 0.5rem 1rem;
-  /* Remove default appearance */
-  appearance: none;
-  /* Add custom arrow */
-  background-size: 16px 16px;
-  /* Add custom border */
-  border: 1px solid #ccc;
-  border-radius: 0.25rem;
-  /* Add custom font and colors */
-  font-family: Arial, sans-serif;
-  font-size: 1rem;
-  color: #333;
-  background: #fff url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' viewBox='0 0 16 16'><path d='M8 12.5L3.5 8H12z'/></svg>") no-repeat right 0.5rem center;
-}
-input::placeholder {
-  color: black;
-}
-
-body{
-  background-color: #e7e7e7;
-  margin-top: 3%;
-}
-.form-outline{
-  width: 350px;
-}
-
-section {
-  overflow: hidden;
-  padding-top: 2%;
-}
-
-.section-title {
-  text-align: center;
-  padding: 20px;
-  position: relative;
-}
-
-.section-title h2 {
-  font-size: 32px;
-  font-weight: 700;
-  text-transform: uppercase;
-  margin-bottom: 1px;
-  padding-bottom: 0;
-  color: #343a40;
-  position: relative;
-  z-index: 2;
-}
-
-.section-title span {
-  position: absolute;
-  top: 30px;
-  color: white;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  font-weight: 700;
-  font-size: 52px;
-  text-transform: uppercase;
-  line-height: 0;
-}
-
-.section-title p {
-  margin-bottom: 0;
-  position: relative;
-  z-index: 2;
-}
-
-

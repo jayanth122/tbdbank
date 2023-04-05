@@ -3,12 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs'
 import {QrRequest} from "./dto/QrRequest";
 import {StatementRequest} from "./dto/StatementRequest";
-import {InteracValidateRequest} from "./dto/InteracValidateRequest";
-import {UserDetailsRequest} from "./dto/UserDetailsRequest";
 import {Router} from "@angular/router";
-import {LogOutRequest} from "./dto/LogOutRequest";
-import {getXHRResponse} from "rxjs/internal/ajax/getXHRResponse";
-
 
 
 @Injectable({
@@ -20,22 +15,18 @@ export class DataService {
   verificationPdf : any;
   paymentQrImage : any;
   paymentQrPdf : any;
-  user = {
-    firstName : '',
-    lastName : '',
-    email : '',
-    accountBalance : 0,
-    interacEmail : ''
-  };
+  firstName : string;
+  lastName : string;
   isLoginValid !: boolean;
   isNestedCall !: boolean;
   timeoutId !: number;
   startTime = Date.now();
 
-
   private url = "https://www.tbdbank.me/tbd651"
 
   constructor(private httpClient: HttpClient, private router: Router) {
+    this.firstName = '';
+    this.lastName = '';
     this.isLoginValid = false;
     this.isNestedCall = false;
 
@@ -59,25 +50,14 @@ export class DataService {
       }, remainingTime);
     }
   }
-  getFirstName() : string {
-    return JSON.stringify(localStorage.getItem('firstName'))
-  }
-  getLastName() : string {
-    return JSON.stringify(localStorage.getItem('lastName'))
-  }
-  getAccountBalance() {
-    return Number(JSON.stringify(localStorage.getItem('accountBalance')));
-  }
-  getEmail() {
-    return JSON.stringify(localStorage.getItem('email'))
-  }
-  // setFirstName(firstName:string) {
-  //   this.firstName = firstName;
-  // }
 
-  // setLastName(lastName:string) {
-  //   this.lastName = lastName;
-  // }
+  setFirstName(firstName:string) {
+    this.firstName = firstName;
+  }
+
+  setLastName(lastName:string) {
+    this.lastName = lastName;
+  }
 
   setIsLoginValid(isValid:boolean, newSessionId:string) {
     this.isLoginValid = isValid;
@@ -150,14 +130,4 @@ export class DataService {
     return this.httpClient.post(`${this.url}/qr/generateQR`,qrRequest)
   }
 
-  validateInterac(validateInteracRequest : InteracValidateRequest):Observable<any> {
-    return this.httpClient.post(`${this.url}/transaction/interac/validate`,validateInteracRequest);
-  }
-  fetchUserDetails(userDetailsRequest : UserDetailsRequest) : Observable<any> {
-    return this.httpClient.post(`${this.url}/customer`,userDetailsRequest)
-  }
-
-  logOut(logOutRequest : LogOutRequest) {
-    return this.httpClient.post(`${this.url}/logout`,logOutRequest,{responseType:"text"})
-  }
 }
