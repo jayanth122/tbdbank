@@ -10,18 +10,27 @@ import {UserDetailsRequest} from "../../dto/UserDetailsRequest";
   styleUrls: ['./user-account.component.scss']
 })
 export class UserAccountComponent implements OnInit {
-  public firstName : string;
-  public lastName : string;
+  firstName : string;
+  lastName : string;
   constructor(private router: Router, private dataService: DataService) {
-    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
-      this.router.navigate(['login'])
-    }
-    this.firstName = dataService.firstName;
-    this.lastName = dataService.lastName;
-    this.fetchCustomerDetails()
+    this.firstName = ''
+    this.lastName = ''
   }
 
   ngOnInit() {
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
+    this.fetchCustomerDetails()
+    this.setFirstName(this.dataService.getFirstName())
+    this.setLastName(this.dataService.getLastName())
+  }
+  setFirstName(name:string) {
+    this.firstName = name;
+  }
+
+  setLastName(name:string) {
+    this.lastName = name;
   }
 
   goToTransactions() {
@@ -68,20 +77,21 @@ export class UserAccountComponent implements OnInit {
     if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
       this.router.navigate(['login'])
     }
-    let userDetailsRequest = {} as UserDetailsRequest;
-      let sessionId = localStorage.getItem('sessionId') as string
-      userDetailsRequest.sessionId = sessionId
-        this.dataService.fetchUserDetails(userDetailsRequest).subscribe(data => {
-          if (data.success) {
-            let newSessionId = data.sessionId
-            this.dataService.updateSession(true,newSessionId)
-            this.dataService.user.accountBalance = data.customer.accountBalance
-            this.dataService.user.email = data.customer.email
-          }
-          else{
-            alert(data.message)
-          }
-        })
+    else{
+      let userDetailsRequest = {} as UserDetailsRequest;
+      userDetailsRequest.sessionId = localStorage.getItem('sessionId') as string
+      this.dataService.fetchUserDetails(userDetailsRequest).subscribe(data => {
+        if (data.success) {
+          let newSessionId = data.sessionId
+          this.dataService.updateSession(true,newSessionId)
+          localStorage.setItem("accountBalance",JSON.stringify(data.customer.accountBalance))
+          localStorage.setItem("email",JSON.stringify(data.customer.email))
+        }
+        else{
+          alert(data.message)
+        }
+      })
+      }
     }
 }
 

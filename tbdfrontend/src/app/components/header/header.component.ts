@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit {
        (response) => {
          alert(response)
          localStorage.clear();
+         this.dataService.updateSession(false,"")
          this.router.navigate(['login'])
        },
        error => {

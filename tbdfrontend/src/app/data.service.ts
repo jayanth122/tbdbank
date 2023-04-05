@@ -20,8 +20,6 @@ export class DataService {
   verificationPdf : any;
   paymentQrImage : any;
   paymentQrPdf : any;
-  firstName : string;
-  lastName : string;
   user = {
     firstName : '',
     lastName : '',
@@ -38,8 +36,6 @@ export class DataService {
   private url = "https://www.tbdbank.me/tbd651"
 
   constructor(private httpClient: HttpClient, private router: Router) {
-    this.firstName = '';
-    this.lastName = '';
     this.isLoginValid = false;
     this.isNestedCall = false;
 
@@ -63,14 +59,25 @@ export class DataService {
       }, remainingTime);
     }
   }
-
-  setFirstName(firstName:string) {
-    this.firstName = firstName;
+  getFirstName() : string {
+    return JSON.stringify(localStorage.getItem('firstName'))
   }
-
-  setLastName(lastName:string) {
-    this.lastName = lastName;
+  getLastName() : string {
+    return JSON.stringify(localStorage.getItem('lastName'))
   }
+  getAccountBalance() {
+    return Number(JSON.stringify(localStorage.getItem('accountBalance')));
+  }
+  getEmail() {
+    return JSON.stringify(localStorage.getItem('email'))
+  }
+  // setFirstName(firstName:string) {
+  //   this.firstName = firstName;
+  // }
+
+  // setLastName(lastName:string) {
+  //   this.lastName = lastName;
+  // }
 
   setIsLoginValid(isValid:boolean, newSessionId:string) {
     this.isLoginValid = isValid;
