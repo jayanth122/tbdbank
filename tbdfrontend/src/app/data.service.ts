@@ -51,8 +51,6 @@ export class DataService {
     }
   }
 
-
-
   setFirstName(firstName:string) {
     this.firstName = firstName;
   }
@@ -74,6 +72,10 @@ export class DataService {
   updateSession(isValid:boolean, newSessionId:string) {
     clearTimeout(this.timeoutId);
     this.setIsLoginValid(isValid, newSessionId);
+    localStorage.setItem('timeoutState', JSON.stringify({
+      timeoutId: this.timeoutId,
+      remainingTime: 300000 - (Date.now() - this.startTime)
+    }));
   }
 
   sendLoginDetails(loginData:FormData): Observable<any> {
