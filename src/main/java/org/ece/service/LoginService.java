@@ -1,5 +1,6 @@
 package org.ece.service;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.ece.configuration.DataSouceConfig;
 import org.ece.dto.*;
@@ -55,6 +56,17 @@ public class LoginService {
     public LoginResponse validateLoginRequest(final LoginRequest loginRequest) {
         return StringUtils.isBlank(loginRequest.getCardNumber()) ? validateLoginWithUserName(loginRequest)
                 : validateLoginWithCardNumber(loginRequest);
+    }
+
+    public void logout(final String sessionId) {
+        cacheService.killSession(sessionId);
+    }
+
+    public String refreshSession(final String sessionId) {
+        if (ObjectUtils.isEmpty(cacheService.validateSession(sessionId))) {
+            return null;
+        }
+        return cacheService.killAndCreateSession(sessionId);
     }
 
     private LoginResponse validateLoginWithCardNumber(final LoginRequest loginRequest) {

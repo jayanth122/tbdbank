@@ -2,9 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../../data.service";
 import {QrRequest} from "../../dto/QrRequest";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import { Buffer } from 'buffer/';
-import { NavigationExtras } from '@angular/router';
+import {UserDetailsRequest} from "../../dto/UserDetailsRequest";
+import {InteracValidateRequest} from "../../dto/InteracValidateRequest";
 
 @Component({
   selector: 'app-user-account',
@@ -12,43 +11,85 @@ import { NavigationExtras } from '@angular/router';
   styleUrls: ['./user-account.component.scss']
 })
 export class UserAccountComponent implements OnInit {
-  public firstName : string;
-  public lastName : string;
+  firstName : string;
+  lastName : string;
   constructor(private router: Router, private dataService: DataService) {
-    this.firstName = dataService.firstName;
-    this.lastName = dataService.lastName;
+    this.firstName = ''
+    this.lastName = ''
   }
 
   ngOnInit() {
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
+    this.setFirstName(this.dataService.getFirstName())
+    this.setLastName(this.dataService.getLastName())
+  }
+  setFirstName(name:string) {
+    this.firstName = name;
+  }
+
+  setLastName(name:string) {
+    this.lastName = name;
   }
 
   goToTransactions() {
-    this.router.navigate(['transaction'])
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    } else {
+      this.router.navigate(['transaction'])
+    }
   }
   goToInterac()
   {
-    this.router.navigate(['interac'])
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    } else {
+      this.router.navigate(['interac'])
+    }
+
+  }
+  validateCustomerInterac() {
+    let interacValidateRequest = {} as InteracValidateRequest;
+    if (!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
+    let sessionId = localStorage.getItem('sessionId') as string
+    interacValidateRequest.sessionId = sessionId
+    interacValidateRequest.email = ""
+    this.dataService.validateInterac(interacValidateRequest).subscribe(data => {
+      if (data.valid) {
+        let newSessionId = data.sessionId
+        this.dataService.updateSession(true, newSessionId)
+        this.generateQr();
+      } else {
+        alert("Interac Not Registered")
+        let newSessionId = data.sessionId
+        this.dataService.updateSession(true, newSessionId)
+        this.router.navigate(['interac-register'])
+      }
+    })
   }
 
   generateQr() {
-    const user = localStorage.getItem("userName");
-    let qrRequest = {} as QrRequest;
-    if (user) {
-      let sessionId = this.dataService.getSessionValues(user)
-      qrRequest.sessionId = sessionId
-      this.dataService.generateQr(qrRequest).subscribe(data => {
-        if (data.success) {
-          alert(data.message)
-          let newSessionId = data.sessionId
-          this.dataService.setSessionValues(user, newSessionId)
-          this.dataService.setPaymentQrImage(data.qrImage);
-          this.dataService.setPaymentQrPdf(data.qrPdf)
-          this.router.navigate(['qr'])
-        } else {
-          alert(data.message)
-        }
-      })
-
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
+    else{
+      let qrRequest = {} as QrRequest;
+        qrRequest.sessionId = localStorage.getItem('sessionId') as string;
+        this.dataService.generateQr(qrRequest).subscribe(data => {
+          if (data.success) {
+            alert(data.message)
+            let newSessionId = data.sessionId
+            this.dataService.setPaymentQrImage(data.qrImage);
+            this.dataService.setPaymentQrPdf(data.qrPdf)
+            this.dataService.updateSession(true, newSessionId);
+            this.router.navigate(['qr'])
+          } else {
+            alert(data.message)
+          }
+        })
 
     }
   }
