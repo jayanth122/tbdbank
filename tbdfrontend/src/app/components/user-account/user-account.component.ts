@@ -22,15 +22,15 @@ export class UserAccountComponent implements OnInit {
     if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
       this.router.navigate(['login'])
     }
-    this.setFirstName(this.dataService.getFirstName())
-    this.setLastName(this.dataService.getLastName())
+      this.setFirstName(this.dataService.getFirstName())
+      this.setLastName(this.dataService.getLastName())
   }
   setFirstName(name:string) {
-    this.firstName = name;
+    this.firstName = name.replace(/"/g, '');
   }
 
   setLastName(name:string) {
-    this.lastName = name;
+    this.lastName = name.replace(/"/g, '');
   }
 
   goToTransactions() {

@@ -1,0 +1,48 @@
+
+#header1 {
+  font-weight: bold;
+  font-family: "Times New Roman" sans-serif;
+  background: white;
+  height: 70px;
+  padding: 20px;
+  margin: 30px;
+  text-align: left;
+  color: #343a40;
+}
+.container-fluid{
+  background-color: #e7e7e7;
+  padding-bottom: 10px;
+  padding-top: 30px;
+}
+.body{
+  background-color: yellow;
+}
+.logo{
+  text-align: left;
+  color: white;
+  text-shadow: white;
+}
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+.card-body {
+  flex: 1;
+}
+.custom {
+  margin-top: auto;
+}
+.btn-sm {
+ padding-top: -10px;
+  color: red;
+  background-color: #42A948;
+}
+.btn {
+  width: 10%;
+
+}
+
+

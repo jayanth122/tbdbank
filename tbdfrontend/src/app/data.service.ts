@@ -61,11 +61,12 @@ export class DataService {
       }, remainingTime);
     }
   }
-  getFirstName() : string {
-    return JSON.stringify(localStorage.getItem('firstName'))
+  getFirstName(): string {
+    return localStorage.getItem('firstName') || '';
   }
-  getLastName() : string {
-    return JSON.stringify(localStorage.getItem('lastName'))
+
+  getLastName(): string {
+    return localStorage.getItem('lastName') || '';
   }
   getAccountBalance() {
     return Number(JSON.stringify(localStorage.getItem('accountBalance')));
