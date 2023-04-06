@@ -26,7 +26,7 @@ export class LoginComponent implements OnInit {
   get lfc(){
     return this.loginForm.controls
   }
-  onSubmit(){
+  onSubmit() :void{
     this.submitted=true;
     if(this.loginForm.invalid){
       return;
