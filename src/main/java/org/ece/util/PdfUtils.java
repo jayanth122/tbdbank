@@ -169,8 +169,8 @@ public final class PdfUtils {
     }
 
     private static void setCustomerDetailsInPdf(final Customer customer, final Document document) {
-        Chunk nameCell = new Chunk("Name: " + customer.getLastName().toUpperCase() + " "
-                + customer.getFirstName().toUpperCase(), FONT);
+        Chunk nameCell = new Chunk("Name: " + customer.getFirstName().toUpperCase() + " "
+                + customer.getLastName().toUpperCase(), FONT);
         Chunk streetNameCell = new Chunk("Address: " + customer.getStreetNumber()
                 + " " + customer.getStreetName() + ADDRESS_SEPARATOR + customer.getCity()
                 + ADDRESS_SEPARATOR + customer.getProvince(), FONT);
