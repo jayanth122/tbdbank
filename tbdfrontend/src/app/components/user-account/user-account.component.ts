@@ -13,12 +13,25 @@ import {InteracValidateRequest} from "../../dto/InteracValidateRequest";
 export class UserAccountComponent implements OnInit {
   firstName : string;
   lastName : string;
+  greeting: string = '';
+  localTime: string = '';
   constructor(private router: Router, private dataService: DataService) {
     this.firstName = ''
     this.lastName = ''
   }
 
   ngOnInit() {
+    const currentDate = new Date();
+    const hours = currentDate.getHours();
+    if (hours < 12) {
+      this.greeting = ', Good Morning!';
+    } else if (hours < 18) {
+      this.greeting = ', Good Afternoon!';
+    } else {
+      this.greeting = ', Good Evening!';
+    }
+    this.localTime = currentDate.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
+
     if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
       this.router.navigate(['login'])
     }

@@ -1,60 +1,188 @@
 <app-header [afterLogin]="true" ></app-header>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
 <body>
-<header id="header1" class="d-flex align-items-center" style="padding-top: 5%;">
-<h1 id = "logo" style="padding-top: 1%">Welcome {{firstName}} {{lastName}}</h1>
-</header>
-<div class="container-fluid" style="height: 100vh;width: 100vw;">
-<button (click)="goToInterac()">Go to Interac</button>
-<button class="btn-outline-primary" (click)="goToTransactions()">
-  Transactions
-</button>
 
+<header>
+  <section id="team" class="team" style="padding-top: 4%;">
+    <div class="container align-items-end">
+      <div class="section-title justify-content-center" style="text-align: center">
+        <h2>Welcome {{firstName}} {{lastName}}{{greeting}}</h2>
+        <h4>
+          <span *ngIf="localTime">{{localTime}}</span>
+        </h4>
+      </div>
+    </div>
+  </section>
+</header>
+
+
+
+
+
+
+
+
+<div class="container-fluid" style="height: 100vh;width: 100vw;">
 
   <div class="container d-flex flex-column text-center">
     <div class="row justify-content-center">
       <div class="col-12 col-sm-12 col-md-10">
-        <div class="card mb-5 rounded bg-whiten" style="position: relative">
-          <div class="card-body">
-            <h5 class="card-title">Transactions</h5>
-            <p class="card-text">View Transactions and Account Summary</p>
-          </div>
-          <button class="btn btn-sm" style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);">Show Details</button>
-        </div>
-        <div class="card mb-5 rounded bg-white" style="position: relative">
-          <div class="card-body">
-            <h5 class="card-title">Generate UPI Payment QR code</h5>
-            <p class="card-text">Transfer money easily using QR code</p>
-          </div>
-          <<button class="btn btn-sm" style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);"(click)="validateCustomerInterac()">
-            Generate QR
-          </button>
-        </div>
-        <div class="card mb-5 rounded bg-white" style="position: relative">
-          <div class="card-body">
-            <h5 class="card-title">Card 3</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </div>
-        </div>
-        <div class="card mb-5 rounded bg-white" style="position: relative">
-          <div class="card-body">
-            <h5 class="card-title">Card 3</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </div>
-        </div>
-        <div class="card mb-5 rounded bg-white" style="position: relative">
-          <div class="card-body">
+
+
+        <div class="card mb-5 rounded" style="position: relative">
+          <div class="card-body text-center">
             <div class="d-flex align-items-center">
-              <div class="d-flex flex-column align-items-center">
-                <i class="bi bi-credit-card-fill text-danger display-3"></i>
-                <h5 class="card-title">Master Card &nbsp; &nbsp; &nbsp;</h5>
+              <div class="d-flex align-items-center">
+                <i class="bi bi-wallet2 text-danger display-5" style="height: 70px; width: 50px;"></i>
               </div>
-              <div class="d-flex justify-content-center align-items-center w-100 text-center">
+              <div style="display: flex; align-items: center;">
+                <h5 class="card-title" style="font-size: 1.2rem; margin: 0;"> &nbsp;&nbsp;Transactions</h5>
+              </div>
+              <div class="d-flex justify-content-end w-100 text-center">
+                <p class="card-text">View Transactions Services</p>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-danger" style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);" (click)="goToTransactions()">Transactions</button>
+        </div>
+
+
+
+        <div class="card mb-5 rounded" style="position: relative">
+          <div class="card-body text-center">
+            <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-person-fill text-danger display-5" style="height: 70px; width: 60px;"></i>
+              </div>
+              <div style="display: flex; align-items: center;">
+                <h5 class="card-title" style="font-size: 1.2rem;">&nbsp;UserAccount</h5>
+              </div>
+              <div class="d-flex justify-content-end w-100 text-center">
+                <p class="card-text">View Account details</p>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);">Account</button>
+
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" style="color: black" id="exampleModalLabel">Thank you for trusting TBD Bank</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="color:black;">
+                  We are developing the service, Thank you for your patience!
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class="card mb-5 rounded" style="position: relative">
+          <div class="card-body text-center">
+            <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center">
+                <img src="https://img.icons8.com/ios/50/000000/qr-code.png" style="height: 60px; width: 60px; background-color: #dc3545">
+              </div>
+              <div style="display: flex; align-items: center;">
+                <h5 class="card-title" style="font-size: 1.2rem; margin: 0;">QRCode</h5>
+              </div>
+              <div class="d-flex justify-content-end w-100 text-center">
+                <p class="card-text"> Generate UPI Payment QR code</p>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-danger" style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);"(click)="validateCustomerInterac()">Generate QR</button>
+        </div>
+
+
+
+        <div class="card mb-5 rounded" style="position: relative">
+          <div class="card-body text-center">
+            <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-bank text-danger display-5" style="height: 70px; width: 50px;"></i>
+              </div>
+              <div style="display: flex; align-items: center;">
+                <h5 class="card-title" style="font-size: 1.2rem">&nbsp;&nbsp;SavingsAccount</h5>
+              </div>
+              <div class="d-flex justify-content-end w-100 text-center">
+                <p class="card-text">TBD Bank Savings Account Service Coming Soon</p>
+              </div>
+            </div>
+          </div>
+          <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);">Learn More</button>
+
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" style="color: black" id="exampleModalLabel">Thank you for trusting TBD Bank</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="color:black;">
+                  We are developing the service, Thank you for your patience!
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+        <div class="card mb-5 rounded" style="position: relative">
+          <div class="card-body text-center">
+            <div class="d-flex align-items-center">
+              <div class="d-flex align-items-center">
+                <i class="bi bi-credit-card-fill text-danger display-5" style="height: 70px; width: 50px;"></i>
+              </div>
+              <div style="display: flex; align-items: center;">
+                <h5 class="card-title" style="font-size: 1.2rem;">MasterCard</h5>
+              </div>
+              <div class="d-flex justify-content-end w-100 text-center">
                 <p class="card-text">TBD Bank Master Card Service Coming Soon</p>
               </div>
             </div>
           </div>
-          <button class="btn btn-sm" style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);">Learn More</button>
+          <button class="btn btn-danger" data-toggle="modal" data-target="#exampleModal" style="position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%);">Learn More</button>
+
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" style="color: black" id="exampleModalLabel">Thank you for trusting TBD Bank</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="color:black;">
+                  We are developing the service, Thank you for your patience!
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
 

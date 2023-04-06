@@ -1,4 +1,3 @@
-
 #header1 {
   font-weight: bold;
   font-family: "Times New Roman" sans-serif;
@@ -29,16 +28,15 @@
   justify-content: space-between;
 
 }
+.card-text{
+  font-size: 1.2rem;
+  font-family: Arial, sans-serif;
+}
 .card-body {
   flex: 1;
 }
 .custom {
   margin-top: auto;
-}
-.btn-sm {
- padding-top: -10px;
-  color: red;
-  background-color: #42A948;
 }
 .btn {
   width: 15%;
@@ -51,5 +49,32 @@
 .card-title {
   font-size: 1.2rem;
 }
+.bi-credit-card-fill {
+  margin-right: 30px; /* adjust this value as needed */
+  vertical-align: middle;
+}
+.card:hover {
+  background-color: #343a40;;
+  color: white;
+}
 
+section {
+  overflow: hidden;
+  padding-top: 2%;
+}
+
+.section-title {
+  padding: 20px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: 32px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0px;
+  padding-bottom: 0;
+  color: #343a40;
+  z-index: 2;
+}
 
