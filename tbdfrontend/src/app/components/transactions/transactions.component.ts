@@ -27,16 +27,14 @@ export class TransactionsComponent implements OnInit{
     interacValidateRequest.email = ""
     this.dataService.validateInterac(interacValidateRequest).subscribe(data => {
       if (data.valid) {
-        alert(data.message)
         let newSessionId = data.sessionId
         this.dataService.updateSession(true, newSessionId)
         this.router.navigate(['interac'])
       } else {
-        alert(data.message)
+        alert("Interac not registered")
         let newSessionId = data.sessionId
         this.dataService.updateSession(true, newSessionId)
-        // this.router.navigate(['interac'])
-        // should create a new componenet for interacRegister.
+        this.router.navigate(['interac-register'])
       }
     })
   }
