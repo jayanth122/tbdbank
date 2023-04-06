@@ -7,10 +7,9 @@ import {Router} from "@angular/router";
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-  isClicked:boolean = false;
-  constructor(private router: Router) { }
+
+  constructor() { }
   ngOnInit() {
-    this.isClicked=false;
   }
 
 

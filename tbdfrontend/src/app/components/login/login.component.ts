@@ -12,7 +12,7 @@ import { Buffer } from 'buffer/';
 export class LoginComponent implements OnInit {
   loginForm !: FormGroup;
   submitted = false;
-  constructor(private router: Router, private dataService: DataService, private formBuilder:FormBuilder) {
+  constructor(public router: Router, private dataService: DataService, private formBuilder:FormBuilder) {
   }
   ngOnInit(): void {
     if(localStorage.getItem('sessionId') || this.dataService.isLoginValid) {
@@ -31,7 +31,6 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.invalid){
       return;
     }
-    console.log(JSON.stringify(this.loginForm.value));
     this.dataService.sendLoginDetails(this.loginForm.value).subscribe(data => {
         if (data.success) {
           alert("Welcome " + data.firstName + " " + data.lastName)
