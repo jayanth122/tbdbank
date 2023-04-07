@@ -156,6 +156,7 @@ public class InteracService {
             InteracValidateResponse interacValidateResponse = new InteracValidateResponse();
             interacValidateResponse.setValid(false);
             interacValidateResponse.setMessage("Email Not Linked to Any Bank");
+            interacValidateResponse.setSessionId(newSessionId);
             return interacValidateResponse;
         }
     }
