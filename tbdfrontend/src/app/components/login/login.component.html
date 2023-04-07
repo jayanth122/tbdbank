@@ -1,64 +1,73 @@
-<body>
-<app-header [isHomePage]="true" ></app-header>
-<div class="container md-6 mt-6">
-  <div class="row d-flex justify-content-center align-items-center">
-    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-      <div class="card bg-dark text-white" style="border-radius: 1rem">
-        <div class="card-body p-5 text-center">
-          <div class="mb-md-5 mt-md-4 pb-5">
-            <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
-            <p class="text-white-50 mb-5">Please login to your account</p>
-            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
-              <div class="form-outline form-group form-white mb-4">
-                <input
-                  type="text"  class="form-control"
-                  placeholder="Username or CardNumber"
-                  formControlName="userName"
-                  [ngClass]="{'is-invalid': submitted && this.lfc.userName.errors}"
-                />
-                <div *ngIf="submitted && this.lfc.userName.errors" class="text-warning">
-                  <div *ngIf="this.lfc.userName.errors.required ">
-                    Username or CardNumber is Required
+  <link rel="stylesheet" href="login.component.scss">
+  <body>
+  <app-header [isHomePage]="true" ></app-header>
+  <section id="team" class="team">
+    <div class="container">
+      <div class="section-title">
+        <span>Welcome to TBD Bank</span>
+        <h2>Welcome to TBD Bank</h2>
+      </div>
+    </div>
+  </section>
+  <div class="container md-6 mt-6">
+    <div class="row d-flex justify-content-center align-items-center">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem">
+          <div class="card-body p-5 text-center">
+            <div class="mb-md-5 mt-md-4 pb-5">
+              <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+              <p class="text-white-50 mb-5">Please login to your account</p>
+              <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" >
+                <div class="form-outline form-group form-white mb-4">
+                  <input
+                    type="text"  class="form-control"
+                    placeholder="Username or CardNumber"
+                    formControlName="userName"
+                    [ngClass]="{'is-invalid': submitted && this.lfc.userName.errors}"
+                  />
+                  <div *ngIf="submitted && this.lfc.userName.errors" class="text-warning">
+                    <div *ngIf="this.lfc.userName.errors.required ">
+                      Username or CardNumber is Required
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div class="form-outline form-group form-white mb-4">
-                <input
-                  type="password" class="form-control"
-                  placeholder="Password"
-                  formControlName="password"
-                  [ngClass]="{'is-invalid': submitted && this.lfc.password.errors}"
-                />
-                <div *ngIf="this.lfc.password.touched && this.lfc.password.errors" class="text-warning">
-                  <div *ngIf="this.lfc.password.errors.required">
-                    Password is Required
-                  </div>
-                  <div *ngIf="this.lfc.password.errors.minlength">
-                    Password must have atleast 8characters!
+                <div class="form-outline form-group form-white mb-4">
+                  <input
+                    type="password" class="form-control"
+                    placeholder="Password"
+                    formControlName="password"
+                    [ngClass]="{'is-invalid': submitted && this.lfc.password.errors}"
+                  />
+                  <div *ngIf="this.lfc.password.touched && this.lfc.password.errors" class="text-warning">
+                    <div *ngIf="this.lfc.password.errors.required">
+                      Password is Required
+                    </div>
+                    <div *ngIf="this.lfc.password.errors.minlength">
+                      Password must have atleast 8characters!
+                    </div>
                   </div>
                 </div>
-              </div>
-              <p class="small mb-5 pb-lg-2">
-                <a class="text-light" href="">Forgot password?</a>
-              </p>
+                <p class="small mb-5 pb-lg-2">
+                  <a class="text-light" href="">Forgot password?</a>
+                </p>
 
-              <button class="btn btn-outline-light btn-lg px-5" type="submit" >
-                Login
-              </button>
-            </form>
-            <div>
-              <p class="mt-5">
-                Don't have an account?
-                <a (click)="goToReg()" class="text-white-50 fw-bold" >Sign Up</a>
-              </p>
+                <button class="btn btn-outline-light btn-lg px-5" type="submit" >
+                  Login
+                </button>
+              </form>
+              <div>
+                <p class="mt-5">
+                  Don't have an account?
+                  <a (click)="goToReg()" class="text-white-50 fw-bold" >Sign Up</a>
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-<app-footer></app-footer>
-<router-outlet></router-outlet>
-</body>
+  <app-footer></app-footer>
+  <router-outlet></router-outlet>
+  </body>
 
