@@ -141,12 +141,15 @@ public class InteracService {
             return interacValidateResponse;
         }
         final String newSessionId = cacheService.killAndCreateSession(interacValidateRequest.getSessionId());
+        Optional<Interac> customerInterac = interacOperations.findInteracByCustomerId(sessionData.getUserId());
         if (StringUtils.isBlank(interacValidateRequest.getEmail())) {
-            Optional<Interac> interac = interacOperations.findInteracByCustomerId(sessionData.getUserId());
-            return new InteracValidateResponse(interac.isPresent(), "", newSessionId);
+            return new InteracValidateResponse(customerInterac.isPresent(), "", newSessionId);
         }
         Optional<Interac> interac = interacOperations.findInteracByEmail(interacValidateRequest.getEmail());
         if (interac.isPresent()) {
+            if (StringUtils.equalsIgnoreCase(interac.get().getCustomerId(), customerInterac.get().getCustomerId())) {
+                return new InteracValidateResponse(false, "Cannot send to Self Account", newSessionId);
+            }
             return new InteracValidateResponse(true, interac.get().getFirstName(), interac.get().getLastName(),
                     interac.get().getBankName(), "", newSessionId);
         } else {

@@ -4,6 +4,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {StatementRequest} from "../../dto/StatementRequest";
 import {Transaction} from "../../dto/Transaction";
 import {Router} from "@angular/router";
+import {saveAs} from "file-saver";
 
 @Component({
   selector: 'app-statement',
@@ -27,25 +28,35 @@ constructor(private dataService:DataService, private formBuilder:FormBuilder, pr
 }
   public onSubmit(){
     this.submitted = true;
-    const user = localStorage.getItem("userName");
     let statementRequest = {} as StatementRequest;
-    if (user){
-      statementRequest.fromDate = this.statementForm.value['fromDate']
-      statementRequest.toDate = this.statementForm.value['toDate']
-      let sessionId = localStorage.getItem('sessionId') as string;
-      statementRequest.sessionId = sessionId;
-      this.dataService.getTransactionStatement(statementRequest).subscribe(data => {
+    if (!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+      this.router.navigate(['login'])
+    }
+    statementRequest.fromDate = this.statementForm.value['fromDate']
+    statementRequest.toDate = this.statementForm.value['toDate']
+    statementRequest.sessionId = localStorage.getItem('sessionId') as string
+    this.dataService.getTransactionStatement(statementRequest).subscribe(data => {
           if(data.success){
             let newSessionId = data.sessionId
-            this.dataService.setSessionValues(user,newSessionId);
+            this.dataService.setStatementPdf(data.statementPdf)
             this.dataService.updateSession(true, newSessionId);
+            this.transactions = data.transactionList
             this.submitted=false
           }
           else{
             alert(data.message)
           }
-        }
-      )
+        })
+  }
+  downloadPdf(){
+    const byteCharacters = atob(this.dataService.getStatementPdf());
+    const byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
     }
+    const byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'application/pdf' });
+    const filename = 'your_statement_filename.pdf';
+    saveAs(blob, filename);
   }
 }

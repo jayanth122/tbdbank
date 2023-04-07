@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem("userName",this.loginForm.value['userName'])
           this.dataService.setSessionValues(this.loginForm.value['userName'],data.uniqueSessionId)
           localStorage.setItem("firstName",JSON.stringify(data.firstName))
-          localStorage.setItem("lastName",JSON.stringify(data.firstName))
+          localStorage.setItem("lastName",JSON.stringify(data.lastName))
           this.dataService.setIsLoginValid(true, data.uniqueSessionId);
           localStorage.setItem("loginValidity","true");
           let decoded: string;
