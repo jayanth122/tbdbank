@@ -71,7 +71,7 @@ public class TransactionService {
         if (accountBalance.compareTo(transactionAmount) > 0) {
             BigDecimal newAccountBalance = accountBalance.subtract(transactionAmount);
             saveTransaction(customerId, transactionRequest, newAccountBalance);
-            return new TransactionResponse(true, newAccountBalance.toString(), newSessionId, SUCCESS_MESSAGE);
+            return new TransactionResponse(true, newAccountBalance.toString(), SUCCESS_MESSAGE, newSessionId);
         }
         return new TransactionResponse(false, accountBalance.toString(),
                 INSUFFICIENT_BALANCE_ERROR, newSessionId);
@@ -84,7 +84,7 @@ public class TransactionService {
         BigDecimal transactionAmount = ConversionUtils.covertStringPriceToBigDecimal(transactionRequest.getAmount());
         BigDecimal newAccountBalance = accountBalance.add(transactionAmount);
         saveTransaction(customerId, transactionRequest, newAccountBalance);
-        return new TransactionResponse(true, newAccountBalance.toString(), newSessionId, SUCCESS_MESSAGE);
+        return new TransactionResponse(true, newAccountBalance.toString(), SUCCESS_MESSAGE, newSessionId);
 
     }
     public void saveTransaction(final String customerId, final TransactionRequest transactionRequest,
