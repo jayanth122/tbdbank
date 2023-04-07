@@ -1,4 +1,4 @@
-<app-header [afterLogin]="true" ></app-header>
+<app-header [afterLogin]="true"></app-header>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet">
 <body>
 
@@ -11,59 +11,65 @@
     </div>
   </section>
 </header>
-
-
-<div class="container-fluid" >
-
-
-    <div class="row justify-content-start" style="padding: 20px;">
-      <div class="col-12 col-sm-6 col-md-7" style="padding-left: 5%;padding-bottom: 5%">
-        <div class="row">
-          <div class="card mb-5 mr-auto rounded" style="position: relative;padding-right:60px;height: 300px; width: 400px; cursor: pointer" (click)="goToTransactions()">
-            <div class="card-body text-center align-items-center">
-              <div class="d-flex align-items-center"style="padding-left:110px;padding-right:80px;padding-top:10px;padding-bottom: 50px;">
-                  <i class="bi bi-wallet2 text-danger display-1" style="align-items: center"></i>
-              </div>
-
-              <h5 class="card-title" style="font-size:2rem; text-align:center;align-items: center">&nbsp;&nbsp;Transactions</h5>
-
-
-            </div>
-          </div>
-
-
-        <div class="card mb-5 rounded" style="position: relative;margin-left: 30px;height: 300px;width: 400px;cursor: pointer" (click)="validateCustomerInterac()">
+<div class="container-fluid">
+  <div class="row justify-content-start" style="padding: 20px;">
+    <div class="col-12 col-sm-6 col-md-7" style="padding-left: 5%;padding-bottom: 5%">
+      <div class="row">
+        <div class="card mb-5 mr-auto rounded"
+             style="position: relative;padding-right:60px;height: 300px; width: 400px; cursor: pointer"
+             (click)="goToTransactions()">
           <div class="card-body text-center align-items-center">
-
-              <div class="d-flex align-items-center"style="padding-left:110px;padding-right:60px;padding-top:25px;padding-bottom: 50px;">
-                <img src="https://img.icons8.com/ios/50/000000/qr-code.png" style="height: 100px; width: 100px; background-color: #dc3545">
-              </div>
-              <h5 class="card-title" style="font-size:2rem;">My UPI</h5>
-
+            <div class="d-flex align-items-center"
+                 style="padding-left:110px;padding-right:80px;padding-top:10px;padding-bottom: 50px;">
+              <i class="bi bi-wallet2 text-danger display-1" style="align-items: center"></i>
             </div>
+
+            <h5 class="card-title" style="font-size:2rem; text-align:center;align-items: center">&nbsp;&nbsp;Transactions</h5>
+
+
           </div>
-
-
         </div>
 
-        <div class="row">
-        <div class="card mb-5 mr-auto rounded" style="position: relative; height: 300px;width: 400px; cursor: pointer" data-toggle="modal" data-target="#exampleModal">
+
+        <div class="card mb-5 rounded"
+             style="position: relative;margin-left: 30px;height: 300px;width: 400px;cursor: pointer"
+             (click)="validateCustomerInterac()">
           <div class="card-body text-center align-items-center">
-            <div class="d-flex align-items-center"style="padding-left:110px;padding-right:60px;padding-top:0px;padding-bottom: 40px;">
+
+            <div class="d-flex align-items-center"
+                 style="padding-left:110px;padding-right:60px;padding-top:25px;padding-bottom: 50px;">
+              <img src="https://img.icons8.com/ios/50/000000/qr-code.png"
+                   style="height: 100px; width: 100px; background-color: #dc3545">
+            </div>
+            <h5 class="card-title" style="font-size:2rem;">My UPI</h5>
+
+          </div>
+        </div>
+
+
+      </div>
+
+      <div class="row">
+        <div class="card mb-5 mr-auto rounded" style="position: relative; height: 300px;width: 400px; cursor: pointer"
+             data-toggle="modal" data-target="#exampleModal">
+          <div class="card-body text-center align-items-center">
+            <div class="d-flex align-items-center"
+                 style="padding-left:110px;padding-right:60px;padding-top:0px;padding-bottom: 40px;">
               <i class="bi bi-bank text-danger display-1" style="align-items: center"></i>
             </div>
 
             <h5 class="card-title" style="font-size:2rem;">Savings Account</h5>
 
 
-
           </div>
 
-          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+               aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" style="color: black" id="exampleModalLabel">Thank you for trusting TBD Bank</h5>
+                  <h5 class="modal-title" style="color: black" id="exampleModalLabel">Thank you for trusting TBD
+                    Bank</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -80,26 +86,25 @@
         </div>
 
 
-
-
-
-
-        <div class="card mb-5 ml-4 rounded" style="position: relative;height: 300px; width: 400px;cursor: pointer" data-toggle="modal" data-target="#exampleModal">
+        <div class="card mb-5 ml-4 rounded" style="position: relative;height: 300px; width: 400px;cursor: pointer"
+             data-toggle="modal" data-target="#exampleModal">
           <div class="card-body text-center">
             <div class="card-body text-center align-items-center">
-            <div class="d-flex align-items-center"style="padding-left:80px;padding-right:20px;padding-bottom: 20px;">
-              <i class="bi bi-credit-card-fill text-danger display-1" style="align-items: center"></i>
-            </div>
+              <div class="d-flex align-items-center" style="padding-left:80px;padding-right:20px;padding-bottom: 20px;">
+                <i class="bi bi-credit-card-fill text-danger display-1" style="align-items: center"></i>
+              </div>
 
-            <h5 class="card-title" style="font-size:2rem;">Master Card</h5>
-</div>
+              <h5 class="card-title" style="font-size:2rem;">Master Card</h5>
+            </div>
           </div>
 
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+               aria-hidden="true">
             <div class="modal-dialog" role="document">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" style="color: black" id="exampleModalLabel">Thank you for trusting TBD Bank</h5>
+                  <h5 class="modal-title" style="color: black" id="exampleModalLabel">Thank you for trusting TBD
+                    Bank</h5>
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                   </button>
@@ -116,51 +121,50 @@
         </div>
 
 
-
-        </div>
       </div>
-
-      <div class="col-12 col-sm-12 col-md-5" style="padding-right: 5%;">
-        <!-- Card on the right -->
-        <div class="card-right mb-5 rounded ml-auto bg-white" style="position: relative; height: 300px; width: 600px;">
-          <div class="card-body text-center">
-            <div class="d-flex align-items-center">
-              <i class="bi bi-person text-danger display-1 align-content-center" style="height: 100px; width: 100px; padding-left: 40%; padding-bottom: 25%;"></i>
-            </div>
-            <h5 class="card-title" style="font-size:2rem;">{{greeting}}, {{firstName}} {{lastName}}</h5>
-            <h5 class="card-title" style="font-size:2rem;">Checking Account <i class="bi bi-bank2 text-danger"></i> </h5>
-            <h5 class="card-title" style="font-size:1.8rem;">Balance {{accountBalance}}<i class="bi bi-currency-dollar"></i></h5>
-          </div>
-
-        </div>
-        <div class="card-right mb-5 rounded ml-auto bg-white" style="position: relative; height: 300px; width: 600px;">
-          <div class="card-body text-center">
-            <h5 class="card-title text-center"style="font-size:1.8rem;"><i class="bi bi-clock-fill"></i> Quick Links</h5>
-            <div class="align-items-center">
-          <ul class="list-unstyled" style="padding-left: 1.5em;">
-            <li>Credit Score</li>
-
-            <li>Insurance</li>
-            <li>Offers</li>
-            <li>Pay Bill</li>
-            <li>Request Cheque Book</li>
-
-
-            <li>Communication Centre</li>
-
-            <li>Investment Plans</li>
-            <li>Check Credit History</li>
-          </ul>
-          </div>
-          </div>
-        </div>
-      </div>
-
-
-
-
     </div>
+
+    <div class="col-12 col-sm-12 col-md-5" style="padding-right: 5%;">
+      <!-- Card on the right -->
+      <div class="card-right mb-5 rounded ml-auto bg-white" style="position: relative; height: 300px; width: 600px;">
+        <div class="card-body text-center">
+          <div class="d-flex align-items-center">
+            <i class="bi bi-person text-danger display-1 align-content-center"
+               style="height: 100px; width: 100px; padding-left: 40%; padding-bottom: 25%;"></i>
+          </div>
+          <h5 class="card-title" style="font-size:2rem;">{{greeting}}, {{firstName}} {{lastName}}</h5>
+          <h5 class="card-title" style="font-size:2rem;">Chequing Account <i class="bi bi-bank2 text-danger"></i></h5>
+          <h5 class="card-title" style="font-size:1.8rem;">Balance {{accountBalance}}<i
+            class="bi bi-currency-dollar"></i></h5>
+        </div>
+
+      </div>
+      <div class="card-right mb-5 rounded ml-auto bg-white" style="position: relative; height: 300px; width: 600px;">
+        <div class="card-body text-center">
+          <h5 class="card-title text-center" style="font-size:1.8rem;"><i class="bi bi-clock-fill"></i> Quick Links</h5>
+          <div class="align-items-center">
+            <ul class="list-unstyled" style="padding-left: 1.5em;">
+              <li>Credit Score</li>
+
+              <li>Insurance</li>
+              <li>Offers</li>
+              <li>Pay Bill</li>
+              <li>Request Cheque Book</li>
+
+
+              <li>Communication Centre</li>
+
+              <li>Investment Plans</li>
+              <li>Check Credit History</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
   </div>
+</div>
 
 </body>
 
