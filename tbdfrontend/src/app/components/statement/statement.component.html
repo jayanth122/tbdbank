@@ -1,6 +1,7 @@
 <div>
   <app-header [afterLogin]="true" ></app-header>
 </div>
+
 <section class="statement">
   <div class="container-fluid justify-content-center align-items-center">
     <form [formGroup]="statementForm" (ngSubmit)="onSubmit()">
@@ -30,7 +31,6 @@
       <thead>
       <tr>
         <th scope="col"> </th>
-        <th scope="col">Customer_Id</th>
         <th scope="col">Transaction Type</th>
         <th scope="col">Details</th>
         <th scope="col">Amount</th>
@@ -41,16 +41,17 @@
       </thead>
       <tbody>
       <tr>
-        <th scope="row">{{rowCounter}}+1</th>
-        <td>{{this.transaction.customerId}}</td>
+        <th scope="row">{{rowCounter+1}}</th>
         <td>{{this.transaction.transactionType}}</td>
         <td>{{this.transaction.details}}</td>
-        <td>{{this.transaction.amount}}</td>
-        <td>{{this.transaction.balance}}</td>
+        <td>{{this.transaction.roundedAmount}}</td>
+        <td>{{this.transaction.roundedBalance}}</td>
         <td>{{this.transaction.transactionDate}}</td>
         <td>{{this.transaction.transactionTime}}</td>
       </tr>
       </tbody>
     </table>
   </div>
+  <hr>
+  <button (click)="downloadPdf()"> Download PDF </button>
 </section>

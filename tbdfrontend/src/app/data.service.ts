@@ -18,6 +18,7 @@ export class DataService {
   verificationPdf : any;
   paymentQrImage : any;
   paymentQrPdf : any;
+  statementPdf : any;
   isLoginValid !: boolean;
   isNestedCall !: boolean;
   timeoutId !: number;
@@ -146,6 +147,12 @@ export class DataService {
   }
   getPaymentQrPdf() : any{
     return this.paymentQrPdf;
+  }
+  setStatementPdf(pdfData : any){
+    this.statementPdf = pdfData
+  }
+  getStatementPdf() : any{
+    return this.statementPdf
   }
 
   getTransactionStatement(statementRequest : StatementRequest): Observable<any> {
