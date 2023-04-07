@@ -47,7 +47,6 @@
   margin-bottom: 50px;
 }
 .card-title {
-  font-size: 1.2rem;
   font-weight: bold;
   font-family: "Times New Roman" sans-serif;
 }
@@ -112,4 +111,10 @@ section {
 
 .card-right{
   background-color: #e7e7e7;
+}
+.aspect-ratio-square {
+  aspect-ratio: 1;
+}
+.mr-7 {
+  margin-right: 7rem;
 }
