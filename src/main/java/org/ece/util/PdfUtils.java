@@ -15,10 +15,10 @@ public final class PdfUtils {
     private static final Logger logger = LoggerFactory.getLogger(PdfUtils.class);
     private static final int CANVAS_FONT = 32;
     private static final int LOGO_SIZE = 100;
+    private static final int serial_init = 1;
     private static final int TABLE_COLUMNS = 7;
     private static final float x = 220f;
     private static final float y = 750f;
-    private static final int TABLE_COL = 2;
     private static final int titleFontSize = 12;
     private static final int FONTLSize = 10;
     private static final int fontSize = 8;
@@ -26,8 +26,10 @@ public final class PdfUtils {
     private static final int MAX_WIDTH = 100;
     private static final String ADDRESS_SEPARATOR = ", ";
     private static final Font TITLE_FONT = new Font(Font.FontFamily.HELVETICA, titleFontSize);
+    private static final Font TITLE_FONT_D = new Font(Font.FontFamily.HELVETICA, titleFontSize, Font.BOLD);
     private static final Font FONT = new Font(Font.FontFamily.HELVETICA, FONTLSize);
     private static final Font FONTL = new Font(Font.FontFamily.HELVETICA, fontSize);
+    private static final Font FONTLB = new Font(Font.FontFamily.HELVETICA, fontSize, Font.BOLD);
     
     private PdfUtils() {
         
@@ -91,7 +93,7 @@ public final class PdfUtils {
             Document document = new Document(PageSize.A4);
             PdfWriter writer = PdfWriter.getInstance(document, outputStream);
             document.open();
-            Paragraph imageParagraph = getLogoAndTitle(writer, "UPI PAYMENT", document);
+            Paragraph imageParagraph = getLogoAndTitle(writer, "TBD BANK STATEMENT");
             Paragraph note = new Paragraph("Payee Details:", TITLE_FONT);
             note.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(imageParagraph);
@@ -112,12 +114,11 @@ public final class PdfUtils {
         }
     }
 
-    public static Paragraph getLogoAndTitle(PdfWriter writer, String title, Document document)
+    public static Paragraph getLogoAndTitle(PdfWriter writer, String title)
             throws DocumentException, IOException {
         Image logo = Image.getInstance("tbdfrontend/src/assets/TBDLOGO_NEW.png");
         logo.scaleAbsolute(LOGO_SIZE, LOGO_SIZE);
-        Header header = new Header("UPI Payment", title);
-        Paragraph paragraph2 = new Paragraph("UPI Payment ", TITLE_FONT);
+        Paragraph paragraph2 = new Paragraph(title, TITLE_FONT);
         paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
         Paragraph imageParagraph = new Paragraph();
         PdfContentByte canvas = writer.getDirectContent();
@@ -128,7 +129,6 @@ public final class PdfUtils {
         canvas.showText(paragraph2.getContent());
         canvas.endText();
         imageParagraph.add(logo);
-        document.add(header);
         imageParagraph.setAlignment(Element.ALIGN_LEFT);
         return imageParagraph;
     }
@@ -139,22 +139,21 @@ public final class PdfUtils {
                                               final List<Transaction> transactionList,
                                               final Customer customer) {
         try {
+            serial = serial_init;
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             Document document = new Document(PageSize.A4);
-            PdfWriter.getInstance(document, outputStream);
+            PdfWriter writer = PdfWriter.getInstance(document, outputStream);
             document.open();
-            Paragraph paragraph2 = new Paragraph("TBD BANK STATEMENT ", TITLE_FONT);
+            Paragraph imageParagraph = getLogoAndTitle(writer, "STATEMENT");
+            document.add(imageParagraph);
+            document.add(Chunk.NEWLINE);
             Paragraph fromDateToDate = new Paragraph(statementRequest.getFromDate()
-                    + " TO " + statementRequest.getToDate(), TITLE_FONT);
-            paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
+                    + " TO " + statementRequest.getToDate(), TITLE_FONT_D);
             fromDateToDate.setAlignment(Paragraph.ALIGN_CENTER);
-            document.add(paragraph2);
             document.add(Chunk.NEWLINE);
             document.add(fromDateToDate);
             document.add(Chunk.NEWLINE);
-
             setCustomerDetailsInPdf(customer, document);
-
             PdfPTable table = generateStatementPdfTable();
             setTransactionsInPdfTable(table, transactionList);
 
@@ -162,6 +161,9 @@ public final class PdfUtils {
             document.close();
             return outputStream.toByteArray();
         } catch (DocumentException e) {
+            logger.error("Error Generating Statement Pdf: ", e);
+            return null;
+        } catch (IOException e) {
             logger.error("Error Generating Statement Pdf: ", e);
             return null;
         }
@@ -172,8 +174,8 @@ public final class PdfUtils {
                 + customer.getFirstName().toUpperCase(), FONT);
         Chunk streetNameCell = new Chunk("Address: " + customer.getStreetNumber()
                 + " " + customer.getStreetName() + ADDRESS_SEPARATOR + customer.getCity()
-                + ADDRESS_SEPARATOR + customer.getProvince(), FONT);
-        Chunk mobileCell = new Chunk("Mobile: +" + customer.getCountryCode() + customer.getMobileNumber(), FONT);
+                + ADDRESS_SEPARATOR + customer.getProvince() + ADDRESS_SEPARATOR + customer.getPostalCode(), FONT);
+        Chunk mobileCell = new Chunk("Mobile: +" + customer.getCountryCode() + " " + customer.getMobileNumber(), FONT);
         Chunk emailCell = new Chunk("Email: " + customer.getEmail(), FONT);
         try {
             document.add(nameCell);
@@ -220,13 +222,13 @@ public final class PdfUtils {
     private static PdfPTable generateStatementPdfTable() {
         PdfPTable table = new PdfPTable(TABLE_COLUMNS);
         table.setWidthPercentage(MAX_WIDTH);
-        PdfPCell cell1 = new PdfPCell(new Paragraph("SERIAL NO.", FONTL));
-        PdfPCell cell3 = new PdfPCell(new Paragraph("CREDIT", FONTL));
-        PdfPCell cell4 = new PdfPCell(new Paragraph("DEBIT", FONTL));
-        PdfPCell cell5 = new PdfPCell(new Paragraph("BALANCE", FONTL));
-        PdfPCell cell6 = new PdfPCell(new Paragraph("DETAILS", FONTL));
-        PdfPCell cell7 = new PdfPCell(new Paragraph("DATE", FONTL));
-        PdfPCell cell8 = new PdfPCell(new Paragraph("TIME", FONTL));
+        PdfPCell cell1 = new PdfPCell(new Paragraph("SERIAL NO.", FONTLB));
+        PdfPCell cell3 = new PdfPCell(new Paragraph("CREDIT", FONTLB));
+        PdfPCell cell4 = new PdfPCell(new Paragraph("DEBIT", FONTLB));
+        PdfPCell cell5 = new PdfPCell(new Paragraph("BALANCE", FONTLB));
+        PdfPCell cell6 = new PdfPCell(new Paragraph("DETAILS", FONTLB));
+        PdfPCell cell7 = new PdfPCell(new Paragraph("DATE", FONTLB));
+        PdfPCell cell8 = new PdfPCell(new Paragraph("TIME", FONTLB));
         table.addCell(cell1);
         table.addCell(cell3);
         table.addCell(cell4);
