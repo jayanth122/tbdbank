@@ -70,7 +70,7 @@ public final class PdfUtils {
     private static void addImageToPdf(byte[] image, Document document, String paragraph) {
         try {
             Image qrImage = Image.getInstance(image);
-            Paragraph p1 = new Paragraph(paragraph, FONT_H);
+            Paragraph p1 = new Paragraph(paragraph, FONTLB);
             p1.setAlignment(Element.ALIGN_CENTER);
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
