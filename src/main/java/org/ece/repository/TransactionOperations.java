@@ -13,7 +13,8 @@ public interface TransactionOperations extends CrudRepository<Transaction, Strin
     List<Transaction> findTransactionsByCustomerId(String customerId);
 
     @Query("SELECT a FROM Transaction a WHERE a.customerId "
-            + "LIKE :customerId AND a.transactionDate BETWEEN :start AND :end")
+            + "LIKE :customerId AND a.transactionDate BETWEEN :start AND :end "
+            + "ORDER BY a.transactionDate DESC, a.transactionTime DESC")
     List<Transaction> findByLevelBetween(@Param("customerId") String customerId,
                                          @Param("start") LocalDate start,
                                          @Param("end") LocalDate end);
