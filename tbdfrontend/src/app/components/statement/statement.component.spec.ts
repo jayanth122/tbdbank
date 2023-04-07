@@ -1,4 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HeaderComponent } from '../header/header.component';
+import { ReactiveFormsModule } from '@angular/forms'; // add this import statement
 
 import { StatementComponent } from './statement.component';
 
@@ -8,7 +12,9 @@ describe('StatementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StatementComponent ]
+      declarations: [ StatementComponent, HeaderComponent ],
+      imports: [ HttpClientModule, ReactiveFormsModule ],
+
     })
     .compileComponents();
 

@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { FooterComponent } from '../footer/footer.component';
 
 import { ThirdPartyQrComponent } from './third-party-qr.component';
 
@@ -8,7 +10,9 @@ describe('ThirdPartyQrComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ThirdPartyQrComponent ]
+      declarations: [ ThirdPartyQrComponent,FooterComponent ],
+      imports: [ HttpClientModule ],
+ 
     })
     .compileComponents();
 

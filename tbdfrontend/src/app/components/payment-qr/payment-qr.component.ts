@@ -18,7 +18,8 @@ export class PaymentQrComponent implements OnInit {
   }
 ngOnInit() {
   let imgBytes = this.dataService.getPaymentQrImage();
-  let byteCharacters = atob(imgBytes);
+  //let byteCharacters = atob(imgBytes);
+  let byteCharacters = new TextDecoder().decode(imgBytes);
   let byteNumbers = new Array(byteCharacters.length);
   for (let i = 0; i < byteCharacters.length; i++) {
     byteNumbers[i] = byteCharacters.charCodeAt(i);
