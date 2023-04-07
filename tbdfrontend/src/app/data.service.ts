@@ -59,7 +59,7 @@ export class DataService {
     return localStorage.getItem('lastName') || '';
   }
   getAccountBalance() {
-    return Number(JSON.stringify(localStorage.getItem('accountBalance')));
+    return Number(localStorage.getItem('accountBalance'));
   }
   getEmail() {
     return JSON.stringify(localStorage.getItem('email'))

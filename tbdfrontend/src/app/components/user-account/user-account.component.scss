@@ -9,7 +9,7 @@
   color: #343a40;
 }
 .container-fluid{
-  background-color: #e7e7e7;
+  background-color: white;
   padding-bottom: 10px;
   padding-top: 30px;
 }
@@ -26,7 +26,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
+  background-color: #e7e7e7;;
 }
 .card-text{
   font-size: 1.2rem;
@@ -48,6 +48,8 @@
 }
 .card-title {
   font-size: 1.2rem;
+  font-weight: bold;
+  font-family: "Times New Roman" sans-serif;
 }
 .bi-credit-card-fill {
   margin-right: 30px; /* adjust this value as needed */
@@ -56,6 +58,8 @@
 .card:hover {
   background-color: #343a40;;
   color: white;
+  font-weight: bold;
+  font-family: "Times New Roman" sans-serif;
 }
 
 section {
@@ -70,6 +74,8 @@ section {
 
 .section-title h2 {
   font-size: 32px;
+  font-weight: bold;
+  font-family: "Times New Roman" sans-serif;
   font-weight: 700;
   text-transform: uppercase;
   margin-bottom: 0px;
@@ -78,3 +84,32 @@ section {
   z-index: 2;
 }
 
+.card1 {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+}
+.card1-text{
+  font-size: 1.2rem;
+  font-family: Arial, sans-serif;
+}
+.card1-body {
+  flex: 1;
+}
+.card1-spacing{
+  margin-bottom: 50px;
+}
+.card1-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: "Times New Roman" sans-serif;
+}
+.card-right:hover {
+  box-shadow: none;
+}
+
+.card-right{
+  background-color: #e7e7e7;
+}
