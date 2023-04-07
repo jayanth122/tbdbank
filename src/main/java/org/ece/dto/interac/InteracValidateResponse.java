@@ -14,6 +14,7 @@ public class InteracValidateResponse {
     private String bankName;
     private String message;
     private String sessionId;
+    private String accountBalance;
 
     public InteracValidateResponse(final boolean isValid, final String message, final String sessionId) {
         this.isValid = isValid;
