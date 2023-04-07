@@ -7,10 +7,7 @@ import {InteracValidateRequest} from "./dto/InteracValidateRequest";
 import {UserDetailsRequest} from "./dto/UserDetailsRequest";
 import {Router} from "@angular/router";
 import {LogOutRequest} from "./dto/LogOutRequest";
-import {getXHRResponse} from "rxjs/internal/ajax/getXHRResponse";
 import {RefreshRequest} from "./dto/RefreshRequest";
-
-
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +18,11 @@ export class DataService {
   verificationPdf : any;
   paymentQrImage : any;
   paymentQrPdf : any;
-  user = {
-    firstName : '',
-    lastName : '',
-    email : '',
-    accountBalance : 0,
-    interacEmail : ''
-  };
+  statementPdf : any;
   isLoginValid !: boolean;
   isNestedCall !: boolean;
   timeoutId !: number;
   startTime = Date.now();
-
 
   private url = "https://www.tbdbank.me/tbd651"
 
@@ -55,8 +45,9 @@ export class DataService {
       this.timeoutId = setTimeout(() => {
         this.isLoginValid = false;
         localStorage.setItem('sessionId', '');
-        if(this.router.url !== "login" && this.router.url !== "registration") {
+        if(this.router.url !== "login" && this.router.url !== "registration" && this.router.url !== "/") {
           this.router.navigate(['login'])
+          localStorage.clear();
         }
       }, remainingTime);
     }
@@ -94,7 +85,7 @@ export class DataService {
   }
 
   refreshSession() {
-    if(!localStorage.getItem('sessionId') && !this.isLoginValid) {
+    if(!localStorage.getItem('sessionId') && !this.isLoginValid && this.router.url !== "/") {
       this.router.navigate(['login'])
     }
     else{
@@ -156,6 +147,12 @@ export class DataService {
   getPaymentQrPdf() : any{
     return this.paymentQrPdf;
   }
+  setStatementPdf(pdfData : any){
+    this.statementPdf = pdfData
+  }
+  getStatementPdf() : any{
+    return this.statementPdf
+  }
 
   getTransactionStatement(statementRequest : StatementRequest): Observable<any> {
     return this.httpClient.post(`${this.url}/transaction/statement`,statementRequest);
@@ -174,7 +171,7 @@ export class DataService {
 
   fetchCustomerDetails()
   {
-    if(!localStorage.getItem('sessionId') && !this.isLoginValid) {
+    if(!localStorage.getItem('sessionId') && !this.isLoginValid && this.router.url !== "/") {
       this.router.navigate(['login'])
     }
     else{
@@ -194,13 +191,15 @@ export class DataService {
     }
   }
 
-
-
   logOut(logOutRequest : LogOutRequest) {
     return this.httpClient.post(`${this.url}/logout`,logOutRequest,{responseType:"text"})
   }
 
   refresh(refreshRequest : RefreshRequest) {
     return this.httpClient.post(`${this.url}/refresh`,refreshRequest,{responseType:"text"})
+  }
+
+  interacRegister(interacRegForm : FormData) : Observable<any> {
+    return this.httpClient.post(`${this.url}/transaction/interac/register`,interacRegForm)
   }
 }

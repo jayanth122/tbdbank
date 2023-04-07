@@ -1,0 +1,16 @@
+<app-header [afterLogin]="true" ></app-header>
+<h1>Please Register to your Interac!</h1>
+<form [formGroup]="interacRegisterForm" (ngSubmit)="onSubmit()" >
+  <div class="form-group">
+    <div class="form-outline mb-6 form-group align-items-center">
+      <label for="email">Register Email:</label>
+      <input type="email" id="email" class="form-control" formControlName="email">
+      <div
+        *ngIf="interacRegisterForm?.get('email')?.invalid && (interacRegisterForm?.get('email')?.dirty || interacRegisterForm?.get('email')?.touched)"
+        class="alert alert-danger">
+        Email is required.
+      </div>
+    </div>
+  </div>
+  <button type="submit" class="btn btn-danger btn-lg mx-2">Register</button>
+</form>
