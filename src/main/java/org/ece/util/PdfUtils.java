@@ -41,7 +41,7 @@ public final class PdfUtils {
             Image logo = Image.getInstance("tbdfrontend/src/assets/TBDLOGO_NEW.png");
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             Document document = new Document(PageSize.A4);
-            PdfWriter.getInstance(document, outputStream);
+            PdfWriter writer = PdfWriter.getInstance(document, outputStream);
             document.open();
             Paragraph paragraph2 = new Paragraph("ID Verification ", TITLE_FONT);
             Paragraph note = new Paragraph("Please visit nearbyCanada Post/ UPS Store with 2 Government Issued"
@@ -54,7 +54,6 @@ public final class PdfUtils {
             document.add(Chunk.NEWLINE);
             document.add(note);
             document.add(Chunk.NEWLINE);
-
             addImageToPdf(image, document, "Verification QR");
             document.close();
             return outputStream.toByteArray();
@@ -71,7 +70,10 @@ public final class PdfUtils {
     private static void addImageToPdf(byte[] image, Document document, String paragraph) {
         try {
             Image qrImage = Image.getInstance(image);
-            Paragraph p1 = new Paragraph(paragraph + ": ", TITLE_FONT);
+            Paragraph p1 = new Paragraph(paragraph, FONTLB);
+            p1.setAlignment(Element.ALIGN_CENTER);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
             document.add(p1);
             p1.setAlignment(Paragraph.ALIGN_CENTER);
             qrImage.setAlignment(Paragraph.ALIGN_CENTER);
@@ -156,7 +158,6 @@ public final class PdfUtils {
             setCustomerDetailsInPdf(customer, document);
             PdfPTable table = generateStatementPdfTable();
             setTransactionsInPdfTable(table, transactionList);
-
             document.add(table);
             document.close();
             return outputStream.toByteArray();
@@ -170,8 +171,8 @@ public final class PdfUtils {
     }
 
     private static void setCustomerDetailsInPdf(final Customer customer, final Document document) {
-        Chunk nameCell = new Chunk("Name: " + customer.getLastName().toUpperCase() + " "
-                + customer.getFirstName().toUpperCase(), FONT);
+        Chunk nameCell = new Chunk("Name: " + customer.getFirstName().toUpperCase() + " "
+                + customer.getLastName().toUpperCase(), FONT);
         Chunk streetNameCell = new Chunk("Address: " + customer.getStreetNumber()
                 + " " + customer.getStreetName() + ADDRESS_SEPARATOR + customer.getCity()
                 + ADDRESS_SEPARATOR + customer.getProvince() + ADDRESS_SEPARATOR + customer.getPostalCode(), FONT);

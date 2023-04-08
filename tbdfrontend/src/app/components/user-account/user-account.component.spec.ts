@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { UserAccountComponent } from './user-account.component';
+import { HeaderComponent } from '../header/header.component';
+import { FooterComponent } from '../footer/footer.component';
+
 
 describe('UserAccountComponent', () => {
   let component: UserAccountComponent;
@@ -8,7 +12,9 @@ describe('UserAccountComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ UserAccountComponent ]
+      declarations: [ UserAccountComponent, HeaderComponent, FooterComponent ],
+      imports: [ HttpClientModule ],
+
     })
     .compileComponents();
 

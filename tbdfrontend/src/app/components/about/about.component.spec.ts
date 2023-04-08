@@ -1,6 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { FooterComponent } from '../footer/footer.component';
+import { RouterModule } from '@angular/router';
 
 import { AboutComponent } from './about.component';
+import { HeaderComponent } from '../header/header.component';
 
 describe('AboutComponent', () => {
   let component: AboutComponent;
@@ -8,7 +13,8 @@ describe('AboutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AboutComponent ]
+      declarations: [ AboutComponent, HeaderComponent, FooterComponent],
+      imports: [ HttpClientModule,RouterModule ],
     })
     .compileComponents();
 
@@ -21,3 +27,4 @@ describe('AboutComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
