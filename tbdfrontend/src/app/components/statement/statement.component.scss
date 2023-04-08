@@ -1,3 +1,47 @@
-section{
-  margin:10%
+section {
+  overflow: hidden;
+  padding-top: 2%;
+}
+.section-title {
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+.section-title h2 {
+  font-size: 32px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1px;
+  padding-bottom: 0;
+  color: #343a40;
+  position: relative;
+  z-index: 2;
+}
+.section-title p {
+  margin-bottom: 0;
+  position: relative;
+  z-index: 2;
+}
+h1{
+  font-weight: bold;
+  font-family: Georgia;
+  padding: 1%;
+  color: maroon;
+}
+h2{
+  font-family: Georgia;
+  font-weight: bold;
+  padding:1%;
+  color: darkred;
+}
+table {
+  border: 1px solid black;
+  border-collapse: collapse;
+  background-color: white;
+}
+
+th, td {
+  border: 1px solid black;
+  padding: 5px;
+  background-color: white;
 }

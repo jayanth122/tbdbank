@@ -1,38 +1,39 @@
-<div>
-  <app-header [afterLogin]="true" ></app-header>
-</div>
-<section class="statement">
-  <div class="container-fluid justify-content-center align-items-center">
-    <form [formGroup]="statementForm" (ngSubmit)="onSubmit()">
-      <div class="form-row align-items-center">
-        <div class="col col-lg-2">
+<app-header [afterLogin]="true" ></app-header>
+<section class="statement "style="background-color: white;width: 100vw;align-items: center;text-align: center">
+  <h2 class="mt-5">Generate Statement</h2>
+<div class="text-center">
+    <form [formGroup]="statementForm" (ngSubmit)="onSubmit()" style="align-items: center;text-align: center">
+      <div class="form-row align-items-center" style="text-align: center">
+        <div class="col-lg-2 align-items-center mr-5"style="margin-left: 30%;">
+          <h4 style="color: black">From Date</h4>
           <input
             type="date"
             formControlName="fromDate"
             class="form-control"
           />
         </div>
-        <div class="col-lg-2">
+        <div class="col-lg-2 align-items-center" style="text-align: center">
+          <h4 style="color: black">To Date</h4>
           <input
             type="date"
             formControlName="toDate"
             class="form-control"
           />
         </div>
-        <div class="col col-lg-2">
-          <button class="btn btn-outline-primary" type="submit"> Submit </button>
-        </div>
       </div>
+        <div class="col col-lg-2 mt-5 mb-5" style="margin-left: 40%;">
+          <button class="btn btn-danger btn-lg" type="submit"> Submit </button>
+        </div>
     </form>
-  </div>
-  <div class="table-responsive" *ngFor="let transaction of transactions; let rowCounter = index">
-    <table class="table table-sm table-secondary">
+</div>
+<div class="container bg-white">
+  <div class="table-responsive">
+    <table class="table table-sm table-secondary bg-white">
       <thead>
-      <tr>
-        <th scope="col"> </th>
-        <th scope="col">Customer_Id</th>
+      <tr class="bg-white">
+        <th scope="col">SrNo</th>
         <th scope="col">Transaction Type</th>
-        <th scope="col">Details</th>
+        <th scope="col">Message</th>
         <th scope="col">Amount</th>
         <th scope="col">Account Balance</th>
         <th scope="col">Transaction Date</th>
@@ -40,17 +41,17 @@
       </tr>
       </thead>
       <tbody>
-      <tr>
-        <th scope="row">{{rowCounter}}+1</th>
-        <td>{{this.transaction.customerId}}</td>
+      <tr *ngFor="let transaction of transactions; let rowCounter = index">
+        <th scope="row">{{rowCounter + 1}}</th>
         <td>{{this.transaction.transactionType}}</td>
         <td>{{this.transaction.details}}</td>
-        <td>{{this.transaction.amount}}</td>
-        <td>{{this.transaction.balance}}</td>
+        <td>{{this.transaction.roundedAmount}}</td>
+        <td>{{this.transaction.roundedBalance}}</td>
         <td>{{this.transaction.transactionDate}}</td>
         <td>{{this.transaction.transactionTime}}</td>
       </tr>
       </tbody>
     </table>
   </div>
+</div>
 </section>
