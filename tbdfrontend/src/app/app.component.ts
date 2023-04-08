@@ -8,6 +8,8 @@ import {Router} from "@angular/router";
 })
 export class AppComponent implements OnInit{
   isClicked:boolean = false;
+  title = 'tbdfrontend';
+
   constructor(private router: Router) { }
   ngOnInit() {
     this.isClicked=false;
