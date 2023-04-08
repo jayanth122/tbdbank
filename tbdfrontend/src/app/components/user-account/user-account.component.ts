@@ -16,6 +16,7 @@ export class UserAccountComponent implements OnInit {
   greeting: string = '';
   localTime: string = '';
   accountBalance:number;
+  homeUrlPattern = /^\/#([a-zA-Z]*)$/;
   constructor(private router: Router, private dataService: DataService) {
     this.firstName = ''
     this.lastName = ''
@@ -33,8 +34,7 @@ export class UserAccountComponent implements OnInit {
       this.greeting = 'Good Evening';
     }
     this.localTime = currentDate.toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true });
-
-    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid) {
+    if(!localStorage.getItem('sessionId') && !this.dataService.isLoginValid && !this.homeUrlPattern.test(this.router.url)) {
       this.router.navigate(['login'])
     }
       this.setFirstName(this.dataService.getFirstName())
