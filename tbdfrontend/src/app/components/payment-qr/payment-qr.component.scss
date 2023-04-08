@@ -1,0 +1,58 @@
+.container{
+  padding:1%
+}
+body{
+  background-color: #e7e7e7;
+  margin-top: 2%;
+
+}
+.container{
+  padding-bottom: 4%;
+}
+.mt-7 {
+  margin-right: 7rem;
+}
+
+section {
+  overflow: hidden;
+  padding-top: 3%;
+}
+
+.section-title {
+  text-align: center;
+  padding: 20px;
+  position: relative;
+}
+
+.section-title h2 {
+  font-size: 32px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 1px;
+  padding-bottom: 0;
+  color: #343a40;
+  position: relative;
+  z-index: 2;
+}
+
+.section-title span {
+  position: absolute;
+  top: 30px;
+  color: white;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  font-weight: 700;
+  font-size: 52px;
+  text-transform: uppercase;
+  line-height: 0;
+}
+
+.section-title p {
+  margin-bottom: 0;
+  position: relative;
+  z-index: 2;
+}
+.p{
+  font-family: "Times New Roman";
+}
