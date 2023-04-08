@@ -55,6 +55,7 @@ export class InteracComponent implements OnInit, OnDestroy {
           };
           return this.dataService.validateInterac(interacValidateRequest);
         } else {
+          this.interacForm.get('amount')?.disable();
           this.amountEnabled = false;
           return [];
         }
