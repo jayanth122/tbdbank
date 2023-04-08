@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../../data.service";
 import {QrRequest} from "../../dto/QrRequest";
-import {UserDetailsRequest} from "../../dto/UserDetailsRequest";
 import {InteracValidateRequest} from "../../dto/InteracValidateRequest";
 
 @Component({

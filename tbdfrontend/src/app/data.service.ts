@@ -23,7 +23,7 @@ export class DataService {
   isNestedCall !: boolean;
   timeoutId !: number;
   startTime = Date.now();
-  homeUrlPattern = /^\/#([a-zA-Z]*)$/;
+  homeUrlPattern = /^\/#?([a-zA-Z]*)$/;
 
   private url = "https://www.tbdbank.me/tbd651"
 
@@ -87,7 +87,7 @@ export class DataService {
   }
 
   refreshSession() {
-    if(!localStorage.getItem('sessionId') && !this.isLoginValid && this.router.url !== "/") {
+    if(!localStorage.getItem('sessionId') && !this.isLoginValid && !this.homeUrlPattern.test(this.router.url)) {
       this.router.navigate(['login'])
     }
     else{
@@ -173,7 +173,7 @@ export class DataService {
 
   fetchCustomerDetails()
   {
-    if(!localStorage.getItem('sessionId') && !this.isLoginValid && this.router.url !== "/") {
+    if(!localStorage.getItem('sessionId') && !this.isLoginValid && !this.homeUrlPattern.test(this.router.url)) {
       this.router.navigate(['login'])
     }
     else{
