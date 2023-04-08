@@ -4,7 +4,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { HeaderComponent } from '../header/header.component';
 import { FooterComponent } from '../footer/footer.component';
 import { RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms'; // add this import statement
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { RegistrationComponent } from './registration.component';
 
@@ -14,11 +14,10 @@ describe('RegistrationComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RegistrationComponent,HeaderComponent, FooterComponent ],
-      imports: [HttpClientTestingModule,RouterModule, ReactiveFormsModule ],
-
+      declarations: [ RegistrationComponent, HeaderComponent, FooterComponent ],
+      imports: [ HttpClientModule, HttpClientTestingModule, RouterModule, ReactiveFormsModule ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(RegistrationComponent);
     component = fixture.componentInstance;
