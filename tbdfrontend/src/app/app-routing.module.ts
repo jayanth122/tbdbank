@@ -10,6 +10,7 @@ import {PaymentQrComponent} from "./components/payment-qr/payment-qr.component";
 import {AboutComponent} from "./components/about/about.component";
 import {StatementComponent} from "./components/statement/statement.component";
 import {InteracRegisterComponent} from "./components/interac-register/interac-register.component";
+import {UpiPaymentsComponent} from "./components/upi-payments/upi-payments.component";
 
 
 const routes: Routes = [
@@ -23,7 +24,8 @@ const routes: Routes = [
   {path:'qr',component:PaymentQrComponent},
   {path:'about',component:AboutComponent},
   {path:'statement',component:StatementComponent},
-  {path:'interac-register',component:InteracRegisterComponent}
+  {path:'interac-register',component:InteracRegisterComponent},
+  {path:'upi',component:UpiPaymentsComponent}
 ];
 
 @NgModule({
