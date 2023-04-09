@@ -130,7 +130,7 @@ export class InteracComponent implements OnInit, OnDestroy {
   }
    validateAmount(): boolean {
 	   console.log("entered validate amount...................",Number(this.intracBalance),Number(this.interacForm.get('amount')?.value))
-	   if (Number(this.intracBalance.replace(/-/g, '')) > Number(this.interacForm.get('amount')?.value)){
+	   if (Number(this.intracBalance?.replace(/-/g, '')) > Number(this.interacForm.get('amount')?.value)){
 		   return true;
 	   }
     return false;
