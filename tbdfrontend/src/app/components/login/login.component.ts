@@ -12,6 +12,7 @@ import { Buffer } from 'buffer/';
 export class LoginComponent implements OnInit {
   loginForm !: FormGroup;
   submitted = false;
+  homeUrlPattern = /^\/#?([a-zA-Z]*)$/;
   constructor(private router: Router, private dataService: DataService, private formBuilder:FormBuilder) {
   }
   ngOnInit(): void {

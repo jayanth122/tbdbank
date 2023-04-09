@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from '../header/header.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FooterComponent } from '../footer/footer.component';
 
 import { InteracRegisterComponent } from './interac-register.component';
 
@@ -11,7 +12,7 @@ describe('InteracRegisterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InteracRegisterComponent, HeaderComponent ],
+      declarations: [ InteracRegisterComponent, HeaderComponent, FooterComponent ],
        imports: [ HttpClientModule,ReactiveFormsModule],
 
 

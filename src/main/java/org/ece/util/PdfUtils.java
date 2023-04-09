@@ -38,18 +38,18 @@ public final class PdfUtils {
 
     public static byte[] generateRegistrationQRPdf(final byte[] image) {
         try {
-            Image logo = Image.getInstance("tbdfrontend/src/assets/TBDLOGO_NEW.png");
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
             Document document = new Document(PageSize.A4);
             PdfWriter writer = PdfWriter.getInstance(document, outputStream);
             document.open();
+            Paragraph imageParagraph = getLogoAndTitle(writer, "Registration QR");
             Paragraph paragraph2 = new Paragraph("ID Verification ", TITLE_FONT);
             Paragraph note = new Paragraph("Please visit nearbyCanada Post/ UPS Store with 2 Government Issued"
                     + "physical ID's to complete the Verification Process.", TITLE_FONT);
             paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
-            logo.setAlignment(Element.ALIGN_LEFT);
-            document.add(logo);
             note.setAlignment(Paragraph.ALIGN_CENTER);
+            document.add(imageParagraph);
+            document.add(Chunk.NEWLINE);
             document.add(paragraph2);
             document.add(Chunk.NEWLINE);
             document.add(note);
@@ -60,10 +60,9 @@ public final class PdfUtils {
         } catch (DocumentException e) {
             logger.error("Error Generating Statement Pdf: ", e);
             return null;
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            logger.error("Error Generating Statement Pdf: ", e);
+            return null;
         }
     }
 
@@ -95,7 +94,7 @@ public final class PdfUtils {
             Document document = new Document(PageSize.A4);
             PdfWriter writer = PdfWriter.getInstance(document, outputStream);
             document.open();
-            Paragraph imageParagraph = getLogoAndTitle(writer, "TBD BANK STATEMENT");
+            Paragraph imageParagraph = getLogoAndTitle(writer, "Payament QR");
             Paragraph note = new Paragraph("Payee Details:", TITLE_FONT);
             note.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(imageParagraph);

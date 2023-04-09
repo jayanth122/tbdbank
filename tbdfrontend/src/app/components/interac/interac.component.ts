@@ -6,6 +6,7 @@ import { InteracValidateRequest } from '../../dto/InteracValidateRequest';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-interac',
@@ -18,9 +19,12 @@ export class InteracComponent implements OnInit, OnDestroy {
   interacLastName!: string;
   interacBankName!: string;
   interacEmailError!: string;
+  intracBalance!: string;
   notLinked = false;
   amountEnabled = false;
   submitted = false;
+  isBtnDisabled=true;
+  isEmailValid=false;
   private readonly destroy$: Subject<void> = new Subject();
 
   constructor(
@@ -41,43 +45,11 @@ export class InteracComponent implements OnInit, OnDestroy {
       securityAnswer: ['', Validators.required]
     });
     this.interacForm.get('amount')?.disable();
-
-    this.interacForm
-      .get('receiverEmail')
-      ?.valueChanges.pipe(
-      debounceTime(300),
-      distinctUntilChanged(),
-      switchMap((email) => {
-        if (this.validateEmail(email)) {
-          const interacValidateRequest: InteracValidateRequest = {
-            sessionId: localStorage.getItem('sessionId') as string,
-            email: email
-          };
-          return this.dataService.validateInterac(interacValidateRequest);
-        } else {
-          this.interacForm.get('amount')?.disable();
-          this.amountEnabled = false;
-          return [];
-        }
-      }),
-      takeUntil(this.destroy$)
-    )
-      .subscribe((data) => {
-        if (data.valid) {
-          this.amountEnabled = true;
-          this.interacForm.get('amount')?.enable();
-          this.interacFirstName = data.firstName;
-          this.interacLastName = data.lastName;
-          this.interacBankName = data.bankName;
-          this.dataService.updateSession(true, data.sessionId);
-        } else {
-          this.notLinked = true;
-          this.interacEmailError = 'Email not linked to any bank account';
-          this.amountEnabled = false;
-          this.dataService.updateSession(true, data.sessionId);
-          this.interacForm.get('amount')?.disable();
-        }
-      });
+    this.interacForm.get('securityQuestion')?.disable();
+    this.interacForm.get('securityAnswer')?.disable();
+    this.interacForm.get('securityAnswer')?.disable();
+    this.onchangeUsername();
+    this.enableSubmit();
   }
 
   ngOnDestroy(): void {
@@ -103,10 +75,67 @@ export class InteracComponent implements OnInit, OnDestroy {
     });
   }
 
-  validateEmail(email: string): boolean {
+  enableSubmit(){
+	  if(this.isEmailValid&&this.interacForm.value['amount']&&this.interacForm.value['message']){
+		  this.isBtnDisabled=false;
+	  }
+  }
+  onchangeUsername(){
+	  console.log("function call success............")
+	   of(null).pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((email) => {
+	 console.log("entered map...............................",this.validateEmail(this.interacForm.value['receiverEmail']))
+        if (this.interacForm.get('receiverEmail')?.value && this.validateEmail(this.interacForm.get('receiverEmail')?.value)) {
+		console.log("entered get......................####################")
+		this.isEmailValid = true;
+          const interacValidateRequest: InteracValidateRequest = {
+            sessionId: localStorage.getItem('sessionId') as string,
+            email: this.interacForm.get('receiverEmail')?.value
+          };
+          return this.dataService.validateInterac(interacValidateRequest);
+        } else {
+          this.interacForm.get('amount')?.disable();
+          this.amountEnabled = false;
+          return [];
+        }
+      }),
+      takeUntil(this.destroy$)
+    )
+      .subscribe((data) => {
+        if (data.valid) {
+          console.log("data valid so enabling button")
+          this.amountEnabled = true;
+          this.interacForm.get('amount')?.enable();
+          this.interacFirstName = data.firstName;
+          this.interacLastName = data.lastName;
+          this.interacBankName = data.bankName;
+	  this.intracBalance = data.accountBalance;
+          this.dataService.updateSession(true, data.sessionId);
+        } else {
+          this.notLinked = true;
+          this.interacEmailError = 'Email not linked to any bank account';
+          this.amountEnabled = false;
+          this.dataService.updateSession(true, data.sessionId);
+          this.interacForm.get('amount')?.disable();
+        }
+      });
+  }
+
+  validateEmail(email: string): boolean { 
+    console.log("email is.................",email)
     const emailRegex = /^([a-zA-Z0-9._%+-]+)@([a-zA-Z]{5,10})\.([a-zA-Z]{3})$/;
     return emailRegex.test(email);
   }
+   validateAmount(): boolean {
+	   console.log("entered validate amount...................",Number(this.intracBalance),Number(this.interacForm.get('amount')?.value))
+	   if (Number(this.intracBalance.replace(/-/g, '')) > Number(this.interacForm.get('amount')?.value)){
+		   return true;
+	   }
+    return false;
+  }
+
 }
 
 
