@@ -133,6 +133,10 @@ export class InteracComponent implements OnInit, OnDestroy {
 	   if (Number(this.intracBalance?.replace(/-/g, '')) > Number(this.interacForm.get('amount')?.value)){
 		   return true;
 	   }
+	     if(this.interacForm.get('amount')?.disabled){
+            return true;
+    }
+
     return false;
   }
 
