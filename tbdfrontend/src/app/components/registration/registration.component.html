@@ -20,12 +20,9 @@
               <div class="row g-0">
                 <div class="col-lg-6" style="color: #343a40">
                   <div class="p-5">
-
                     <h3 class="fw-normal mb-5" style="color: #343a40;">General Information</h3>
-
                     <div class="row">
                       <div class="form-row justify-content-center align-items-center">
-
                         <div class="col col-md-4 form-group">
                           <label class="form-label">First Name</label>
                           <input [ngClass]="{'is-invalid': submitted && this.rfc.firstName.errors}"
@@ -40,8 +37,6 @@
                             </div>
                           </div>
                         </div>
-
-
                         <div class="col col-md-4 form-group">
                           <label class="form-label" for="middleName">Middle Name</label>
                           <input [ngClass]="{'is-invalid': submitted && this.rfc.middleName.errors}"
@@ -51,8 +46,6 @@
                                  type="text"
                           />
                         </div>
-
-
                         <div class="col col-md-4 form-group">
                           <label class="form-label" for="lastName">Last Name</label>
                           <input [ngClass]="{'is-invalid': submitted && this.rfc.lastName.errors}" class="form-control"
@@ -84,7 +77,6 @@
                             </div>
                           </div>
                         </div>
-
                         <div class="col col-md-5 form-group">
                           <label class="control-label" for="birthDate">Date of Birth</label>
                           <input [ngClass]="{'is-invalid': submitted && this.rfc.dateOfBirth.errors}"
@@ -149,7 +141,6 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="form-row justify-content-center align-items-center">
                       <div class="form-outline mb-4 form-group">
                         <label class="control-label" for="sinNo">SIN Number</label>
@@ -165,8 +156,6 @@
                         </div>
                       </div>
                     </div>
-
-
                     <div class="form-row justify-content-center align-items-center">
                       <div class="col col-md-10 form-group" style="width: 350px">
                         <label class="control-label" for="testAccount">Is Test Account</label>
@@ -185,34 +174,25 @@
                     </div>
                   </div>
                 </div>
-
-
                 <div class="col-lg-6 bg-dark text-white"
                      style="border-bottom-right-radius: 25px; border-top-right-radius: 25px;">
                   <div class="p-5">
                     <h3 class="fw-normal mb-5">Contact Details</h3>
-
                     <div class="form-row justify-content-center align-items-center">
                       <div class="col col-md-5 form-group custom-width">
                         <label class="control-label" for="countryCode">Country Code </label>
-
                         <select [ngClass]="{'is-invalid': submitted && this.rfc.countryCode.errors}"
                                 class="form-control" formControlName="countryCode"
                                 id="countryCode">
                           <option disabled selected value="">Select Code</option>
                           <option *ngFor="let cc of countryCode" [value]="cc">{{cc}}</option>
                         </select>
-
-
                         <div *ngIf="rfc.countryCode.touched && rfc.countryCode.errors" class="text-warning">
                           <div *ngIf="rfc.countryCode.errors.required ">
                             Country Code is Required
-
                           </div>
                         </div>
                       </div>
-
-
                       <div class="col col-md-5 form-group custom-width">
                         <label class="control-label" for="phoneNumber">Phone Number</label>
                         <input [ngClass]="{'is-invalid':submitted && rfc.mobileNumber.errors}" class="form-control"
@@ -234,7 +214,6 @@
                         </div>
                       </div>
                     </div>
-
                     <div class="form-row justify-content-center align-items-center">
                       <div class="col col-md-5 form-group custom-width">
                         <label class="col col-sm control-label" for="StreetNo">Street No.</label>
@@ -337,7 +316,6 @@
                   </div>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
