@@ -41,6 +41,8 @@ export class InteracComponent implements OnInit, OnDestroy {
       securityAnswer: ['', Validators.required]
     });
     this.interacForm.get('amount')?.disable();
+    this.interacForm.get('securityQuestion')?.disable();
+    this.interacForm.get('securityAnswer')?.disable();
 
     this.interacForm
       .get('receiverEmail')
