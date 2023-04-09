@@ -33,7 +33,7 @@
 
    it('should create', () => {
      expect(component).toBeTruthy();
-   });
+   });},)
 //
 //   it('should navigate to user-account if user is already logged in', () => {
 //     spyOn(localStorage, 'getItem').and.returnValue('sessionId');
