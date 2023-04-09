@@ -1,7 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
 import {DataService} from "../../data.service";
-import {QrRequest} from "../../dto/QrRequest";
 import {LogOutRequest} from "../../dto/LogOutRequest";
 
 @Component({
@@ -14,7 +13,7 @@ export class HeaderComponent implements OnInit {
   isHomePage!: boolean;
   @Input()
   afterLogin!:boolean
- constructor(private router:Router,private dataService : DataService) {
+ constructor(public router:Router,private dataService : DataService) {
  }
  ngOnInit() {
 
