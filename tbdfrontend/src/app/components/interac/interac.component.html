@@ -17,11 +17,23 @@
             <div class="form-group">
               <div class="form-outline mb-6 form-group align-items-center">
                 <label for="receiverEmail">To Email:</label>
-                <input type="email" id="receiverEmail" class="form-control" formControlName="receiverEmail">
-                <div
-                  *ngIf="interacForm?.get('receiverEmail')?.invalid && (interacForm?.get('receiverEmail')?.dirty || interacForm?.get('receiverEmail')?.touched)"
-                  class="alert alert-danger">
-                  To Email is required.
+                <input type="email" id="receiverEmail" class="form-control" formControlName="receiverEmail" (ngModelChange)="onchangeUsername(); enableSubmit()">
+                <p *ngIf="!notLinked"> {{interacFirstName}} {{interacLastName}}</p>
+                <p *ngIf="!notLinked">  {{interacBankName}} </p>
+                <p *ngIf="notLinked"> {{interacEmailError}} </p>
+<!--                <div-->
+<!--                  *ngIf="interacForm?.get('receiverEmail')?.invalid && (interacForm?.get('receiverEmail')?.dirty || interacForm?.get('receiverEmail')?.touched)"-->
+<!--                  class="alert alert-danger">-->
+<!--                  Email is required.-->
+<!--                </div>-->
+                <div *ngIf="interacForm.get('receiverEmail')?.invalid &&
+                (interacForm.get('receiverEmail')?.dirty || interacForm.get('receiverEmail')?.touched)">
+                  <div *ngIf="interacForm.get('receiverEmail')?.hasError('required')" class="alert alert-danger">
+                    Email is required.
+                  </div>
+                  <div *ngIf="interacForm.get('email')?.hasError('receiverEmail')" class="alert alert-danger">
+                    Please enter a valid email address.
+                  </div>
                 </div>
               </div>
             </div>
@@ -37,13 +49,19 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text">$</span>
                   </div>
-                  <input type="number" id="amount" class="form-control" formControlName="amount">
+                  <input type="number" id="amount" class="form-control" formControlName="amount" (ngModelChange)="enableSubmit();validateAmount()"  [disabled]="amountEnabled">
                 </div>
                 <div
                   *ngIf="interacForm?.get('amount')?.invalid && (interacForm?.get('amount')?.dirty || interacForm?.get('amount')?.touched)"
                   class="alert alert-danger">
                   Amount is required.
                 </div>
+		 <div
+				 *ngIf="!validateAmount()"
+                  class="alert alert-danger">
+                  Amount is greater than account balance.
+                </div>
+
               </div>
             </div>
           </div>
@@ -52,7 +70,7 @@
 
               <div class="form-outline mb-4 form-group">
                 <label for="message">Message:</label>
-                <textarea id="message" class="form-control" formControlName="message" rows="1" cols="3"></textarea>
+                <textarea id="message" class="form-control" formControlName="message"  (ngModelChange)="enableSubmit()" rows="1" cols="3"></textarea>
               </div>
             </div>
           </div>
@@ -86,7 +104,7 @@
           </div>
 
           <div class="text-center">
-            <button type="submit" class="btn btn-danger btn-lg mx-2">Send Transfer</button>
+            <button type="submit" id="submit" class="btn btn-danger btn-lg mx-2" [disabled]="isBtnDisabled" >Send Transfer</button>
           </div>
         </form>
 

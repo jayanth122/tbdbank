@@ -3,7 +3,6 @@ import { DataService } from '../../data.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { DomSanitizer } from '@angular/platform-browser';
 import {Router} from "@angular/router";
-
 @Component({
   selector: 'app-registration',
   templateUrl: './registration.component.html',
@@ -17,7 +16,6 @@ export class RegistrationComponent implements OnInit {
   provinces = ["AB", "BC", "MB", "NB", "NL", "NT", "NS", "NU", "ON", "PE", "QC", "SK", "YT"]
   countryCode = ["1","91","44","52","86"]
   testAccount = ["Yes","No"]
-
   mapYesNoToBoolean(value: string): boolean {
     return value === 'Yes' ? true : false;
   }

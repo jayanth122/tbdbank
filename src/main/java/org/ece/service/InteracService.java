@@ -151,11 +151,14 @@ public class InteracService {
                 return new InteracValidateResponse(false, "Cannot send to Self Account", newSessionId);
             }
             return new InteracValidateResponse(true, interac.get().getFirstName(), interac.get().getLastName(),
-                    interac.get().getBankName(), "", newSessionId);
+                    interac.get().getBankName(), "", newSessionId,
+                    ConversionUtils.convertLongToPrice(customerOperations.
+                            findAccountBalanceByCustomerId(customerInterac.get().getCustomerId())).toString());
         } else {
             InteracValidateResponse interacValidateResponse = new InteracValidateResponse();
             interacValidateResponse.setValid(false);
             interacValidateResponse.setMessage("Email Not Linked to Any Bank");
+            interacValidateResponse.setSessionId(newSessionId);
             return interacValidateResponse;
         }
     }

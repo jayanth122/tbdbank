@@ -1,16 +1,57 @@
+<body>
 <app-header [afterLogin]="true" ></app-header>
-<h1>Please Register to your Interac!</h1>
+<div class="container md-2 mt-4" style="background-color: #e7e7e7; height: 800px;">
+  <section id="team" class="team">
+    <div class="container">
+      <div class="section-title">
+        <span>Register for Interac</span>
+        <h2>Register for Interac</h2>
+      </div>
+    </div>
+  </section>
+
+
+  <div class="row d-flex justify-content-center align-items-center">
+  <div class="col-6 col-md-6 col-xl-5 mt-3">
+    <div class="card bg-dark text-white" style="border-radius: 2rem">
+      <div class="card-body text-center">
+        <div class="mb-md-5 mt-md-4 pb-3">
+
 <form [formGroup]="interacRegisterForm" (ngSubmit)="onSubmit()" >
+
   <div class="form-group">
-    <div class="form-outline mb-6 form-group align-items-center">
-      <label for="email">Register Email:</label>
-      <input type="email" id="email" class="form-control" formControlName="email">
+    <div class="form-row justify-content-center align-items-center">
+      <div class="form-outline mt-4 form-group">
+      <label for="email">Email Address</label>
+      <input type="email" id="email" class="form-control" formControlName="email" placeholder="Enter your Email Address">
       <div
         *ngIf="interacRegisterForm?.get('email')?.invalid && (interacRegisterForm?.get('email')?.dirty || interacRegisterForm?.get('email')?.touched)"
         class="alert alert-danger">
         Email is required.
       </div>
+        <div class="form-row justify-content-center align-items-center mt-5" style="padding-top: 20px;">
+          <div class="form-check">
+            <input class="form-check-input" id="invalidCheck" required type="checkbox" value="" style="margin-top: 23px;">
+            <label class="form-check-label" for="invalidCheck" style="margin-top: 20px; margin-bottom: 20px;">
+              Agree to terms and conditions
+            </label>
+
+          </div>
+        </div>
+        <button type="submit" class="btn btn-danger btn-lg mx-3 mt-3" style="align-items: center">Register</button>
     </div>
   </div>
-  <button type="submit" class="btn btn-danger btn-lg mx-2">Register</button>
+  </div>
+
+
 </form>
+  </div>
+</div>
+</div>
+  </div>
+  </div>
+</div>
+
+</body>
+
+<app-footer></app-footer>
