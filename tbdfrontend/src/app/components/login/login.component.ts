@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { DataService } from '../../data.service';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { Buffer } from 'buffer/';
+import { OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-login',
@@ -27,7 +29,7 @@ export class LoginComponent implements OnInit {
   get lfc(){
     return this.loginForm.controls
   }
-  onSubmit(){
+onSubmit(){
     this.submitted=true;
     if(this.loginForm.invalid){
       return;
@@ -62,4 +64,5 @@ export class LoginComponent implements OnInit {
   goToReg() {
     this.router.navigate(['registration'])
   }
+
 }
