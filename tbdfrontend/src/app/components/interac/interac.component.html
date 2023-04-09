@@ -49,13 +49,19 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text">$</span>
                   </div>
-                  <input type="number" id="amount" class="form-control" formControlName="amount" (ngModelChange)="enableSubmit()"  [disabled]="amountEnabled">
+                  <input type="number" id="amount" class="form-control" formControlName="amount" (ngModelChange)="enableSubmit();validateAmount()"  [disabled]="amountEnabled">
                 </div>
                 <div
                   *ngIf="interacForm?.get('amount')?.invalid && (interacForm?.get('amount')?.dirty || interacForm?.get('amount')?.touched)"
                   class="alert alert-danger">
                   Amount is required.
                 </div>
+		 <div
+				 *ngIf="!validateAmount()"
+                  class="alert alert-danger">
+                  Amount is greater than account balance.
+                </div>
+
               </div>
             </div>
           </div>

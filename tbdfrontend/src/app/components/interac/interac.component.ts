@@ -19,6 +19,7 @@ export class InteracComponent implements OnInit, OnDestroy {
   interacLastName!: string;
   interacBankName!: string;
   interacEmailError!: string;
+  intracBalance!: string;
   notLinked = false;
   amountEnabled = false;
   submitted = false;
@@ -110,6 +111,7 @@ export class InteracComponent implements OnInit, OnDestroy {
           this.interacFirstName = data.firstName;
           this.interacLastName = data.lastName;
           this.interacBankName = data.bankName;
+	  this.intracBalance = data.accountBalance;
           this.dataService.updateSession(true, data.sessionId);
         } else {
           this.notLinked = true;
@@ -126,6 +128,14 @@ export class InteracComponent implements OnInit, OnDestroy {
     const emailRegex = /^([a-zA-Z0-9._%+-]+)@([a-zA-Z]{5,10})\.([a-zA-Z]{3})$/;
     return emailRegex.test(email);
   }
+   validateAmount(): boolean {
+	   console.log("entered validate amount...................",Number(this.intracBalance),Number(this.interacForm.get('amount')?.value))
+	   if (Number(this.intracBalance.replace(/-/g, '')) > Number(this.interacForm.get('amount')?.value)){
+		   return true;
+	   }
+    return false;
+  }
+
 }
 
 
