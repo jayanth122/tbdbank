@@ -1,5 +1,6 @@
 package org.ece.controllers;
 
+import org.apache.commons.lang3.ObjectUtils;
 import org.ece.dto.qr.QRGenerateRequest;
 import org.ece.dto.qr.QRGenerateResponse;
 import org.ece.dto.qr.QRPaymentRequest;
@@ -33,6 +34,9 @@ public class QRController {
     @RequestMapping(value = "/QRPayment", method = RequestMethod.POST)
     public ResponseEntity<QRPaymentResponse> ingestQR(@RequestBody QRPaymentRequest qrPaymentRequest) {
         logger.info("Received QR Payment Request");
+        if (ObjectUtils.isEmpty(qrPaymentRequest) || ObjectUtils.isEmpty(qrPaymentRequest.getQrImage())) {
+            logger.info("Received Empty Request");
+        }
         logger.info("QRImage: {}", new String(qrPaymentRequest.getQrImage()));
         final QRPaymentResponse qrPaymentResponse = qrService.validateQRPaymentRequest(qrPaymentRequest);
         return ResponseEntity.ok(qrPaymentResponse);
