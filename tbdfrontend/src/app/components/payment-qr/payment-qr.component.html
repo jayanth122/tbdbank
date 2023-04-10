@@ -1,8 +1,41 @@
-<app-header [afterLogin]="true"></app-header>
-<p>Please scan this QR for further QR payments.</p>
-<div class="container-fluid justify-content-center">
-  <img [src]="imageUrl" alt="Image">
-  <hr>
-  <button (click)="downloadPdf()"> Download PDF </button>
+<body><app-header [afterLogin]="true"></app-header>
+<div class="container" style="background-color: #e7e7e7; height: 150px; width: 100vw; margin-top: 70px;">
+
+    <div class="container">
+      <div class="section-title">
+        <span>My UPI</span>
+        <h2>My UPI</h2>
+      </div>
+    </div>
+
 </div>
 
+<div class="row d-flex justify-content-center align-items-center bg-white">
+  <div class="col-6 col-xl-3 mt-5 mb-5">
+    <div class="card bg-dark text-white" style="border-radius: 2rem">
+      <div class="card-body text-center">
+        <div class="mb-md-5 mt-md-4 pb-5">
+<div class="form-outline mb-6 form-group align-items-center mt-5">
+<p style="font-weight: bold;font-family:'Georgia'; font-size: 20px;">Please download and scan this QR for further QR payments.</p>
+
+  <img [src]="imageUrl" alt="Image">
+  <hr>
+  <div class="form-row justify-content-center align-items-center mt-5" style="padding-top: 20px;">
+    <div class="form-check">
+      <input class="form-check-input" id="invalidCheck" required type="checkbox" value="" style="margin-top: 23px;">
+      <label class="form-check-label" for="invalidCheck" style="margin-top: 20px; margin-bottom: 20px;">
+        Agree to terms and conditions
+      </label>
+
+    </div>
+  </div>
+  <button (click)="downloadPdf()" class="btn btn-danger btn-lg mx-3 mt-3" style="align-items: center"> Download PDF </button>
+
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>
+</body>

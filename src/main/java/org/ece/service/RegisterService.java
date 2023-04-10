@@ -5,6 +5,7 @@ import org.ece.dto.*;
 import org.ece.repository.UserOperations;
 import org.ece.util.PdfUtils;
 import org.ece.util.QRUtils;
+import org.ece.util.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -60,7 +61,7 @@ public class RegisterService {
         userOperations.save(user);
         registerResponse.setSuccess(true);
         registerResponse.setMessage(SUCCESS_MESSAGE);
-        byte[] qrImage = QRUtils.generateQRImage(customer.getCustomerId());
+        byte[] qrImage = QRUtils.generateQRImage(SecurityUtils.encode(customer.getCustomerId()));
         registerResponse.setQrPdf(PdfUtils.generateRegistrationQRPdf(qrImage));
         registerResponse.setQrImage(qrImage);
         if (registerRequest.isTestAccount()) {
