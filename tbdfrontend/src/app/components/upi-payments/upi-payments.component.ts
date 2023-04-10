@@ -34,7 +34,7 @@ export class UpiPaymentsComponent implements OnInit {
      const imageData = new Uint8Array(binaryImage.length);
      const imageDataArray = Array.from(imageData);
 
-      
+
      for (let i = 0; i < binaryImage.length; i++) {
         imageData[i] = binaryImage.charCodeAt(i);
      }
