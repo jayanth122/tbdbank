@@ -48,9 +48,27 @@ describe('ThirdPartyQrComponent', () => {
 
 
 
+  // it('should set the image URL on init', () => {
+  //   const image = 'test-image';
+  //   const base64Image = btoa(image);
+  //   const byteCharacters = base64Image;
+  //   const byteNumbers = new Array(byteCharacters.length);
+  //   for (let i = 0; i < byteCharacters.length; i++) {
+  //     byteNumbers[i] = byteCharacters.charCodeAt(i);
+  //   }
+  //   const byteArray = new Uint8Array(byteNumbers);
+  //   const blob = new Blob([byteArray], { type: 'image/png' });
+  //   const unsafeUrl = URL.createObjectURL(blob);
+  //   sanitizerSpy.bypassSecurityTrustUrl.and.returnValue('safe-url');
+  //   dataServiceSpy.getVerificationImage.and.returnValue(byteArray);
+  //   spyOn(URL, 'createObjectURL').and.returnValue(unsafeUrl);
+  //   component.ngOnInit();
+  //   expect(sanitizerSpy.bypassSecurityTrustUrl).toHaveBeenCalledWith(unsafeUrl);
+  //   expect(component.imageUrl).toBe('safe-url');
+  // });
   it('should set the image URL on init', () => {
-    const image = 'test-image';
-    const byteCharacters = btoa(image);
+    const image = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mOUYKAAAAM0lEQVQIHWP8////fwYAAgEBAQIAAwn7EwAAAABJRU5ErkJggg==';
+    const byteCharacters = atob(image);
     const byteNumbers = new Array(byteCharacters.length);
     for (let i = 0; i < byteCharacters.length; i++) {
       byteNumbers[i] = byteCharacters.charCodeAt(i);
@@ -65,5 +83,6 @@ describe('ThirdPartyQrComponent', () => {
     expect(sanitizerSpy.bypassSecurityTrustUrl).toHaveBeenCalledWith(unsafeUrl);
     expect(component.imageUrl).toBe('safe-url');
   });
+
 });
 

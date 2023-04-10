@@ -14,17 +14,20 @@ export class ThirdPartyQrComponent implements OnInit{
   }
 ngOnInit() {
   let imgBytes = this.dataService.getVerificationImage();
-  //let byteCharacters = atob(String(imgBytes));
-  let byteCharacters = new TextDecoder().decode(imgBytes);
 
-  let byteNumbers = new Array(byteCharacters.length);
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteNumbers[i] = byteCharacters.charCodeAt(i);
+ // let byteCharacters = new TextDecoder().decode(imgBytes);
+  if(imgBytes){
+    let byteCharacters = atob(String(imgBytes));
+    let byteNumbers = new Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteNumbers[i] = byteCharacters.charCodeAt(i);
+    }
+    let byteArray = new Uint8Array(byteNumbers);
+    const blob = new Blob([byteArray], { type: 'image/png' });
+    if(URL.createObjectURL(blob)){
+      this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
+    }
   }
-  let byteArray = new Uint8Array(byteNumbers);
-  const blob = new Blob([byteArray], { type: 'image/png' });
-  console.log(URL.createObjectURL(blob));
-  this.imageUrl = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(blob));
 }
 downloadPdf(){
   const byteCharacters = atob(this.dataService.getVerificationPdf());

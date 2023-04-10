@@ -10,15 +10,13 @@ import {InteracValidateRequest} from "../../dto/InteracValidateRequest";
   styleUrls: ['./user-account.component.scss']
 })
 export class UserAccountComponent implements OnInit {
-  firstName : string;
-  lastName : string;
+  firstName !: string;
+  lastName !: string;
   greeting: string = '';
-  accountBalance:number;
+  accountBalance!:number;
   homeUrlPattern = /^\/#([a-zA-Z]*)$/;
   constructor(private router: Router, private dataService: DataService) {
-    this.firstName = ''
-    this.lastName = ''
-    this.accountBalance = 0;
+
   }
 
   ngOnInit() {
@@ -27,7 +25,7 @@ export class UserAccountComponent implements OnInit {
     }
       this.setFirstName(this.dataService.getFirstName())
       this.setLastName(this.dataService.getLastName())
-      this.setAccountBalance(this.dataService.getAccountBalance())
+      this.setAccountBalance()
   }
   setFirstName(name:string) {
     if(name) {
@@ -40,8 +38,8 @@ export class UserAccountComponent implements OnInit {
       this.lastName = name.replace(/"/g, '');
     }
   }
-  setAccountBalance(balance:number){
-    this.accountBalance = balance;
+  setAccountBalance(){
+    this.accountBalance = this.dataService.getAccountBalance();
   }
 
   goToTransactions() {
