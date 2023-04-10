@@ -11,6 +11,7 @@ import org.ece.dto.qr.QRPaymentRequest;
 import org.ece.dto.qr.QRPaymentResponse;
 import org.ece.repository.CustomerOperations;
 import org.ece.repository.InteracOperations;
+import org.ece.util.ConversionUtils;
 import org.ece.util.PdfUtils;
 import org.ece.util.QRUtils;
 import org.ece.util.SecurityUtils;
@@ -73,8 +74,13 @@ public class QRService {
                                                         final String sessionId) {
         if (isValid) {
             Interac interac = interacOperations.findInteracByCustomerId(customerId).get();
+            SessionData sessionData = cacheService.validateSession(sessionId);
+            final String balance = ConversionUtils.convertLongToPrice(customerOperations
+                    .findAccountBalanceByCustomerId(sessionData.getUserId())).toString();
             return new QRPaymentResponse(interac.getFirstName(), interac.getFirstName(), interac.getEmail(),
-                    sessionId, true, "Valid QR");
+                    sessionId, true, "Valid QR", balance);
+
+
         }
         return new QRPaymentResponse(false, "Invalid QR");
     }

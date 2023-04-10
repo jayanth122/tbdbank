@@ -14,6 +14,7 @@ public class QRPaymentResponse {
     private String sessionId;
     private boolean isSuccess;
     private String message;
+    private String balance;
 
     public QRPaymentResponse(final boolean isSuccess, final String message) {
         this.isSuccess = isSuccess;
