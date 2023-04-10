@@ -5,8 +5,8 @@
   <section id="team" class="team">
     <div class="container">
       <div class="section-title">
-        <span>Upload  QR for UPI</span>
-        <h2>Upload QR  for UPI</h2>
+        <span>UPI Payment</span>
+        <h2>UPI Payment</h2>
       </div>
     </div>
   </section>
@@ -19,12 +19,12 @@
 
 <div class="file-upload-container">
   <div class="file-upload-wrapper">
-    <label for="file-upload" class="file-upload-label">Choose file</label>
+    <label for="file-upload" class="file-upload-label">Upload  file</label>
     <input id="file-upload" type="file" (change)="onFileSelected($event)" hidden>
   </div>
-</div>
-<div class="upload-button-container">
-  <button (click)="uploadImage()">Upload</button>
+  <div class="upload-button-container">
+    <button class="upload-btn" (click)="uploadImage()">Scan QR</button>
+  </div>
 </div>
 
 <!---

@@ -113,7 +113,7 @@ section {
 .file-upload-wrapper {
   display: inline-block;
   margin-right: 15px;
-  margin-bottom: 200px; 
+  margin-bottom: 100px; 
 }
 
 .upload-button {
@@ -144,5 +144,93 @@ section {
 
 .upload-button:hover {
   background-color: #3c444b;
+}
+
+.file-upload-container {
+  position: relative;
+  display: inline-block;
+}
+
+.file-upload-wrapper {
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.file-upload-label {
+  background-color: #343a40;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.upload-button-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 27px;
+  text-align: center;
+}
+
+.upload-btn {
+  background-color: #343a40;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+}
+
+.file-upload-container {
+  position: relative;
+  display: inline-block;
+}
+
+.file-upload-wrapper {
+  text-align: center;
+  padding-bottom: 40px;
+}
+
+.file-upload-label {
+  background-color: #343a40;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-block;
+  transition: background-color 0.3s;
+}
+
+.file-upload-label:hover {
+  background-color: #495057;
+}
+
+.upload-button-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 28px;
+  text-align: center;
+}
+
+.upload-btn {
+  background-color: #343a40;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.upload-btn:hover {
+  background-color: #495057;
 }
 
