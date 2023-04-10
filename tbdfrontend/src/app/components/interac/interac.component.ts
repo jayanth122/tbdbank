@@ -81,14 +81,11 @@ export class InteracComponent implements OnInit, OnDestroy {
 	  }
   }
   onchangeUsername(){
-	  console.log("function call success............")
 	   of(null).pipe(
       debounceTime(300),
       distinctUntilChanged(),
       switchMap((email) => {
-	 console.log("entered map...............................",this.validateEmail(this.interacForm.value['receiverEmail']))
         if (this.interacForm.get('receiverEmail')?.value && this.validateEmail(this.interacForm.get('receiverEmail')?.value)) {
-		console.log("entered get......................####################")
 		this.isEmailValid = true;
           const interacValidateRequest: InteracValidateRequest = {
             sessionId: localStorage.getItem('sessionId') as string,
@@ -105,7 +102,6 @@ export class InteracComponent implements OnInit, OnDestroy {
     )
       .subscribe((data) => {
         if (data.valid) {
-          console.log("data valid so enabling button")
           this.amountEnabled = true;
           this.interacForm.get('amount')?.enable();
           this.interacFirstName = data.firstName;
@@ -124,13 +120,11 @@ export class InteracComponent implements OnInit, OnDestroy {
   }
 
   validateEmail(email: string): boolean { 
-    console.log("email is.................",email)
     const emailRegex = /^([a-zA-Z0-9._%+-]+)@([a-zA-Z]{5,10})\.([a-zA-Z]{3})$/;
     return emailRegex.test(email);
   }
    validateAmount(): boolean {
-	   console.log("entered validate amount...................",Number(this.intracBalance),Number(this.interacForm.get('amount')?.value))
-	   if (Number(this.intracBalance?.replace(/-/g, '')) > Number(this.interacForm.get('amount')?.value)){
+	   if (Number(this.intracBalance) > Number(this.interacForm.get('amount')?.value)){
 		   return true;
 	   }
 	     if(this.interacForm.get('amount')?.disabled){
