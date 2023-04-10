@@ -20,6 +20,7 @@ export class DataService {
   paymentQrImage : any;
   paymentQrPdf : any;
   statementPdf : any;
+  tpartyQREmail !: string;
   isLoginValid !: boolean;
   isNestedCall !: boolean;
   timeoutId !: number;
@@ -172,6 +173,12 @@ export class DataService {
     return this.httpClient.post(`${this.url}/customer`,userDetailsRequest)
   }
 
+  setTPartyIntracEmail(email :string){
+              this.tpartyQREmail =email 
+  } 
+  getTPartyIntracEmail(): string{
+	  return this.tpartyQREmail;
+  }
   fetchCustomerDetails()
   {
     if(!localStorage.getItem('sessionId') && !this.isLoginValid && !this.homeUrlPattern.test(this.router.url)) {

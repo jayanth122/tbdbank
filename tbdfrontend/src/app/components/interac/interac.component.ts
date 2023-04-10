@@ -50,6 +50,14 @@ export class InteracComponent implements OnInit, OnDestroy {
     this.interacForm.get('securityAnswer')?.disable();
     this.onchangeUsername();
     this.enableSubmit();
+    console.log("................................",this.dataService.getTPartyIntracEmail)
+    if (this.dataService.getTPartyIntracEmail().length>0){
+    this.interacForm.patchValue({
+  receiverEmail: this.dataService.getTPartyIntracEmail()
+});
+    }
+  this.onchangeUsername()
+
   }
 
   ngOnDestroy(): void {
