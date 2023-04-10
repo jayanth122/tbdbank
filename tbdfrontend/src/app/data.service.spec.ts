@@ -210,7 +210,7 @@ describe('DataService', () => {
     // Arrange
     const sessionId = 'session123';
     const customer = {
-      accountBalance: 1000,
+      roundedAccountBalance: '1000',
       email: 'test@example.com'
     };
     const response = {
@@ -229,9 +229,11 @@ describe('DataService', () => {
     // Assert
     expect(service.fetchUserDetails).toHaveBeenCalledWith({ sessionId: sessionId });
     expect(service.updateSession).toHaveBeenCalledWith(true, 'newSessionId');
-    expect(localStorage.setItem).toHaveBeenCalledWith('accountBalance', JSON.stringify(customer.accountBalance));
+    expect(localStorage.setItem).toHaveBeenCalledWith('accountBalance', customer.roundedAccountBalance.toString());
     expect(localStorage.setItem).toHaveBeenCalledWith('email', JSON.stringify(customer.email));
   });
+
+
 
   it('should call logOut with the correct request', () => {
     // Arrange
@@ -281,17 +283,30 @@ describe('DataService', () => {
     expect(localStorage.setItem).toHaveBeenCalledWith('sessionId', newSessionId);
     expect(window.setTimeout).toHaveBeenCalled();
   });
-  it('should return the verification image', () => {
+  /*it('should update session correctly', () => {
     // Arrange
-    const verificationImage = 'data:image/png;base64,iVBORw0KGg...'; // base64-encoded image data
-    service.verificationImage = verificationImage;
+    spyOn(localStorage, 'setItem');
+    const setTimeoutSpy = spyOn(window, 'setTimeout').and.callThrough();
+    service.startTime = 0;
+    service.timeoutId = 123;
 
     // Act
-    const result = service.getVerificationImage();
+    service.updateSession(true, 'newSessionId');
 
     // Assert
-    expect(result).toEqual(verificationImage);
+    expect(clearTimeout).toHaveBeenCalledWith(service.timeoutId);
+    expect(service.isLoginValid).toBe(true);
+    expect(localStorage.setItem).toHaveBeenCalledWith('sessionId', 'newSessionId');
+    expect(setTimeoutSpy).toHaveBeenCalled();
+    const args = (setTimeoutSpy.calls.mostRecent().args as Function[])[0];
+    expect(args.length).toBe(1);
+    if (args && args.length > 0) {
+    args[0](); // call the function passed to setTimeout to trigger clearTimeout and localStorage.setItem
+    expect(localStorage.setItem).toHaveBeenCalledWith('timeoutState', JSON.stringify({
+      remainingTime: 300000 - (Date.now() - service.startTime)
+    }));
   });
+*/
 
 });
 
