@@ -1,5 +1,55 @@
-<p>upi-payments works!</p>
-<input type="file" (change)="onFileSelected($event)">
-<button (click)="uploadImage()">Upload</button>
+<body>
+<app-header [afterLogin]="true" ></app-header>
+<div class="container md-2 mt-4" style="background-color: #e7e7e7; height: 800px;">
+  <section id="team" class="team">
+    <div class="container">
+      <div class="section-title">
+        <span>Upload  QR for UPI</span>
+        <h2>Upload QR  for UPI</h2>
+      </div>
+    </div>
+  </section>
+
+    <div class="row d-flex justify-content-center align-items-center">
+  <div class="col-6 col-md-6 col-xl-5 mt-3">
+    <div class="card bg-dark text-white" style="border-radius: 2rem">
+      <div class="card-body text-center">
+
+
+<div class="file-upload-container">
+  <div class="file-upload-wrapper">
+    <label for="file-upload" class="file-upload-label">Choose file</label>
+    <input id="file-upload" type="file" (change)="onFileSelected($event)" hidden>
+  </div>
+</div>
+<div class="upload-button-container">
+  <button (click)="uploadImage()">Upload</button>
+</div>
+
+<!---
+	      <div class="file-upload-wrapper">
+  <label for="file-upload" class="custom-file-upload">
+    Choose file
+  </label>
+  <input id="file-upload" type="file" (change)="onFileSelected($event)" hidden>
+</div>
+<button class="custom-upload-button" (click)="uploadImage()">Upload</button>
+--->
+
+
+
+</div>
+</div>
+  </div>
+  </div>
+</div>
+
+</body>
+
+<app-footer></app-footer>
+
+
+
+
 
 
