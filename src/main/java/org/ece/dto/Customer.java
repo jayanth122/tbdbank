@@ -31,6 +31,7 @@ public class Customer {
     private boolean isActive;
     private Long debitCardNumber;
     private Long accountBalance = 0L;
+    @Transient
     private String roundedAccountBalance;
     private LocalDate accountCreationDate;
 }
