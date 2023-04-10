@@ -73,15 +73,22 @@ export class InteracComponent implements OnInit, OnDestroy {
       this.router.navigate(['login']);
       return;
     }
-    this.submitted = true;
     if (this.interacForm.invalid) {
       return;
     }
+    this.submitted = true;
+    this.interacForm.get('receiverEmail')?.enable();
     this.interacForm.value['sessionId'] = localStorage.getItem('sessionId') as string;
     this.dataService.sendInteracDetails(this.interacForm.value).subscribe((data) => {
       if (data.success) {
-        alert(data.message);
+        this.interacForm.get('receiverEmail')?.disable();
+        if(this.isUpiPayment) {
+          alert("UPI Payment Successful");
+        } else{
+          alert(data.message);
+        }
         this.dataService.updateSession(true, data.sessionId);
+        this.router.navigate(['user-account'])
       }
     });
   }

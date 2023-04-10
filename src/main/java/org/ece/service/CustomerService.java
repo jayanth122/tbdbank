@@ -45,8 +45,6 @@ public class CustomerService {
                 customer1.setPostalCode("");
                 customer1.setSinNumber(0L);
                 customer1.setDebitCardNumber(0L);
-                customer1.setAccountBalance(
-                        ConversionUtils.convertLongToPrice(customer1.getAccountBalance()).longValue());
                 customer1.setRoundedAccountBalance(ConversionUtils
                         .convertLongToPrice(customer1.getAccountBalance()).toString());
                 return new CustomerDetailsResponse(

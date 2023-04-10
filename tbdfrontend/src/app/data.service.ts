@@ -174,8 +174,8 @@ export class DataService {
   }
 
   setTPartyIntracEmail(email :string){
-              this.tpartyQREmail =email 
-  } 
+              this.tpartyQREmail =email
+  }
   getTPartyIntracEmail(): string{
 	  return this.tpartyQREmail;
   }
@@ -191,7 +191,7 @@ export class DataService {
         if (data.success) {
           let newSessionId = data.sessionId
           this.updateSession(true,newSessionId)
-          localStorage.setItem("accountBalance",JSON.stringify(data.customer.accountBalance))
+          localStorage.setItem("accountBalance", data.customer.roundedAccountBalance)
           localStorage.setItem("email",JSON.stringify(data.customer.email))
         }
         else{
