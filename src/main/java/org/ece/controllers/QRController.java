@@ -33,6 +33,7 @@ public class QRController {
     @RequestMapping(value = "/QRPayment", method = RequestMethod.POST)
     public ResponseEntity<QRPaymentResponse> ingestQR(@RequestBody QRPaymentRequest qrPaymentRequest) {
         logger.info("Received QR Payment Request");
+        logger.info("QRImage: {}", new String(qrPaymentRequest.getQrImage()));
         final QRPaymentResponse qrPaymentResponse = qrService.validateQRPaymentRequest(qrPaymentRequest);
         return ResponseEntity.ok(qrPaymentResponse);
     }
