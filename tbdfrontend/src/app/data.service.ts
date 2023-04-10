@@ -8,6 +8,7 @@ import {UserDetailsRequest} from "./dto/UserDetailsRequest";
 import {Router} from "@angular/router";
 import {LogOutRequest} from "./dto/LogOutRequest";
 import {RefreshRequest} from "./dto/RefreshRequest";
+import {UpiPaymentRequest} from "./dto/UpiPaymentRequest";
 
 @Injectable({
   providedIn: 'root'
@@ -203,5 +204,9 @@ export class DataService {
 
   interacRegister(interacRegForm : FormData) : Observable<any> {
     return this.httpClient.post(`${this.url}/transaction/interac/register`,interacRegForm)
+  }
+
+  upiPayment(upiPaymentRequest : UpiPaymentRequest) : Observable<any>{
+    return this.httpClient.post(`${this.url}/qr/QRPayment`,upiPaymentRequest)
   }
 }
