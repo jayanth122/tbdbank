@@ -16,6 +16,7 @@ import { PaymentQrComponent } from './components/payment-qr/payment-qr.component
 import { AboutComponent } from './components/about/about.component';
 import { StatementComponent } from './components/statement/statement.component';
 import { InteracRegisterComponent } from './components/interac-register/interac-register.component';
+import {UpiPaymentsComponent} from "./components/upi-payments/upi-payments.component";
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import { InteracRegisterComponent } from './components/interac-register/interac-
     PaymentQrComponent,
     AboutComponent,
     StatementComponent,
-    InteracRegisterComponent
+    InteracRegisterComponent,
+    UpiPaymentsComponent
   ],
   imports: [
     BrowserModule,

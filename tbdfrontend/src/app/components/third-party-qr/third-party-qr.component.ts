@@ -34,7 +34,7 @@ downloadPdf(){
   }
   const byteArray = new Uint8Array(byteNumbers);
   const blob = new Blob([byteArray], { type: 'application/pdf' });
-  const filename = 'filename.pdf';
+  const filename = 'Verification.pdf';
   saveAs(blob, filename);
   }
 

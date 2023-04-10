@@ -56,7 +56,7 @@ constructor(private dataService:DataService, private formBuilder:FormBuilder, pr
     }
     const byteArray = new Uint8Array(byteNumbers);
     const blob = new Blob([byteArray], { type: 'application/pdf' });
-    const filename = 'your_statement_filename.pdf';
+    const filename = 'Statement.pdf';
     saveAs(blob, filename);
   }
 }

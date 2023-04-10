@@ -43,9 +43,9 @@ public final class PdfUtils {
             PdfWriter writer = PdfWriter.getInstance(document, outputStream);
             document.open();
             Paragraph imageParagraph = getLogoAndTitle(writer, "Registration QR");
-            Paragraph paragraph2 = new Paragraph("ID Verification ", TITLE_FONT);
-            Paragraph note = new Paragraph("Please visit nearbyCanada Post/ UPS Store with 2 Government Issued"
-                    + "physical ID's to complete the Verification Process.", TITLE_FONT);
+            Paragraph paragraph2 = new Paragraph("Verification ", TITLE_FONT);
+            Paragraph note = new Paragraph("Please visit nearby Canada Post/ UPS Store with 2 Government Issued"
+                    + " physical ID's to complete the Verification Process.", TITLE_FONT);
             paragraph2.setAlignment(Paragraph.ALIGN_CENTER);
             note.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(imageParagraph);
@@ -94,7 +94,7 @@ public final class PdfUtils {
             Document document = new Document(PageSize.A4);
             PdfWriter writer = PdfWriter.getInstance(document, outputStream);
             document.open();
-            Paragraph imageParagraph = getLogoAndTitle(writer, "Payament QR");
+            Paragraph imageParagraph = getLogoAndTitle(writer, "UPI Payment");
             Paragraph note = new Paragraph("Payee Details:", TITLE_FONT);
             note.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(imageParagraph);
