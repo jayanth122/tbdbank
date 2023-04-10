@@ -47,6 +47,10 @@ export class UpiPaymentsComponent implements OnInit {
      this.dataService.upiPayment(upiPaymentRequest).subscribe(
            response => {
 	     this.dataService.updateSession(true, response.sessionId);
+	     console.log("......................................................",response)
+	     this.dataService.setTPartyIntracEmail(response['email'])
+	      this.router.navigate(['interac'])
+
            },
            error => {
              console.log(error);

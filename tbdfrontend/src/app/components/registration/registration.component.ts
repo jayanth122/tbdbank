@@ -62,7 +62,7 @@ export class RegistrationComponent implements OnInit {
         alert(data.message)
       }
     },error => {
-      alert("502")
+      console.error(error)
     })
   }
   onReset(){

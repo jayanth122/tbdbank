@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit {
   loginForm !: FormGroup;
   submitted = false;
   homeUrlPattern = /^\/#?([a-zA-Z]*)$/;
-  constructor(private router: Router, private dataService: DataService, private formBuilder:FormBuilder) {
+  constructor(public router: Router, public dataService: DataService, private formBuilder:FormBuilder) {
   }
   ngOnInit(): void {
     if(localStorage.getItem('sessionId') || this.dataService.isLoginValid) {
@@ -35,7 +35,7 @@ onSubmit(){
       return;
     }
     console.log(JSON.stringify(this.loginForm.value));
-    this.dataService.sendLoginDetails(this.loginForm.value).subscribe(data => {
+    this.dataService.sendLoginDetails(this.loginForm.value).subscribe((data : any) => {
         if (data.success) {
           alert("Welcome " + data.firstName + " " + data.lastName)
           localStorage.setItem("userName",this.loginForm.value['userName'])
@@ -43,11 +43,11 @@ onSubmit(){
           localStorage.setItem("firstName",JSON.stringify(data.firstName))
           localStorage.setItem("lastName",JSON.stringify(data.lastName))
           this.dataService.setIsLoginValid(true, data.uniqueSessionId);
-          localStorage.setItem("loginValidity","true");
           let decoded: string;
           decoded = Buffer.from(data.encodedAccess, 'base64').toString();
           if(decoded==="CUSTOMER") {
             localStorage.setItem('username', this.loginForm.controls.userName.value);
+            this.dataService.fetchCustomerDetails()
             this.router.navigate(['user-account'])
           }
           else if(decoded=="MANAGER") {
