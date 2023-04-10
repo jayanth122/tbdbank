@@ -12,8 +12,8 @@ import { Router } from '@angular/router';
 })
 export class UpiPaymentsComponent implements OnInit {
   selectedFile !: File;
-  constructor(private dataService: DataService,
-  private router: Router) { }
+  constructor(public dataService: DataService,
+  public router: Router) { }
   ngOnInit() {
   }
 
@@ -26,6 +26,10 @@ export class UpiPaymentsComponent implements OnInit {
       this.router.navigate(['login']);
       return;
     }
+     if (!this.selectedFile) { // check if selectedFile is undefined
+       console.log('File not selected');
+       return;
+     }
      var sessionId = localStorage.getItem('sessionId') as string;
      const reader = new FileReader();
      reader.onload = (e: any) => {
@@ -47,7 +51,6 @@ export class UpiPaymentsComponent implements OnInit {
      this.dataService.upiPayment(upiPaymentRequest).subscribe(
            response => {
 	     this.dataService.updateSession(true, response.sessionId);
-	     console.log("......................................................",response)
 	     this.dataService.setTPartyIntracEmail(response['email'])
 	      this.router.navigate(['interac'])
 

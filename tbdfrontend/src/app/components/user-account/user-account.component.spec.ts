@@ -7,10 +7,11 @@ import { FooterComponent } from '../footer/footer.component';
 import { DataService } from '../../data.service';
 import {Router, RouterModule} from '@angular/router';
 import {RegistrationComponent} from "../registration/registration.component";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { RouterTestingModule } from '@angular/router/testing';
 import {of} from "rxjs";
 import {QrRequest} from "../../dto/QrRequest";
+import {CommonModule} from "@angular/common";
 
 
 describe('UserAccountComponent', () => {
@@ -27,7 +28,7 @@ describe('UserAccountComponent', () => {
     routerSpy = jasmine.createSpyObj('Router', ['navigate']);
       await TestBed.configureTestingModule({
         declarations: [ RegistrationComponent,HeaderComponent, FooterComponent ],
-        imports: [HttpClientTestingModule,RouterModule, ReactiveFormsModule, RouterTestingModule ],
+        imports: [HttpClientTestingModule,RouterModule, ReactiveFormsModule, RouterTestingModule, CommonModule, FormsModule ],
         providers: [{ provide: DataService, useValue: dataServiceSpy },{provide: Router , useValue: routerSpy},DataService]
       })
 
@@ -43,8 +44,6 @@ describe('UserAccountComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-
 
 
   it('should navigate to the Interac page', () => {
@@ -143,10 +142,4 @@ describe('UserAccountComponent', () => {
     expect(dataService.updateSession).toHaveBeenCalledWith(true, 'new-session-id');
     expect(router.navigate).toHaveBeenCalledWith(['qr']);
   });
-
-
-
-
-
-
 });

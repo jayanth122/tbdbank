@@ -16,7 +16,8 @@ export class UserAccountComponent implements OnInit {
   accountBalance!:number;
   homeUrlPattern = /^\/#([a-zA-Z]*)$/;
   constructor(private router: Router, private dataService: DataService) {
-
+    this.firstName = ''
+    this.lastName = ''
   }
 
   ngOnInit() {
@@ -26,7 +27,8 @@ export class UserAccountComponent implements OnInit {
       this.setFirstName(this.dataService.getFirstName())
       this.setLastName(this.dataService.getLastName())
       this.setAccountBalance()
-  }
+
+}
   setFirstName(name:string) {
     if(name) {
       this.firstName = name.replace(/"/g, '');

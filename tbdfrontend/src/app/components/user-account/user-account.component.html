@@ -134,8 +134,7 @@
           </div>
           <h5 class="card-title" style="font-size:2rem;">{{firstName}} {{lastName}}</h5>
           <h5 class="card-title" style="font-size:2rem;">Chequing Account <i class="bi bi-bank2 text-danger"></i></h5>
-          <div *ngIf="setAccountBalance()">
-          </div>
+          <p> {{this.setAccountBalance()}} </p>
           <h5 class="card-title" style="font-size:1.8rem;">Balance {{this.accountBalance}}<i
             class="bi bi-currency-dollar"></i></h5>
 

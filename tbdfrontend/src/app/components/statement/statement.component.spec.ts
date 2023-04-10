@@ -91,9 +91,9 @@ describe('StatementComponent', () => {
 
     component.onSubmit();
     component.downloadPdf();
+
     expect(saveAsSpy).toHaveBeenCalledWith(jasmine.any(Blob), 'Statement.pdf');
   });
-
   /*it('should set transactions property after successful API call', () => {
     const data = {
       success: true,
