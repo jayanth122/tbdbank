@@ -25,6 +25,7 @@ export class InteracComponent implements OnInit, OnDestroy {
   submitted = false;
   isBtnDisabled=true;
   isEmailValid=false;
+  isUpiPayment=false;
   private readonly destroy$: Subject<void> = new Subject();
 
   constructor(
@@ -52,9 +53,11 @@ export class InteracComponent implements OnInit, OnDestroy {
     this.enableSubmit();
     console.log("................................",this.dataService.getTPartyIntracEmail)
     if (this.dataService.getTPartyIntracEmail().length>0){
+      this.isUpiPayment = true;
     this.interacForm.patchValue({
   receiverEmail: this.dataService.getTPartyIntracEmail()
 });
+      this.interacForm.get('receiverEmail')?.disable();
     }
   this.onchangeUsername()
 
@@ -70,15 +73,22 @@ export class InteracComponent implements OnInit, OnDestroy {
       this.router.navigate(['login']);
       return;
     }
-    this.submitted = true;
     if (this.interacForm.invalid) {
       return;
     }
+    this.submitted = true;
+    this.interacForm.get('receiverEmail')?.enable();
     this.interacForm.value['sessionId'] = localStorage.getItem('sessionId') as string;
     this.dataService.sendInteracDetails(this.interacForm.value).subscribe((data) => {
       if (data.success) {
-        alert(data.message);
+        this.interacForm.get('receiverEmail')?.disable();
+        if(this.isUpiPayment) {
+          alert("UPI Payment Successful");
+        } else{
+          alert(data.message);
+        }
         this.dataService.updateSession(true, data.sessionId);
+        this.router.navigate(['user-account'])
       }
     });
   }
@@ -120,6 +130,9 @@ export class InteracComponent implements OnInit, OnDestroy {
         } else {
           this.notLinked = true;
           this.interacEmailError = 'Email not linked to any bank account';
+          if (data.message === 'Cannot send to Self Account') {
+            this.interacEmailError = 'Cannot send to Self Account';
+          }
           this.amountEnabled = false;
           this.dataService.updateSession(true, data.sessionId);
           this.interacForm.get('amount')?.disable();
@@ -127,7 +140,7 @@ export class InteracComponent implements OnInit, OnDestroy {
       });
   }
 
-  validateEmail(email: string): boolean { 
+  validateEmail(email: string): boolean {
     const emailRegex = /^([a-zA-Z0-9._%+-]+)@([a-zA-Z]{5,10})\.([a-zA-Z]{3})$/;
     return emailRegex.test(email);
   }

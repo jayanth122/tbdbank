@@ -3,9 +3,13 @@
 
 <div class="container" style="background-color: #e7e7e7;">
   <section id="team" class="team">
-    <div class="section-title">
+    <div *ngIf="!isUpiPayment" class="section-title">
       <span>Interac Transfer</span>
       <h2>Interac Transfer</h2>
+    </div>
+    <div *ngIf="isUpiPayment" class="section-title">
+      <span>UPI Payment</span>
+      <h2>UPI Payment</h2>
     </div>
   </section>
   <div class="row justify-content-center mt-5" style="background-color: #e7e7e7;">

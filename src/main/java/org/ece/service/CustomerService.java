@@ -38,8 +38,6 @@ public class CustomerService {
                 final Customer customer1 = customer.get();
                 customer1.setCustomerId("");
                 customer1.setCountryCode("");
-                customer1.setMobileNumber("");
-                customer1.setStreetNumber("");
                 customer1.setUnitNumber(0);
                 customer1.setStreetName("");
                 customer1.setCity("");
@@ -47,8 +45,8 @@ public class CustomerService {
                 customer1.setPostalCode("");
                 customer1.setSinNumber(0L);
                 customer1.setDebitCardNumber(0L);
-                customer1.setAccountBalance(
-                        ConversionUtils.convertLongToPrice(customer1.getAccountBalance()).longValue());
+                customer1.setRoundedAccountBalance(ConversionUtils
+                        .convertLongToPrice(customer1.getAccountBalance()).toString());
                 return new CustomerDetailsResponse(
                         customer1, true, DETAILS_FETCHED_SUCCESSFULLY, newSessionId);
             }
