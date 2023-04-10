@@ -66,10 +66,10 @@ public class InteracService {
         transactionRequest.setAmount(amountTobeSent.toString());
         transactionRequest.setDetails("Amount Debited :" + amountTobeSent);
         transactionRequest.setSessionId(oldSessionId);
-        transactionService.saveTransaction(customerId, transactionRequest, accountBalance);
         Customer customer = customerOperations.findByCustomerId(customerId).get();
         customer.setAccountBalance(ConversionUtils.convertPriceToLong(accountBalance));
         customerOperations.save(customer);
+        transactionService.saveTransaction(customerId, transactionRequest, accountBalance);
         return accountBalance;
     }
 
@@ -86,11 +86,12 @@ public class InteracService {
             BigDecimal newAmount = ConversionUtils.covertStringPriceToBigDecimal(amountTobeSent)
                     .add(ConversionUtils.convertLongToPrice(customerOperations.
                             findAccountBalanceByCustomerId(receiverCustomerId)));
-            transactionService.saveTransaction(receiverCustomerId, transactionRequest,
-                    newAmount);
             Customer customer = customerOperations.findByCustomerId(receiverCustomerId).get();
             customer.setAccountBalance(ConversionUtils.convertPriceToLong(newAmount));
             customerOperations.save(customer);
+            logger.info("New Balance saving {}", newAmount);
+            transactionService.saveTransaction(receiverCustomerId, transactionRequest,
+                    newAmount);
         }
     }
 
