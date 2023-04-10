@@ -40,6 +40,7 @@ describe('InteracRegisterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
   it('should navigate to login if session is invalid', () => {
     const router = jasmine.createSpyObj('Router', ['navigate']);
     const dataService = jasmine.createSpyObj('DataService', ['isLoginValid']);
