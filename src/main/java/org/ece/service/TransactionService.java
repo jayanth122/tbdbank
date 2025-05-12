@@ -112,7 +112,7 @@ public class TransactionService {
             cacheService.createSession(newSessionId, sessionData);
             cacheService.killSession(oldSessionId);
         } else {
-            return new StatementResponse(false, "Invalid Session", "");
+            return new StatementResponse(false,  INVALID_SESSION_ERROR, "");
         }
         List<Transaction> transactionList = transactionOperations.findByLevelBetween(sessionData.getUserId(),
                 statementRequest.getFromDate(), statementRequest.getToDate());

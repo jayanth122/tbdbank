@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {DataService} from "../../data.service";
 import {QrRequest} from "../../dto/QrRequest";
 import {InteracValidateRequest} from "../../dto/InteracValidateRequest";
+import { HeaderComponent } from "../header/header.component";
 
 @Component({
   selector: 'app-user-account',

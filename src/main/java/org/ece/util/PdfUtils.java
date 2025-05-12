@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 public final class PdfUtils {
@@ -30,7 +29,8 @@ public final class PdfUtils {
     private static final Font FONT = new Font(Font.FontFamily.HELVETICA, FONTLSize);
     private static final Font FONTL = new Font(Font.FontFamily.HELVETICA, fontSize);
     private static final Font FONTLB = new Font(Font.FontFamily.HELVETICA, fontSize, Font.BOLD);
-    
+    private static final String ERROR_MESSAGE = "Error Generating Statement Pdf: ";
+
     private PdfUtils() {
         
     }
@@ -57,12 +57,9 @@ public final class PdfUtils {
             addImageToPdf(image, document, "Verification QR");
             document.close();
             return outputStream.toByteArray();
-        } catch (DocumentException e) {
-            logger.error("Error Generating Statement Pdf: ", e);
-            return null;
-        } catch (IOException e) {
-            logger.error("Error Generating Statement Pdf: ", e);
-            return null;
+        } catch (DocumentException | IOException e) {
+            logger.error(ERROR_MESSAGE, e);
+            return new byte[0];
         }
     }
 
@@ -78,12 +75,8 @@ public final class PdfUtils {
             qrImage.setAlignment(Paragraph.ALIGN_CENTER);
             document.add(Chunk.NEWLINE);
             document.add(qrImage);
-        } catch (DocumentException e) {
-            logger.error("Error Generating Statement Pdf: ", e);
-        } catch (MalformedURLException e) {
-            logger.error("Error Generating Statement Pdf: ", e);
-        } catch (IOException e) {
-            logger.error("Error Generating Statement Pdf: ", e);
+        } catch (DocumentException | IOException e) {
+            logger.error(ERROR_MESSAGE, e);
         }
     }
 
@@ -106,10 +99,8 @@ public final class PdfUtils {
             document.close();
             return outputStream.toByteArray();
         } catch (DocumentException e) {
-            logger.error("Error Generating Statement Pdf: ", e);
-            return null;
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            logger.error(ERROR_MESSAGE, e);
+            return new byte[0];
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -160,12 +151,9 @@ public final class PdfUtils {
             document.add(table);
             document.close();
             return outputStream.toByteArray();
-        } catch (DocumentException e) {
-            logger.error("Error Generating Statement Pdf: ", e);
-            return null;
-        } catch (IOException e) {
-            logger.error("Error Generating Statement Pdf: ", e);
-            return null;
+        } catch (DocumentException | IOException e) {
+            logger.error(ERROR_MESSAGE, e);
+            return new byte[0];
         }
     }
 

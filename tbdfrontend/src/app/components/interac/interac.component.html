@@ -25,11 +25,6 @@
                 <p *ngIf="!notLinked"> {{interacFirstName}} {{interacLastName}}</p>
                 <p *ngIf="!notLinked">  {{interacBankName}} </p>
                 <p *ngIf="notLinked"> {{interacEmailError}} </p>
-<!--                <div-->
-<!--                  *ngIf="interacForm?.get('receiverEmail')?.invalid && (interacForm?.get('receiverEmail')?.dirty || interacForm?.get('receiverEmail')?.touched)"-->
-<!--                  class="alert alert-danger">-->
-<!--                  Email is required.-->
-<!--                </div>-->
                 <div *ngIf="interacForm.get('receiverEmail')?.invalid &&
                 (interacForm.get('receiverEmail')?.dirty || interacForm.get('receiverEmail')?.touched)">
                   <div *ngIf="interacForm.get('receiverEmail')?.hasError('required')" class="alert alert-danger">
@@ -55,18 +50,18 @@
                   </div>
                   <input type="number" id="amount" class="form-control" formControlName="amount" (ngModelChange)="enableSubmit();validateAmount()"  [disabled]="amountEnabled">
                 </div>
+                <p *ngIf="intracBalance">Available Balance: <strong>{{ intracBalance | currency }}</strong></p>              
                 <div
                   *ngIf="interacForm?.get('amount')?.invalid && (interacForm?.get('amount')?.dirty || interacForm?.get('amount')?.touched)"
                   class="alert alert-danger">
                   Amount is required.
                 </div>
-		 <div
-				 *ngIf="!validateAmount()"
-                  class="alert alert-danger">
-                  Amount is greater than account balance.
-                </div>
-
               </div>
+              <div
+				            *ngIf="!validateAmount()"
+                    class="alert alert-danger">
+                    Amount is greater than account balance.
+                  </div>
             </div>
           </div>
           <div class="form-row justify-content-center align-items-center">

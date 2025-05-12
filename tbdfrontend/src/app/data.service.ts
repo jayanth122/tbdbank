@@ -27,7 +27,7 @@ export class DataService {
   startTime = Date.now();
   homeUrlPattern = /^\/#?([a-zA-Z]*)$/;
 
-  private url = "https://www.tbdbank.me/tbd651"
+  private url = "http://localhost:8081/tbd651"
 
   constructor(private httpClient: HttpClient, private router: Router) {
     this.isLoginValid = false;
